@@ -1,6 +1,15 @@
 ## -*- coding: utf-8 -*-
+import inclureCheminCegep
+
+#Importe la configuration de notre jeu
+from panda3d.core import loadPrcFile
+loadPrcFile("config/ConfigTankem.prc")
 
 import sys
+
+#Ajout des chemins vers les librarires
+import inclureCheminCegep
+print(sys.path)
 
 #Module de Panda3D
 from direct.showbase.ShowBase import ShowBase
@@ -47,7 +56,7 @@ class Tankem(ShowBase):
         alnp  = render.attachNewNode(alight)
         render.setLight(alnp)
 
-        dlight.setShadowCaster(True, 512,512)
+        dlight.setShadowCaster(True, 1024,1024)
         # Enable the shader generator for the receiving nodes
         render.setShaderAuto()
 
@@ -115,6 +124,10 @@ class Tankem(ShowBase):
 
     #Mise à jour du moteur de physique
     def updateCamera(self,task):
+        #On ne touche pas à la caméra si on est en mode debug
+        if(not self.debugNP.isHidden()):
+            return
+
         vecTotal = Vec3(0,0,0)
         distanceRatio = 1.0
         if (len(self.carte.listTank) != 0):

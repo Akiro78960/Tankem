@@ -1,4 +1,5 @@
 ## -*- coding: utf-8 -*-
+import inclureCheminCegep
 
 from direct.showbase import DirectObject
 from panda3d.core import *
@@ -59,6 +60,7 @@ class Carte(DirectObject.DirectObject):
         #la méthode flattenStrong() pour améliorer les performances.
         self.noeudOptimisation = NodePath('NoeudOptimisation')
         self.noeudOptimisation.reparentTo(render)
+
         #Construction du plancher
         # On charge les tuiles qui vont former le plancher
         for i in range(0,self.map_nb_tuile_x):

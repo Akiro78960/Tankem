@@ -1,6 +1,15 @@
 {
 	"build_systems":
-	[
+	[		
+		{
+			"cmd":
+			[
+				"C:\\Logiciels Portables\\Panda3D-1.8.1\\python\\ppython",
+				"-u",
+				"$project_path\\src\\main.py"
+			],
+			"name": "TankemCegep"
+		},
 		{
 			"cmd":
 			[
