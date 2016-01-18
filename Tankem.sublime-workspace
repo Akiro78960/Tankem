@@ -1,0 +1,352 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"no",
+				"noeudOptimisation"
+			],
+			[
+				"arm",
+				"armeSecondaire〔variable〕"
+			],
+			[
+				"repa",
+				"reparentTo"
+			],
+			[
+				"hauteur",
+				"hauteurCanon"
+			],
+			[
+				"rep",
+				"reparentTo"
+			],
+			[
+				"attach",
+				"attachRigidBody"
+			],
+			[
+				"monde",
+				"mondePhysique"
+			],
+			[
+				"forme",
+				"formeCollision"
+			],
+			[
+				"Physi",
+				"PhysicsCollisionHandler"
+			],
+			[
+				"att",
+				"attachNewNode"
+			],
+			[
+				"phy",
+				"physicsManager"
+			],
+			[
+				"Phy",
+				"PhysicsCollisionHandler"
+			],
+			[
+				"Act",
+				"ActorNode"
+			],
+			[
+				"Colli",
+				"CollisionTraverser"
+			],
+			[
+				"colli",
+				"CollisionTraverser"
+			],
+			[
+				"set",
+				"setPos"
+			],
+			[
+				"p",
+				"physics"
+			],
+			[
+				"position",
+				"positionX"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "Packages/Python/Python.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"MyProject",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 104.0,
+		"last_filter": "Package Control: install",
+		"selected_items":
+		[
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: Instal",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 528.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/D/CEGEP/B62/Projet/TankemProf/src"
+	],
+	"file_history":
+	[
+		"/D/CEGEP/B62/Projet/TankemProf/src/balle.py",
+		"/D/CEGEP/B62/Projet/Tankem/src/main.py",
+		"/D/CEGEP/B62/Projet/Tankem/src/constructionMap.py",
+		"/D/CEGEP/B62/Projet/Tankem/Tankem.sublime-project",
+		"/D/CEGEP/B62/Projet/Tankem/src/item.py",
+		"/D/CEGEP/B62/Projet/Tankem/src/balle.py",
+		"/D/CEGEP/B62/Projet/Tankem/src/tank.py",
+		"/D/CEGEP/Panda3D-1.8.1/direct/showbase/Loader.py",
+		"/D/CEGEP/B62/Projet/Test/testPanda.py",
+		"/D/CEGEP/B62/Projet/Tankem/src/gamePadSupport.py",
+		"/D/CEGEP/B62/Projet/Tankem/.codeintel/config",
+		"/C/Users/Marc-André/AppData/Roaming/Sublime Text 3/Packages/User/Package Control.sublime-settings"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"physique",
+			"toggle",
+			"exploser",
+			"light",
+			"normali",
+			"collision",
+			"shotgun",
+			"Piege",
+			"interva",
+			"placerSurGrille",
+			"armeSecondaire",
+			"itemId",
+			"recupereItem",
+			"recupere",
+			"recupereItem",
+			"print",
+			"setTransparency",
+			"kinemat",
+			"kine",
+			"sequence",
+			"tag",
+			"mondePhysique",
+			"toggleDebogue",
+			"setfilm",
+			"self",
+			"updateCamera",
+			"setShadowCaster",
+			"placerCamera",
+			"tank",
+			"p2R",
+			"p1R",
+			"p1",
+			"box",
+			"tirerBalle",
+			"mouse",
+			"printHello",
+			"update",
+			"processInput",
+			"wNumButtons",
+			"joystic",
+			"input",
+			"mondeai",
+			"actor",
+			"loader",
+			"parent",
+			"loader",
+			"self.racine",
+			"cnode",
+			"bit",
+			"traverser"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"armeId",
+			"r",
+			"p2",
+			"render"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		},
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.542743605692,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 124.0
+	},
+	"output.find_results":
+	{
+		"height": 124.0
+	},
+	"pinned_build_system": "Tankem",
+	"project": "Tankem.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 1,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 275.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
