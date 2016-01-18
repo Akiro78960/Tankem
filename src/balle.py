@@ -144,14 +144,6 @@ class Balle(ShowBase):
         self.noeudPhysique.node().setLinearVelocity(directionFinale * vitesseBalle)
         self.mondePhysique.attachRigidBody(self.noeudPhysique.node())
 
-        #Définition de la lumière. La balle est chaude alors on lui donne un effet de chaleur
-        #TODO:À confirmer si problèmes de performance...
-        plight = PointLight('plight')
-        plight.setColor(VBase4(0.2, 0.1, 0.1, 1))
-        self.pointLumineux = self.modele.attachNewNode(plight)
-        plight.setAttenuation((0, 0, 0.3))
-        render.setLight(self.pointLumineux)
-
         self.intervalExplosion(3.0)
 
     def intervalExplosion(self, delai):

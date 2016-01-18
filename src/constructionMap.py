@@ -26,6 +26,7 @@ class Carte(DirectObject.DirectObject):
         self.position_depart_y = - self.map_grosseur_carre * self.map_nb_tuile_y / 2.0
 
         self.listTank = []
+        self.listeItem = []
 
         #Initialise le contenu vide la carte
         #On y mettra les id selon ce qu'on met
@@ -77,7 +78,7 @@ class Carte(DirectObject.DirectObject):
         node.addShape(shape)
         np = render.attachNewNode(node)
         np.setTag("EntiteTankem","LimiteJeu")
-        np.setPos(Vec3(0,0,-10))
+        np.setPos(Vec3(0,0,-9.0))
         self.mondePhysique.attachRigidBody(node)
 
         #Construction de l'aire de jeu sur laquelle on joue
@@ -86,7 +87,8 @@ class Carte(DirectObject.DirectObject):
         node.addShape(shape)
         np = render.attachNewNode(node)
         np.setTag("EntiteTankem","Plancher")
-        np.setZ(-2)
+        HACK_VALUE = 0.02 #Optimisation de collision, les masques ne marchent pas
+        np.setZ(-2.00 - HACK_VALUE)
         self.mondePhysique.attachRigidBody(node)
 
     def placerSurGrille(self,noeud,positionX, positionY):
@@ -125,7 +127,10 @@ class Carte(DirectObject.DirectObject):
     def creerMur(self,positionX, positionY):
         # On charge le modèles
         modele = loader.loadModel("../asset/Wall/Wall")
-        formeCollision = BulletBoxShape(Vec3(1, 1, 1))
+        #On fait les cubes à peine plus petits afin que rien ne collisionne
+        #Les groupes de collision ne fonctionnent pas alors on fait son possible... 
+        HACK_VALUE = 0.98
+        formeCollision = BulletBoxShape(Vec3(HACK_VALUE, HACK_VALUE, HACK_VALUE))
         noeud = BulletRigidBodyNode('Mur' + str(positionX) + '_' + str(positionY))
         decalagePosition = TransformState.makePos(Vec3(0,0,1))
         noeud.addShape(formeCollision,decalagePosition)
@@ -141,9 +146,12 @@ class Carte(DirectObject.DirectObject):
         self.bloquerEndroitGrille(positionX,positionY,True)
 
     def creerItem(self, positionX, positionY, armeId):
-        self.itemCourrant = Item(armeId,self.mondePhysique)
+        #L'index dans le tableau d'item coincide avec son
+        #itemId. Ça va éviter une recherche inutile pendant l'éxécution
+        itemCourrant = Item(armeId,self.mondePhysique)
+        self.listeItem.append(itemCourrant)
         #On place le tank sur la grille
-        self.placerSurGrille(self.itemCourrant.noeudPhysique,positionX,positionY)
+        self.placerSurGrille(itemCourrant.noeudPhysique,positionX,positionY)
 
     def creerItemHasard(self, positionX, positionY):
         listeItem = ["Mitraillette", "Shotgun", "Piege", "Grenade"]
@@ -168,9 +176,11 @@ class Carte(DirectObject.DirectObject):
         delai = random.uniform(delaiMinimum, delaiMaximum)
         intervalDelai = Wait(delai)
         intervalCreerItem = Func(self.creerItemPositionHasard)
+        intervalRecommence = Func(self.genererItemParInterval,delaiMinimum,delaiMaximum)
 
         sequenceCreation = Sequence(intervalDelai,
                                     intervalCreerItem,
+                                    intervalRecommence,
                                     name="Creation item automatique")
         #On le joue une fois et il se rappelera lui-même :-)
         sequenceCreation.start()
@@ -230,10 +240,13 @@ class Carte(DirectObject.DirectObject):
         
         indiceTank = int(self.traiterCollisionTankAvecObjet(node0, node1,"Item"))
         if(indiceTank != -1):
-             #Avertit l'item et le tank de la récupération
-             self.itemCourrant.recupere()
-             self.listTank[indiceTank].recupereItem(self.itemCourrant.armeId)
-             return
+            itemID = self.trouverItemID(node0, node1)
+            if(itemID != -1):
+                #Avertit l'item et le tank de la récupération
+                itemCourrant = self.listeItem[itemID]
+                itemCourrant.recupere()
+                self.listTank[indiceTank].recupereItem(itemCourrant.armeId)
+                return
 
         indiceTank = int(self.traiterCollisionTankAvecObjet(node0, node1,"LimiteJeu"))
         if(indiceTank != -1):
@@ -254,6 +267,18 @@ class Carte(DirectObject.DirectObject):
         if(tag0 == testEntite and tag1 == "Tank"):
             retour = node1.getTag("IdTank")
         return retour
+
+    #Trouve si un des 2 noeuds a le tag "itemId"
+    def trouverItemID(self,node0, node1):
+        retour = -1
+        #On trouve l'ID de l'item qui a collisionné
+        if(node0.getTag("itemId") != ""):
+            retour = node0.getTag("itemId")
+
+        if(node1.getTag("itemId") != ""):
+            retour = node1.getTag("itemId")
+
+        return int(retour)
 
     #On met à jour ce qui est nécessaire de mettre à jour
     def update(self):

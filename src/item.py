@@ -10,10 +10,19 @@ from direct.interval.IntervalGlobal import *
 
 
 class Item(ShowBase):
+    #Variable statique afin d'avoir un identifiant unique par item
+    #tout en les comptants
+    compteItem = 0
+
     def __init__(self, armeId, mondePhysique):
         self.mondePhysique = mondePhysique
         self.armeId = armeId
         self.etat = "actif"
+
+        #Attribut un identifiant unique et augmente le compte
+        #Manière simple d'avoir un ID unique et de trouver l'objet dans l'index
+        self.itemId = Item.compteItem
+        Item.compteItem += 1
 
         # On charge le modèles
         self.modele = loader.loadModel("../asset/Arme/item")
@@ -44,6 +53,7 @@ class Item(ShowBase):
 
         self.noeudPhysique.setTag("EntiteTankem","Item")
         self.noeudPhysique.setTag("armeId",self.armeId)
+        self.noeudPhysique.setTag("itemId",str(self.itemId))
 
         #Animation du blc
         #On va lui faire faire une rotation et un petite mouvement de haut en bas

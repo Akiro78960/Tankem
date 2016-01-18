@@ -143,7 +143,7 @@ class Tankem(ShowBase):
     def updatePhysics(self,task):
         dt = globalClock.getDt()
         self.mondePhysique.doPhysics(dt)
-        print(len(self.mondePhysique.getManifolds()))
+        #print(len(self.mondePhysique.getManifolds()))
 
         #Analyse de toutes les collisions
         for entrelacement in self.mondePhysique.getManifolds():

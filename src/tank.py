@@ -113,7 +113,7 @@ class Tank():
             delaiArme = 0.8
         elif(nomArme == "Mitraillette"):
             #Tir une balle mais moins de délai pour tirer
-            messenger.send("tirerMitraillette", [self.identifiant,self.noeudPhysique.getPos() + hauteurGrenade, directionQuePointeLeTank])
+            messenger.send("tirerMitraillette", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon + directionQuePointeLeTank * distanceCanon, directionQuePointeLeTank])
             delaiArme = 0.4
         elif(nomArme == "Piege"):
             messenger.send("deposerPiege", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon - directionQuePointeLeTank * distanceDerriere, - directionQuePointeLeTank])
