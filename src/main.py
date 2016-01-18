@@ -40,6 +40,14 @@ class Tankem(ShowBase):
         self.carte.construireBase()
         self.initialiserControle()
 
+        #Lumière du skybox
+        plight = PointLight('plight')
+        plight.setColor(VBase4(1,1,1,1))
+        plnp = render.attachNewNode(plight)
+        plnp.setPos(0,0,0)
+        self.camera.setLight(plnp)
+
+        #Simule le soleil
         dlight = DirectionalLight('dlight')
         dlight.setColor(VBase4(0.8, 0.8, 0.6, 1))
         dlight.get_lens().set_fov(75);
@@ -51,6 +59,7 @@ class Tankem(ShowBase):
         render.setLight(dlnp)
         #dlight.show_frustum()
 
+        #Lumière ambiante
         alight = AmbientLight('alight')
         alight.setColor(VBase4(0.25, 0.25, 0.25, 1))
         alnp  = render.attachNewNode(alight)
@@ -100,12 +109,19 @@ class Tankem(ShowBase):
     def initialiserCamera(self):
         #On doit désactiver le contrôle par défaut de la caméra autrement on ne peut pas la positionner et l'orienter
         self.disableMouse()
+
+        #Le flag pour savoir si la souris est activée ou non n'est pas accessible
+        #Petit fail de Panda3D
+        self.mouseEnabled = False
+        self.placerCameraInitiale()
+        self.taskMgr.add(self.updateCamera, "updateCamera")
+
+    def placerCameraInitiale(self):
         #Défini la position et l'orientation de la caméra
         self.positionBaseCamera = Vec3(0,-18,32)
         self.camera.setPos(self.positionBaseCamera)
         #On dit à la caméra de regarder l'origine (point 0,0,0)
         self.camera.lookAt(self.render)
-        self.taskMgr.add(self.updateCamera, "updateCamera")
 
     def initialiserBulletPhysics(self):
         debugNode = BulletDebugNode('Debug')
@@ -125,8 +141,8 @@ class Tankem(ShowBase):
     #Mise à jour du moteur de physique
     def updateCamera(self,task):
         #On ne touche pas à la caméra si on est en mode debug
-        if(not self.debugNP.isHidden()):
-            return
+        if(self.mouseEnabled):
+            return task.cont
 
         vecTotal = Vec3(0,0,0)
         distanceRatio = 1.0
@@ -160,6 +176,7 @@ class Tankem(ShowBase):
         #Informations pour débugger
         self.accept("escape", sys.exit)
         self.accept('f1', self.toggleDebogue)
+        self.accept('f2', self.toggleFreeCam)
 
         #Joueur 1
         self.accept("w", self.relaiControle, [0,"avance"])
@@ -202,6 +219,15 @@ class Tankem(ShowBase):
         else:
             self.debugNP.hide()
             base.setFrameRateMeter(False)
+
+    def toggleFreeCam(self):
+        if(not self.mouseEnabled):
+            self.enableMouse()
+            self.mouseEnabled = True
+        else:
+            self.disableMouse()
+            self.placerCameraInitiale()
+            self.mouseEnabled = False
 
 #Main de l'application.. assez simple!
 app = Tankem()

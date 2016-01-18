@@ -24,7 +24,6 @@
 }
 
   <Group> Wall {
-    <Collide> { keep }
     <Transform> {
       <Matrix4> {
         1.0 0.0 0.0 0.0 
