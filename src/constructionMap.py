@@ -13,13 +13,14 @@ import random
 from tank import Tank
 from balle import Balle
 from item import Item
+from mazeUtil import MazeBuilder
 
 #Module qui sert à la création des maps
 class Carte(DirectObject.DirectObject):
     def __init__(self, mondePhysique):
         #initialisation des constantes utiles
-        self.map_nb_tuile_x = 12
-        self.map_nb_tuile_y = 12
+        self.map_nb_tuile_x = 10
+        self.map_nb_tuile_y = 10
         self.map_grosseur_carre = 2.0
         #On veut que le monde soit centré. On calcul donc le décalage nécessaire des tuiles
         self.position_depart_x = - self.map_grosseur_carre * self.map_nb_tuile_x / 2.0
@@ -27,6 +28,7 @@ class Carte(DirectObject.DirectObject):
 
         self.listTank = []
         self.listeItem = []
+        self.listeBalle = []
 
         #Initialise le contenu vide la carte
         #On y mettra les id selon ce qu'on met
@@ -44,6 +46,20 @@ class Carte(DirectObject.DirectObject):
 
     def bloquerEndroitGrille(self,i,j,doitBloquer):
         self.endroitDisponible[i][j] = doitBloquer
+
+    def construireMapHasard(self):
+        maze = MazeBuilder(self.map_nb_tuile_x, self.map_nb_tuile_y)
+        mazeArray = maze.build()
+        for row in mazeArray:
+            for cell in row:
+                if(cell.type == 1):
+                    self.creerMur(cell.row, cell.col)
+
+        self.creerChar(6,6,0,Vec3(0.1,0.1,0.1))
+        self.creerChar(3,3,1,Vec3(0.9,0.9,0.9))
+
+        #Dans la carte par défaut, des items vont appraître constamment
+        self.genererItemParInterval(4,8)
 
     def construireDecor(self, camera):
         modele = loader.loadModel("../asset/Skybox/skybox")
@@ -99,26 +115,31 @@ class Carte(DirectObject.DirectObject):
     def tirerCanon(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
         balle = Balle(identifiantLanceur,self.mondePhysique)
+        self.listeBalle.append(balle)
         balle.projetter(position,direction)
 
     def tirerMitraillette(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
         balle = Balle(identifiantLanceur,self.mondePhysique)
+        self.listeBalle.append(balle)
         balle.projetterRapide(position,direction)
 
     def lancerGrenade(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
         balle = Balle(identifiantLanceur, self.mondePhysique)
+        self.listeBalle.append(balle)
         balle.lancer(position,direction)
 
     def deposerPiege(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
         balle = Balle(identifiantLanceur, self.mondePhysique)
+        self.listeBalle.append(balle)
         balle.deposer(position,direction)
 
     def tirerShotgun(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
         balle = Balle(identifiantLanceur,self.mondePhysique)
+        self.listeBalle.append(balle)
         balle.projetterVariable(position,direction)
 
     #####################################################
@@ -235,12 +256,17 @@ class Carte(DirectObject.DirectObject):
         #Pas très propre mais enfin...
         indiceTank = int(self.traiterCollisionTankAvecObjet(node0, node1,"Balle"))
         if(indiceTank != -1):
-            self.listTank[indiceTank].explose(self.mondePhysique)
+            tireurBalleId = int(self.trouverTag(node0, node1, "lanceurId"))
+            balleId = int(self.trouverTag(node0, node1, "balleId"))
+            #Prend 1 de dommage par défaut si la balle n'a pas été tirée par le tank
+            self.listeBalle[balleId].exploser()
+            if(tireurBalleId != indiceTank):
+                self.listTank[indiceTank].prendDommage(1,self.mondePhysique)
             return
         
         indiceTank = int(self.traiterCollisionTankAvecObjet(node0, node1,"Item"))
         if(indiceTank != -1):
-            itemID = self.trouverItemID(node0, node1)
+            itemID = int(self.trouverTag(node0, node1, "itemId"))
             if(itemID != -1):
                 #Avertit l'item et le tank de la récupération
                 itemCourrant = self.listeItem[itemID]
@@ -268,17 +294,17 @@ class Carte(DirectObject.DirectObject):
             retour = node1.getTag("IdTank")
         return retour
 
-    #Trouve si un des 2 noeuds a le tag "itemId"
-    def trouverItemID(self,node0, node1):
-        retour = -1
+    #Trouve si un des 2 noeuds a le tag indiqué
+    def trouverTag(self,node0, node1, tag):
+        retour = ""
         #On trouve l'ID de l'item qui a collisionné
-        if(node0.getTag("itemId") != ""):
-            retour = node0.getTag("itemId")
+        if(node0.getTag(tag) != ""):
+            retour = node0.getTag(tag)
 
-        if(node1.getTag("itemId") != ""):
-            retour = node1.getTag("itemId")
+        if(node1.getTag(tag) != ""):
+            retour = node1.getTag(tag)
 
-        return int(retour)
+        return retour
 
     #On met à jour ce qui est nécessaire de mettre à jour
     def update(self):

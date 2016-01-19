@@ -10,9 +10,15 @@ from direct.interval.IntervalGlobal import *
 import random
 
 class Balle(ShowBase):
+
+    balleID = 0
+
     def __init__(self, identifiantLanceur,mondePhysique):
         self.mondePhysique = mondePhysique
-        self.identifiantLanceur = identifiantLanceur
+        self.lanceurId = identifiantLanceur
+        self.balleId = Balle.balleID
+        Balle.balleID += 1
+
         # On charge le modèles
         self.modele = loader.loadModel("../asset/Balle/ball")
         self.modele.reparentTo(render)
@@ -27,12 +33,19 @@ class Balle(ShowBase):
         self.noeudPhysique.node().setMass(1.0)
         self.modele.reparentTo(self.noeudPhysique)
 
-        self.accept("declencher-explosion",self.exploser)
+        self.accept("detonateur-explosion",self.detonateurDistance)
 
         self.noeudPhysique.setTag("EntiteTankem","Balle")
+        self.noeudPhysique.setTag("balleId",str(self.balleId))
+        self.noeudPhysique.setTag("lanceurId",str(self.lanceurId))
 
-    def exploser(self, identifiantLanceur):
-        if(identifiantLanceur == self.identifiantLanceur and self.etat == "actif"):
+    def detonateurDistance(self, identifiantDetonateur):
+        if(identifiantDetonateur == self.lanceurId):
+            self.exploser()
+
+
+    def exploser(self):
+        if(self.etat == "actif"):
             self.etat = "explose"
 
             #Arrêt de la sequence de destruction automatique
@@ -149,6 +162,6 @@ class Balle(ShowBase):
     def intervalExplosion(self, delai):
         #On fait exploser la balle dans quelques secondes
         delai = Wait(delai)
-        fonctionExploser = Func(self.exploser, self.identifiantLanceur)
+        fonctionExploser = Func(self.exploser)
         self.sequenceExplosionAutomatique = Sequence(delai,fonctionExploser)
         self.sequenceExplosionAutomatique.start()

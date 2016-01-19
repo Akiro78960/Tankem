@@ -13,6 +13,8 @@ class Tank():
         #Défini les variables pour avancer et tourner
         self.speed = Vec3(0,0,0)
         self.omega = 0.0
+        self.pointDeVieMax = 100
+        self.pointDeVie = self.pointDeVieMax
 
         self.etat = "actif"
         self.hackRecuperation = False
@@ -81,7 +83,7 @@ class Tank():
         elif(message == "arme-secondaire"):
             self.attaquer(self.armeSecondaire)
         elif(message == "exploser-balle"):
-            messenger.send("declencher-explosion", [self.identifiant])
+            messenger.send("detonateur-explosion", [self.identifiant])
 
             #Todo
             #Shotgun
@@ -164,6 +166,14 @@ class Tank():
 
         mondePhysique.removeCharacter(self.playerNode)
         self.playerNode = None
+
+    def prendDommage(self, dommage, mondePhysique):
+        #Chaque collision détectée nous fait perdre un point de vie
+        self.pointDeVie -= dommage
+
+        #Vérifie si le tank explose
+        if(self.pointDeVie <= 0):
+            self.explose(mondePhysique)
 
 
     def recupereItem(self, armeId):
