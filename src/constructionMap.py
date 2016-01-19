@@ -206,7 +206,7 @@ class Carte(DirectObject.DirectObject):
         #On le joue une fois et il se rappelera lui-même :-)
         sequenceCreation.start()
 
-    def creerMurMobile(self,positionX, positionY):
+    def creerMurMobile(self,positionX, positionY, mouvementInverse=False):
         # On charge le modèles
         modele = loader.loadModel("../asset/Wall/Wall")
         formeCollision = BulletBoxShape(Vec3(1, 1, 1))
@@ -227,21 +227,33 @@ class Carte(DirectObject.DirectObject):
         self.bloquerEndroitGrille(positionX,positionY,True)
 
         positionActuelle = noeudPhysique.getPos()
+        tempsMouvement = 0.8
         blocPosInterval1 = LerpPosInterval( noeudPhysique,
-                                            2,
+                                            tempsMouvement,
                                             positionActuelle + Vec3(0,0,-1.95),
                                             startPos=positionActuelle)
         blocPosInterval2 = LerpPosInterval( noeudPhysique,
-                                            2,
+                                            tempsMouvement,
                                             positionActuelle,
                                             positionActuelle + Vec3(0,0,-1.95))
-        delai = Wait(2.0)
-        # Create and play the sequence that coordinates the intervals.
-        mouvementBloc = Sequence( blocPosInterval1,
-                                  delai,
-                                  blocPosInterval2,
-                                  delai,
-                                  name="mouvement-bloc" + str(positionX) + '_' + str(positionY))
+        delai = Wait(1.2)
+        # On créé une séquence pour bouger le bloc
+        mouvementBloc = Sequence()
+        if(not mouvementInverse):
+            mouvementBloc = Sequence(   blocPosInterval1,
+                                        delai,
+                                        blocPosInterval2,
+                                        delai,
+                                        name="mouvement-bloc" + str(positionX) + '_' + str(positionY))
+
+        else:
+            mouvementBloc = Sequence(   blocPosInterval2,
+                                        delai,
+                                        blocPosInterval1,
+                                        delai,
+                                        name="mouvement-bloc-inverse" + str(positionX) + '_' + str(positionY))
+        
+
         mouvementBloc.loop()
 
     def creerChar(self,positionX, positionY, identifiant, couleur):

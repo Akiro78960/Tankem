@@ -6,6 +6,7 @@ from panda3d.bullet import *
 from panda3d.core import *
 from panda3d.ai import *
 from direct.interval.IntervalGlobal import *
+import math
 
 
 class Tank():
@@ -54,30 +55,30 @@ class Tank():
         self.noeudPhysique.setTag("IdTank",str( self.identifiant))
 
     def traiterCommande(self,message):
-
-        vitesseAvancer = Vec3(0,6,0)
-        vitesseReculer = Vec3(0,-4,0)
-        vitesseTourner = 200
+        directionHaut = Vec3(0,1,0)
+        directionBas = Vec3(0,-1,0)
+        directionGauche = Vec3(-1,0,0)
+        directionDroite = Vec3(1,0,0)
 
         if(self.etat != "actif"):
             return
 
         if(message == "avance"):
-            self.speed += vitesseAvancer
+            self.speed += directionHaut
         elif(message == "avance-stop"):
-            self.speed -= vitesseAvancer
+            self.speed -= directionHaut
         elif(message == "recule"):
-            self.speed += vitesseReculer
+            self.speed += directionBas
         elif(message == "recule-stop"):
-            self.speed -= vitesseReculer
+            self.speed -= directionBas
         elif(message == "tourne-gauche"):
-            self.omega += vitesseTourner
+            self.speed += directionGauche
         elif(message == "tourne-gauche-stop"):
-            self.omega -= vitesseTourner
+            self.speed -= directionGauche
         elif(message == "tourne-droit"):
-            self.omega -= vitesseTourner
+            self.speed += directionDroite
         elif(message == "tourne-droit-stop"):
-            self.omega += vitesseTourner
+            self.speed -= directionDroite
         elif(message == "arme-primaire"):
             self.attaquer(self.armePrimaire)
         elif(message == "arme-secondaire"):
@@ -147,7 +148,7 @@ class Tank():
         if(self.etat != "actif"):
             return
         self.etat = "inactif"
-        self.speed = 0.0
+        self.speed = Vec3(0,0,0)
         self.omega = 0.0
 
         #On devrait récupérer l'ancienne forme et non s'en créer une
@@ -190,5 +191,57 @@ class Tank():
 
     def traiteMouvement(self):
         if (self.playerNode != None):
-            self.playerNode.setLinearMovement(self.speed, True)
-            self.playerNode.setAngularMovement(self.omega)
+
+            #Si on a aucun mouvement, on ne bouge pas le tank
+            if(self.speed.lengthSquared() < 0.2):
+                self.playerNode.setLinearMovement(0.0, False)
+                self.playerNode.setAngularMovement(0.0)
+            else:
+                speedCopy = Vec3(self.speed)
+                speedCopy.normalize()
+
+                vitesseAvancer = 7
+                vitesseMaxTourner = 1500
+                #On bouge le joueur dans la bonne direction
+                #TODO: Renormalize le vecteur pour ne pas avoir un bug comme le Quake 3
+                #qui nous permettrait de bouger en diagonal
+                self.playerNode.setLinearMovement(speedCopy * vitesseAvancer, False)
+
+
+
+                #Cacul un vectoriel pour tourner le tank quand on bouge
+                #C'est plutôt complexe. On se base sur la théorie du pilotage
+                # ("steering behavior"). Vous trouverez plein d'articles sur le sujet
+                directionQuePointeLeTank = render.getRelativeVector(self.noeudPhysique, Vec3.forward())
+                signeAngle = 0
+                produitVectoriel = directionQuePointeLeTank.cross(speedCopy)
+                angleDegre = directionQuePointeLeTank.angleDeg(speedCopy)
+
+                #Décide de la direction de rotation
+                if(produitVectoriel.getZ() > 0.01):
+                    signeAngle = 1.0
+
+                if(produitVectoriel.getZ() < -0.01):
+                    signeAngle = -1.0
+
+                if(self.identifiant == 0):
+                    print(angleDegre)
+                    print(signeAngle)
+
+                #Réduire progressivement la rotation selon l'angle
+                #avec une courbe en racine carrée
+                angleMax = 180
+                facteur = angleDegre / angleMax
+                vitesseTourner = vitesseMaxTourner * math.sqrt(facteur)
+
+                angleCritiqueIntermediaire = 5.0
+                if(angleDegre < angleCritiqueIntermediaire):
+                    vitesseIntermediaireTourner = vitesseMaxTourner * 0.5
+                    vitesseTourner = vitesseIntermediaireTourner * facteur
+
+                #Arrêter la rotation selon l'angle
+                angleCritiqueDegre = 1.0
+                if(angleDegre < angleCritiqueDegre):
+                    vitesseTourner = 0.0
+                    signeAngle = 0.0
+                self.playerNode.setAngularMovement(signeAngle * vitesseTourner)

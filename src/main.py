@@ -81,6 +81,8 @@ class Tankem(ShowBase):
     def creerCarteParDefaut(self):
         self.carte.creerMur(4,5)
         self.carte.creerMur(5,4)
+        self.carte.creerMurMobile(4,4)
+        self.carte.creerMurMobile(5,5)
 
         self.carte.creerMur(8,2)
         self.carte.creerMur(9,9)
@@ -94,15 +96,15 @@ class Tankem(ShowBase):
         self.carte.creerMur(1,2)
         self.carte.creerMur(1,1)
         self.carte.creerMur(2,1)
-        self.carte.creerMurMobile(1,3)
-        self.carte.creerMurMobile(3,1)
+        self.carte.creerMurMobile(1,3, True)
+        self.carte.creerMurMobile(3,1, False)
 
-        self.carte.creerItem(6,7,"Shotgun")
+        self.carte.creerItem(6,7,"Grenade")
 
         #self.carte.creerItemPositionHasard()
 
-        self.carte.creerChar(6,6,0,Vec3(0.4,0.6,0))
-        self.carte.creerChar(3,3,1,Vec3(0.6,0.4,0.9))
+        self.carte.creerChar(6,6,0,Vec3(0.1,0.1,0.5))
+        self.carte.creerChar(3,3,1,Vec3(0.9,0.9,0.5))
 
         #Dans la carte par défaut, des items vont appraître constamment
         self.carte.genererItemParInterval(5,10)
@@ -159,6 +161,7 @@ class Tankem(ShowBase):
     #Mise à jour du moteur de physique
     def updatePhysics(self,task):
         dt = globalClock.getDt()
+        messenger.send("appliquerForce")
         self.mondePhysique.doPhysics(dt)
         #print(len(self.mondePhysique.getManifolds()))
 

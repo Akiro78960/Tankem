@@ -19,6 +19,8 @@ class Balle(ShowBase):
         self.balleId = Balle.balleID
         Balle.balleID += 1
 
+        self.forceApplique = Vec3(0,0,0)
+
         # On charge le modèles
         self.modele = loader.loadModel("../asset/Balle/ball")
         self.modele.reparentTo(render)
@@ -133,11 +135,8 @@ class Balle(ShowBase):
 
         self.intervalExplosion(10)
 
-    def destroy(self):
-        self.etat = "Detruit"
-        self.mondePhysique.removeRigidBody(self.noeudPhysique.node())
-        self.noeudPhysique.removeNode()
-        self.modele.removeNode()
+    def appliquerForce(self):
+        self.noeudPhysique.node().applyCentralForce(self.forceApplique)
 
     def lancer(self, position, direction):
         self.etat = "actif"
@@ -150,7 +149,11 @@ class Balle(ShowBase):
         self.noeudPhysique.node().setAngularDamping(0.99)
         self.noeudPhysique.node().setFriction(0.9)
         self.noeudPhysique.node().setRestitution(1.0)
-        vitesseBalle = 9
+
+        self.accept("appliquerForce",self.appliquerForce)
+        self.forceApplique = Vec3(0.0,0.0,-50)
+        
+        vitesseBalle = 15
         #On lancera à enciron 60 degré la balle
         directionFinale = direction + Vec3(0,0,3)
         directionFinale.normalize()
@@ -165,3 +168,11 @@ class Balle(ShowBase):
         fonctionExploser = Func(self.exploser)
         self.sequenceExplosionAutomatique = Sequence(delai,fonctionExploser)
         self.sequenceExplosionAutomatique.start()
+
+    def destroy(self):
+        self.etat = "Detruit"
+        self.mondePhysique.removeRigidBody(self.noeudPhysique.node())
+        self.noeudPhysique.removeNode()
+        self.modele.removeNode()
+        #Enlève l'écoute des messages
+        self.ignoreAll()
