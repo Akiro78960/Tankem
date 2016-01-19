@@ -42,6 +42,7 @@ class Carte(DirectObject.DirectObject):
         self.accept("tirerCanon",self.tirerCanon)
         self.accept("tirerMitraillette",self.tirerMitraillette)
         self.accept("lancerGrenade",self.lancerGrenade)
+        self.accept("lancerGuide",self.lancerGuide)
         self.accept("deposerPiege",self.deposerPiege)
         self.accept("tirerShotgun",self.tirerShotgun)
 
@@ -139,6 +140,18 @@ class Carte(DirectObject.DirectObject):
         self.listeBalle.append(balle)
         balle.lancer(position,direction)
 
+    def lancerGuide(self, identifiantLanceur, position, direction):
+        #Création d'une balle de physique
+        balle = Balle(identifiantLanceur, self.mondePhysique)
+        self.listeBalle.append(balle)
+
+        #On définit la position d'arrivé de missile guidé
+        destination = self.listTank[0].noeudPhysique.getPos()
+        if(identifiantLanceur == 0):
+            destination = self.listTank[1].noeudPhysique.getPos()
+
+        balle.lancerGuide(position,destination)
+
     def deposerPiege(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
         balle = Balle(identifiantLanceur, self.mondePhysique)
@@ -184,7 +197,7 @@ class Carte(DirectObject.DirectObject):
         self.placerSurGrille(itemCourrant.noeudPhysique,positionX,positionY)
 
     def creerItemHasard(self, positionX, positionY):
-        listeItem = ["Mitraillette", "Shotgun", "Piege", "Grenade"]
+        listeItem = ["Mitraillette", "Shotgun", "Piege", "Grenade", "Guide"]
         itemHasard = random.choice(listeItem)
         self.creerItem(positionX, positionY,itemHasard)
 

@@ -25,7 +25,7 @@ class Tank():
 
         #Défini les armes de base
         self.armePrimaire = "Canon"
-        self.armeSecondaire = "Aucun"
+        self.armeSecondaire = "Guide"
 
         self.identifiant = identifiant
         # On charge le modèles
@@ -131,6 +131,9 @@ class Tank():
             messenger.send("tirerShotgun", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon + directionDroiteDiagonale * distanceCanon, directionDroiteDiagonale])
             messenger.send("tirerShotgun", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon + directionGaucheDiagonale * distanceCanon, directionGaucheDiagonale])
             delaiArme = 1.8
+        elif(nomArme == "Guide"):
+            messenger.send("lancerGuide", [self.identifiant,self.noeudPhysique.getPos() + hauteurGrenade, directionQuePointeLeTank])
+            delaiArme = 3.0
         elif(nomArme == "AucuneArme"):
             #Ne fais rien
             pass

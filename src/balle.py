@@ -54,6 +54,9 @@ class Balle(ShowBase):
             if hasattr(self, 'sequenceExplosionAutomatique'):
                self.sequenceExplosionAutomatique.finish()
 
+            if hasattr(self, 'sequenceMissileGuide'):
+               self.sequenceMissileGuide.finish()
+
             #On désactive le mouvement sur cette balle
             #Les collisions seront détectées mais la balle
             #ne bougera pas
@@ -138,7 +141,7 @@ class Balle(ShowBase):
     def appliquerForce(self):
         self.noeudPhysique.node().applyCentralForce(self.forceApplique)
 
-    def lancer(self, position, direction):
+    def lancer(self, position, direction, vitesseInitialeBalle=15):
         self.etat = "actif"
 
         self.modele.setColorScale(0.8,0.1,0.6,1)
@@ -153,14 +156,34 @@ class Balle(ShowBase):
         self.accept("appliquerForce",self.appliquerForce)
         self.forceApplique = Vec3(0.0,0.0,-50)
         
-        vitesseBalle = 15
         #On lancera à enciron 60 degré la balle
         directionFinale = direction + Vec3(0,0,3)
         directionFinale.normalize()
-        self.noeudPhysique.node().setLinearVelocity(directionFinale * vitesseBalle)
+        self.noeudPhysique.node().setLinearVelocity(directionFinale * vitesseInitialeBalle)
         self.mondePhysique.attachRigidBody(self.noeudPhysique.node())
 
         self.intervalExplosion(3.0)
+
+    def lancerGuide(self, position, positionCible):
+            #On ignore la direction du tank, on lance la balle dans les airs
+            self.lancer(position, Vec3(0,0,1),vitesseInitialeBalle=18)
+
+            #C'est un ange de la mort... on le colore rouge foncé!
+            self.modele.setColorScale(0.3,0,0.1,1)
+
+            #On créé ensuite une séquence pour le guidage automatique
+            attendre = Wait(0.65)
+            fonctionViser = Func(self.lancerSurCible, positionCible)
+            self.sequenceMissileGuide = Sequence(attendre,fonctionViser)
+            self.sequenceMissileGuide.start()
+
+    def lancerSurCible(self,positionCible):
+
+        #Calcul de la direction de la balle
+        vecteurDifference = positionCible - self.noeudPhysique.getPos()
+        vecteurDifference.normalize()
+        self.noeudPhysique.node().setLinearVelocity(vecteurDifference * 30)
+
 
     def intervalExplosion(self, delai):
         #On fait exploser la balle dans quelques secondes
