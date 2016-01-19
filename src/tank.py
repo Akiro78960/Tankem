@@ -19,6 +19,7 @@ class Tank():
 
         self.etat = "actif"
         self.hackRecuperation = False
+        self.couleur = couleur
 
         self.debloquerTir()
 
@@ -144,12 +145,28 @@ class Tank():
     def debloquerTir(self):
         self.bloquerTir = False
 
+    def tombe(self, mondePhysique):
+        self.elimineJoueur(mondePhysique)
+
+        #On le fait tourner un peu
+        self.noeudPhysiqueExplosion.node().applyTorqueImpulse(YUp * 1)
+
+        #On le laisse tomber :-D On désactive la collision avec le plancher
+        self.noeudPhysiqueExplosion.setCollideMask(BitMask32.allOff())
+
     def explose(self, mondePhysique):
+        self.elimineJoueur(mondePhysique)
+        #On lui donne une petite poussé car c'est drôle!
+        self.noeudPhysiqueExplosion.node().applyImpulse(ZUp * 5,Point3(-0.5,-0.5,0))
+
+    def elimineJoueur(self, mondePhysique):
         if(self.etat != "actif"):
             return
         self.etat = "inactif"
         self.speed = Vec3(0,0,0)
         self.omega = 0.0
+
+        self.changerPointDeVie(0)
 
         #On devrait récupérer l'ancienne forme et non s'en créer une
         forme = BulletBoxShape(Vec3(0.6, 0.75, 0.3))
@@ -160,21 +177,28 @@ class Tank():
         self.noeudPhysiqueExplosion = render.attachNewNode(explosionNoeud)
         self.noeudPhysiqueExplosion.node().setMass(3.0)
         self.noeudPhysiqueExplosion.setTransform(self.noeudPhysique.getTransform())
-        self.noeudPhysiqueExplosion.setZ(1.0)
+        self.noeudPhysiqueExplosion.setZ(self.noeudPhysiqueExplosion.getZ() + 1.0)
         self.modele.reparentTo(self.noeudPhysiqueExplosion)
         mondePhysique.attachRigidBody(explosionNoeud)
-        self.noeudPhysiqueExplosion.node().applyImpulse(ZUp * 5,Point3(-0.5,-0.5,0))
 
         mondePhysique.removeCharacter(self.playerNode)
-        self.playerNode = None
+        self.playerNode = None        
 
     def prendDommage(self, dommage, mondePhysique):
+
         #Chaque collision détectée nous fait perdre un point de vie
-        self.pointDeVie -= dommage
+        self.changerPointDeVie(self.pointDeVie - dommage)
 
         #Vérifie si le tank explose
         if(self.pointDeVie <= 0):
             self.explose(mondePhysique)
+
+    def changerPointDeVie(self, nouvelleValeur):
+        self.pointDeVie = nouvelleValeur
+
+        #On prévient l'interface graphique du changement
+        pointDeVieSurCent = 100 * self.pointDeVie / self.pointDeVieMax
+        messenger.send("changerValeurPointDeVie", [self.identifiant,pointDeVieSurCent])
 
 
     def recupereItem(self, armeId):
@@ -223,10 +247,6 @@ class Tank():
 
                 if(produitVectoriel.getZ() < -0.01):
                     signeAngle = -1.0
-
-                if(self.identifiant == 0):
-                    print(angleDegre)
-                    print(signeAngle)
 
                 #Réduire progressivement la rotation selon l'angle
                 #avec une courbe en racine carrée

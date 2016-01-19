@@ -13,6 +13,7 @@ import random
 from tank import Tank
 from balle import Balle
 from item import Item
+from interface_jeu import interface_jeu
 from mazeUtil import MazeBuilder
 
 #Module qui sert à la création des maps
@@ -43,6 +44,11 @@ class Carte(DirectObject.DirectObject):
         self.accept("lancerGrenade",self.lancerGrenade)
         self.accept("deposerPiege",self.deposerPiege)
         self.accept("tirerShotgun",self.tirerShotgun)
+
+    def construireUI(self):
+        self.interfaceJeu = []
+        self.interfaceJeu.append(interface_jeu(0,self.listTank[0].couleur))
+        self.interfaceJeu.append(interface_jeu(1,self.listTank[1].couleur))
 
     def bloquerEndroitGrille(self,i,j,doitBloquer):
         self.endroitDisponible[i][j] = doitBloquer
@@ -106,6 +112,9 @@ class Carte(DirectObject.DirectObject):
         HACK_VALUE = 0.02 #Optimisation de collision, les masques ne marchent pas
         np.setZ(-2.00 - HACK_VALUE)
         self.mondePhysique.attachRigidBody(node)
+
+    def postInitialisation(self):
+        self.construireUI()
 
     def placerSurGrille(self,noeud,positionX, positionY):
         # On place l'objet en calculant sa position sur la grille
@@ -288,8 +297,8 @@ class Carte(DirectObject.DirectObject):
 
         indiceTank = int(self.traiterCollisionTankAvecObjet(node0, node1,"LimiteJeu"))
         if(indiceTank != -1):
-            #Un tank est tombé. Ça mérite d'exploser! :-D
-            self.listTank[indiceTank].explose(self.mondePhysique)
+            #Un tank est tombé. mouhahahadddddddddd
+            self.listTank[indiceTank].tombe(self.mondePhysique)
             return
 
 

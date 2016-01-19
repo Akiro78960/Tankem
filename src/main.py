@@ -77,6 +77,7 @@ class Tankem(ShowBase):
         #Doit être appelée après la création de la carte
         #Ça va prendre les objets qui ne bougent pas et en faire un seul gros
         self.carte.figeObjetImmobile()
+        self.carte.postInitialisation()
 
     def creerCarteParDefaut(self):
         self.carte.creerMur(4,5)
@@ -104,7 +105,7 @@ class Tankem(ShowBase):
         #self.carte.creerItemPositionHasard()
 
         self.carte.creerChar(6,6,0,Vec3(0.1,0.1,0.5))
-        self.carte.creerChar(3,3,1,Vec3(0.9,0.9,0.5))
+        self.carte.creerChar(3,3,1,Vec3(0.9,0.5,0.9))
 
         #Dans la carte par défaut, des items vont appraître constamment
         self.carte.genererItemParInterval(5,10)
