@@ -6,5 +6,6 @@
 # PATH)
 import sys
 
-sys.path.insert(0, "C:\\Logiciels Portables\\Panda3D-1.8.1\\bin")
-sys.path.insert(0, "C:\\Logiciels Portables\\Panda3D-1.8.1")
+sys.path.insert(0, "C:\\Logiciels Portables\\Panda3D-1.9.1-x64\\bin")
+sys.path.insert(0, "C:\\Logiciels Portables\\Panda3D-1.9.1-x64")
+sys.path.insert(0, "C:\\Logiciels Portables\\Panda3D-1.9.1-x64\\python\\Lib\\site-packages")
