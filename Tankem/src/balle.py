@@ -99,11 +99,11 @@ class Balle(ShowBase):
         self.noeudPhysique.node().setLinearDamping(0.0)
         self.noeudPhysique.node().setFriction(0.0)
         self.noeudPhysique.node().setRestitution(2.0)
-        vitesseBalle = 16
+        vitesseBalle = 18
         self.noeudPhysique.node().applyCentralImpulse(direction * vitesseBalle)
         self.mondePhysique.attachRigidBody(self.noeudPhysique.node())
 
-        self.intervalExplosion(0.5)
+        self.intervalExplosion(0.8)
 
     def projetterVariable(self, position, direction):
         self.etat = "actif"

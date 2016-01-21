@@ -25,7 +25,7 @@ class Tank():
 
         #Défini les armes de base
         self.armePrimaire = "Canon"
-        self.armeSecondaire = "AucuneArme"
+        self.armeSecondaire = "Mitraillette"
 
         self.identifiant = identifiant
         # On charge le modèles
@@ -145,6 +145,8 @@ class Tank():
         sequenceBlloquageTir = Sequence(attendre,fonctionDebloquer)
         sequenceBlloquageTir.start()
 
+        messenger.send("effetRecharge", [self.identifiant,delaiArme])
+
     def debloquerTir(self):
         self.bloquerTir = False
 
@@ -161,6 +163,8 @@ class Tank():
         self.elimineJoueur(mondePhysique)
         #On lui donne une petite poussé car c'est drôle!
         self.noeudPhysiqueExplosion.node().applyImpulse(ZUp * 5,Point3(-0.5,-0.5,0))
+
+        messenger.send("tankElimine", [self.identifiant])
 
     def elimineJoueur(self, mondePhysique):
         if(self.etat != "actif"):
@@ -202,7 +206,7 @@ class Tank():
 
         #On prévient l'interface graphique du changement
         pointDeVieSurCent = 100 * self.pointDeVie / self.pointDeVieMax
-        messenger.send("changerValeurPointDeVie", [self.identifiant,pointDeVieSurCent])
+        messenger.send("effetPointDeVie", [self.identifiant,pointDeVieSurCent])
 
 
     def recupereItem(self, armeId):
