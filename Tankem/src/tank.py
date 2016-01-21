@@ -14,7 +14,7 @@ class Tank():
         #Défini les variables pour avancer et tourner
         self.speed = Vec3(0,0,0)
         self.omega = 0.0
-        self.pointDeVieMax = 100
+        self.pointDeVieMax = 200
         self.pointDeVie = self.pointDeVieMax
 
         self.etat = "actif"
@@ -25,7 +25,7 @@ class Tank():
 
         #Défini les armes de base
         self.armePrimaire = "Canon"
-        self.armeSecondaire = "Guide"
+        self.armeSecondaire = "AucuneArme"
 
         self.identifiant = identifiant
         # On charge le modèles
@@ -191,6 +191,7 @@ class Tank():
 
         #Chaque collision détectée nous fait perdre un point de vie
         self.changerPointDeVie(self.pointDeVie - dommage)
+        self.modele.setColorScale(self.couleur.getX(),self.couleur.getY(),self.couleur.getZ(),1)
 
         #Vérifie si le tank explose
         if(self.pointDeVie <= 0):

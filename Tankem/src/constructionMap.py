@@ -146,11 +146,11 @@ class Carte(DirectObject.DirectObject):
         self.listeBalle.append(balle)
 
         #On définit la position d'arrivé de missile guidé
-        destination = self.listTank[0].noeudPhysique.getPos()
+        noeudDestination = self.listTank[0].noeudPhysique
         if(identifiantLanceur == 0):
-            destination = self.listTank[1].noeudPhysique.getPos()
+            noeudDestination = self.listTank[1].noeudPhysique
 
-        balle.lancerGuide(position,destination)
+        balle.lancerGuide(position,noeudDestination)
 
     def deposerPiege(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique

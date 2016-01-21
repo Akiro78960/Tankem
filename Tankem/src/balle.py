@@ -164,7 +164,7 @@ class Balle(ShowBase):
 
         self.intervalExplosion(3.0)
 
-    def lancerGuide(self, position, positionCible):
+    def lancerGuide(self, position, noeudCible):
             #On ignore la direction du tank, on lance la balle dans les airs
             self.lancer(position, Vec3(0,0,1),vitesseInitialeBalle=18)
 
@@ -173,14 +173,14 @@ class Balle(ShowBase):
 
             #On créé ensuite une séquence pour le guidage automatique
             attendre = Wait(0.65)
-            fonctionViser = Func(self.lancerSurCible, positionCible)
+            fonctionViser = Func(self.lancerSurCible, noeudCible)
             self.sequenceMissileGuide = Sequence(attendre,fonctionViser)
             self.sequenceMissileGuide.start()
 
-    def lancerSurCible(self,positionCible):
+    def lancerSurCible(self,noeudCible):
 
         #Calcul de la direction de la balle
-        vecteurDifference = positionCible - self.noeudPhysique.getPos()
+        vecteurDifference = noeudCible.getPos() - self.noeudPhysique.getPos()
         vecteurDifference.normalize()
         self.noeudPhysique.node().setLinearVelocity(vecteurDifference * 30)
 

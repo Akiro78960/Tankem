@@ -100,15 +100,13 @@ class Tankem(ShowBase):
         self.carte.creerMurMobile(1,3, True)
         self.carte.creerMurMobile(3,1, False)
 
-        self.carte.creerItem(6,7,"Grenade")
-
-        #self.carte.creerItemPositionHasard()
+        self.carte.creerItemPositionHasard()
 
         self.carte.creerChar(6,6,0,Vec3(0.1,0.1,0.5))
         self.carte.creerChar(3,3,1,Vec3(0.9,0.5,0.9))
 
         #Dans la carte par défaut, des items vont appraître constamment
-        self.carte.genererItemParInterval(5,10)
+        self.carte.genererItemParInterval(5,20)
 
     def initialiserCamera(self):
         #On doit désactiver le contrôle par défaut de la caméra autrement on ne peut pas la positionner et l'orienter
