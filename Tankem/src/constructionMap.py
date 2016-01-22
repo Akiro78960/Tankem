@@ -56,11 +56,18 @@ class Carte(DirectObject.DirectObject):
 
     def construireMapHasard(self):
         maze = MazeBuilder(self.map_nb_tuile_x, self.map_nb_tuile_y)
-        mazeArray = maze.build()
+        maze.build()
+        mazeArray = maze.refine(.75)
+
         for row in mazeArray:
             for cell in row:
                 if(cell.type == 1):
-                    self.creerMur(cell.row, cell.col)
+                    typeMur = random.randint(0, 5)
+                    #On créé parfois un mur mobile...
+                    if(typeMur <= 1):
+                        self.creerMurMobile(cell.row, cell.col, True if typeMur == 1 else False)
+                    else:
+                        self.creerMur(cell.row, cell.col)
 
         self.creerChar(6,6,0,Vec3(0.1,0.1,0.1))
         self.creerChar(3,3,1,Vec3(0.9,0.9,0.9))

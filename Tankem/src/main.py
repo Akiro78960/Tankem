@@ -70,8 +70,8 @@ class Tankem(ShowBase):
         render.setShaderAuto()
 
         #Création d'une carte de base
-        self.creerCarteParDefaut()
-        #self.carte.construireMapHasard()
+        #self.creerCarteParDefaut()
+        self.carte.construireMapHasard()
 
         #Fonction qui sert à optimiser
         #Doit être appelée après la création de la carte

@@ -4,7 +4,6 @@ import inclureCheminCegep
 import sys
 from panda3d.bullet import *
 from panda3d.core import *
-from panda3d.ai import *
 from direct.interval.IntervalGlobal import *
 import math
 

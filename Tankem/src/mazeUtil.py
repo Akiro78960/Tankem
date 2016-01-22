@@ -14,6 +14,7 @@ class MazeBuilder:
 			# Initialization
 			for line in range(0,self.rowCount):
 				self.cells.append([])
+
 				for row in range(0,self.colCount):
 					self.cells[line].append(Cell(line, row))
 
@@ -53,6 +54,60 @@ class MazeBuilder:
 		
 
 		return self.cells
+
+	def refine(self, minLowerTiles):
+		# While there are not at least x% of lowered tiles, loop
+		while self.getLowerTilesCount() < minLowerTiles * self.colCount * self.rowCount:
+			possibilities = []
+			closestTo4 = 0
+
+			for i in range(1, self.rowCount - 1):
+				for j in range(1, self.colCount - 1):
+					wallCount = self.getAdjacentWallCount(i, j)
+
+					# check that cell as enough (but not too many) adj. walls
+					if (wallCount >= closestTo4 and wallCount <= 4):
+						if (wallCount > closestTo4):
+							possibilities = []
+
+						possibilities.append([i, j])
+						closestTo4 = wallCount
+						
+
+			# take a random cell and create plateau around it
+			rnd = (int)(random.random() * len(possibilities))
+			cell = possibilities[rnd]
+			self.lowerAdjacentTiles(cell[0], cell[1])
+
+		return self.cells
+
+
+	def getLowerTilesCount(self):
+		count = 0
+
+		for row in self.cells:
+			for cell in row:
+				if (cell.type == 0):
+					count = count + 1
+
+		return count
+
+	def getAdjacentWallCount(self, row, col):
+		count = 0
+
+		for i in range(row - 1, row + 2):
+			for j in range(col - 1, col + 2):
+				if (i != row and j != col):
+					if (self.cells[i][j] != 0):
+						count = count + 1
+
+		return count
+	
+	def lowerAdjacentTiles(self, row, col):
+		for i in range(row - 1, row + 2):
+			for j in range(col - 1, col + 2):
+				if (i != row and j != col):
+					self.cells[i][j].type = 0
 
 	def carve(self, direction, cell, targetCell):
 		if (not targetCell.wasVisited() and cell.parent != targetCell):
