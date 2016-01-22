@@ -1,5 +1,5 @@
 ## -*- coding: utf-8 -*-
-import inclureCheminCegep
+from util import *
 
 import sys
 from direct.showbase.ShowBase import ShowBase

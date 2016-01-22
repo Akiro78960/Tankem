@@ -1,5 +1,5 @@
 ## -*- coding: utf-8 -*-
-import inclureCheminCegep
+from util import *
 
 from direct.showbase.ShowBase import ShowBase
 from direct.gui.OnscreenText import OnscreenText 

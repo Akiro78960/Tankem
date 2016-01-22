@@ -1,5 +1,6 @@
 ## -*- coding: utf-8 -*-
-import inclureCheminCegep
+from util import *
+from entity import *
 
 from direct.showbase import DirectObject
 from panda3d.core import *
@@ -10,11 +11,8 @@ from panda3d.bullet import YUp
 from direct.interval.IntervalGlobal import *
 import random
 
-from tank import Tank
-from balle import Balle
-from item import Item
 from interface_jeu import interface_jeu
-from mazeUtil import MazeBuilder
+
 
 #Module qui sert à la création des maps
 class Carte(DirectObject.DirectObject):
@@ -55,7 +53,7 @@ class Carte(DirectObject.DirectObject):
         self.endroitDisponible[i][j] = doitBloquer
 
     def construireMapHasard(self):
-        maze = MazeBuilder(self.map_nb_tuile_x, self.map_nb_tuile_y)
+        maze = mazeUtil.MazeBuilder(self.map_nb_tuile_x, self.map_nb_tuile_y)
         maze.build()
         mazeArray = maze.refine(.75)
 
@@ -131,45 +129,45 @@ class Carte(DirectObject.DirectObject):
 
     def tirerCanon(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
-        balle = Balle(identifiantLanceur,self.mondePhysique)
-        self.listeBalle.append(balle)
-        balle.projetter(position,direction)
+        someBalle = balle.Balle(identifiantLanceur,self.mondePhysique)
+        self.listeBalle.append(someBalle)
+        someBalle.projetter(position,direction)
 
     def tirerMitraillette(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
-        balle = Balle(identifiantLanceur,self.mondePhysique)
-        self.listeBalle.append(balle)
-        balle.projetterRapide(position,direction)
+        someBalle = balle.Balle(identifiantLanceur,self.mondePhysique)
+        self.listeBalle.append(someBalle)
+        someBalle.projetterRapide(position,direction)
 
     def lancerGrenade(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
-        balle = Balle(identifiantLanceur, self.mondePhysique)
-        self.listeBalle.append(balle)
-        balle.lancer(position,direction)
+        someBalle = balle.Balle(identifiantLanceur, self.mondePhysique)
+        self.listeBalle.append(someBalle)
+        someBalle.lancer(position,direction)
 
     def lancerGuide(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
-        balle = Balle(identifiantLanceur, self.mondePhysique)
-        self.listeBalle.append(balle)
+        someBalle = balle.Balle(identifiantLanceur, self.mondePhysique)
+        self.listeBalle.append(someBalle)
 
         #On définit la position d'arrivé de missile guidé
         noeudDestination = self.listTank[0].noeudPhysique
         if(identifiantLanceur == 0):
             noeudDestination = self.listTank[1].noeudPhysique
 
-        balle.lancerGuide(position,noeudDestination)
+        someBalle.lancerGuide(position,noeudDestination)
 
     def deposerPiege(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
-        balle = Balle(identifiantLanceur, self.mondePhysique)
-        self.listeBalle.append(balle)
-        balle.deposer(position,direction)
+        someBalle = balle.Balle(identifiantLanceur, self.mondePhysique)
+        self.listeBalle.append(someBalle)
+        someBalle.deposer(position,direction)
 
     def tirerShotgun(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
-        balle = Balle(identifiantLanceur,self.mondePhysique)
-        self.listeBalle.append(balle)
-        balle.projetterVariable(position,direction)
+        someBalle = balle.Balle(identifiantLanceur,self.mondePhysique)
+        self.listeBalle.append(someBalle)
+        someBalle.projetterVariable(position,direction)
 
     #####################################################
     #Création des différentes entités sur la carte
@@ -198,7 +196,7 @@ class Carte(DirectObject.DirectObject):
     def creerItem(self, positionX, positionY, armeId):
         #L'index dans le tableau d'item coincide avec son
         #itemId. Ça va éviter une recherche inutile pendant l'éxécution
-        itemCourrant = Item(armeId,self.mondePhysique)
+        itemCourrant = item.Item(armeId,self.mondePhysique)
         self.listeItem.append(itemCourrant)
         #On place le tank sur la grille
         self.placerSurGrille(itemCourrant.noeudPhysique,positionX,positionY)
@@ -286,12 +284,12 @@ class Carte(DirectObject.DirectObject):
         mouvementBloc.loop()
 
     def creerChar(self,positionX, positionY, identifiant, couleur):
-        tank = Tank(identifiant,couleur,self.mondePhysique)
+        someTank = tank.Tank(identifiant,couleur,self.mondePhysique)
         #On place le tank sur la grille
-        self.placerSurGrille(tank.noeudPhysique,positionX,positionY)
+        self.placerSurGrille(someTank.noeudPhysique,positionX,positionY)
 
         #Ajouter le char dans la liste
-        self.listTank.append(tank)
+        self.listTank.append(someTank)
 
     def traiterCollision(self,node0, node1):
         #Pas très propre mais enfin...

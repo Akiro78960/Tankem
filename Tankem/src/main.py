@@ -1,15 +1,15 @@
 ## -*- coding: utf-8 -*-
-import inclureCheminCegep
+#Ajout des chemins vers les librarires
+from util import inclureCheminCegep
+import sys
+print(sys.path)
+
 
 #Importe la configuration de notre jeu
 from panda3d.core import loadPrcFile
 loadPrcFile("config/ConfigTankem.prc")
 
-import sys
 
-#Ajout des chemins vers les librarires
-import inclureCheminCegep
-print(sys.path)
 
 #Module de Panda3D
 from direct.showbase.ShowBase import ShowBase
@@ -23,8 +23,9 @@ from panda3d.ai import *
 
 #Modules internes
 from constructionMap import Carte
-from tank import Tank
-from item import Item
+
+#TODO: enelver cette dépendance.
+from entity import *
  
 class Tankem(ShowBase):
     def __init__(self):

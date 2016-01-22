@@ -1,5 +1,5 @@
 ## -*- coding: utf-8 -*-
-import inclureCheminCegep
+from util import *
 
 import sys
 from panda3d.bullet import *
