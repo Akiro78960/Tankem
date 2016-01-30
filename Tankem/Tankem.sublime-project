@@ -1,6 +1,6 @@
 {
 	"build_systems":
-	[		
+	[
 		{
 			"cmd":
 			[
@@ -23,7 +23,7 @@
 	"folders":
 	[
 		{
-			"path": "src"
+			"path": "."
 		}
 	]
 }

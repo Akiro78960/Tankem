@@ -1,3 +1,4 @@
-from . import item
-from . import balle
-from . import tank
+from item import *
+from balle import *
+from tank import *
+from wall import *

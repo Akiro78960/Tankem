@@ -11,30 +11,36 @@ from panda3d.bullet import YUp
 from direct.interval.IntervalGlobal import *
 import random
 
-from interface_jeu import interface_jeu
-
 
 #Module qui sert à la création des maps
-class Carte(DirectObject.DirectObject):
+class Map(DirectObject.DirectObject):
     def __init__(self, mondePhysique):
+        #On garde le monde physique en référence
+        self.mondePhysique = mondePhysique
+
         #initialisation des constantes utiles
         self.map_nb_tuile_x = 10
         self.map_nb_tuile_y = 10
-        self.map_grosseur_carre = 2.0
+        self.map_grosseur_carre = 2.0 #dimension d'un carré
+
         #On veut que le monde soit centré. On calcul donc le décalage nécessaire des tuiles
         self.position_depart_x = - self.map_grosseur_carre * self.map_nb_tuile_x / 2.0
         self.position_depart_y = - self.map_grosseur_carre * self.map_nb_tuile_y / 2.0
 
+        #On déclare des listes pour les tanks, les items et les balles
         self.listTank = []
         self.listeItem = []
         self.listeBalle = []
 
+        #Dictionnaire qui contient des noeuds animés.
+        #On pourra attacher les objets de notre choix à animer
+        self.dictNoeudAnimation = {}
+        self.creerNoeudAnimationVerticale() #Animation des blocs qui bougent verticalement
+        self.creerNoeudAnimationVerticaleInverse() #Idem, mais décalé
+
         #Initialise le contenu vide la carte
         #On y mettra les id selon ce qu'on met
         self.endroitDisponible = [[True for x in range(self.map_nb_tuile_x)] for x in range(self.map_nb_tuile_y)]
-
-        #Initialize la carte
-        self.mondePhysique = mondePhysique
 
         #Message qui permettent la création d'objets pendant la partie
         self.accept("tirerCanon",self.tirerCanon)
@@ -44,13 +50,11 @@ class Carte(DirectObject.DirectObject):
         self.accept("deposerPiege",self.deposerPiege)
         self.accept("tirerShotgun",self.tirerShotgun)
 
-    def construireUI(self):
-        self.interfaceJeu = []
-        self.interfaceJeu.append(interface_jeu(0,self.listTank[0].couleur))
-        self.interfaceJeu.append(interface_jeu(1,self.listTank[1].couleur))
-
     def bloquerEndroitGrille(self,i,j,doitBloquer):
         self.endroitDisponible[i][j] = doitBloquer
+
+    def figeObjetImmobile(self):
+        self.noeudOptimisation.flattenStrong()
 
     def construireMapHasard(self):
         maze = mazeUtil.MazeBuilder(self.map_nb_tuile_x, self.map_nb_tuile_y)
@@ -63,15 +67,46 @@ class Carte(DirectObject.DirectObject):
                     typeMur = random.randint(0, 5)
                     #On créé parfois un mur mobile...
                     if(typeMur <= 1):
-                        self.creerMurMobile(cell.row, cell.col, True if typeMur == 1 else False)
+                        self.creerMur(cell.row, cell.col, "AnimationMurVerticale" if typeMur == 1 else "AnimationMurVerticaleInverse")
                     else:
                         self.creerMur(cell.row, cell.col)
 
         self.creerChar(6,6,0,Vec3(0.1,0.1,0.1))
         self.creerChar(3,3,1,Vec3(0.9,0.9,0.9))
 
+        #Dans la carte par défaut, des items vont appraître constamment entre 10 et 20 secondes d'interval
+        self.genererItemParInterval(10,20)
+
+    #Une map par défaut quelconque
+    def creerCarteParDefaut(self):
+        self.creerMur(4,5)
+        self.creerMur(5,4)
+        self.creerMurMobile(4,4)
+        self.creerMurMobile(5,5)
+
+        self.creerMur(8,2)
+        self.creerMur(9,9)
+        self.creerMur(8,3)
+        self.creerMur(8,4)
+
+        self.creerMur(2,8)
+        self.creerMur(3,8)
+        self.creerMur(4,8)
+
+        self.creerMur(1,2)
+        self.creerMur(1,1)
+        self.creerMur(2,1)
+        self.creerMurMobile(1,3, True)
+        self.creerMurMobile(3,1, False)
+
+        #Va avoir un item dès le départ
+        self.creerItemPositionHasard()
+
+        self.creerChar(6,6,0,Vec3(0.1,0.1,0.5))
+        self.creerChar(3,3,1,Vec3(0.9,0.5,0.9))
+
         #Dans la carte par défaut, des items vont appraître constamment
-        self.genererItemParInterval(4,8)
+        self.carte.genererItemParInterval(5,20)
 
     def construireDecor(self, camera):
         modele = loader.loadModel("../asset/Skybox/skybox")
@@ -81,10 +116,7 @@ class Carte(DirectObject.DirectObject):
         modele.set_compass();
         modele.reparentTo(camera)
 
-    def figeObjetImmobile(self):
-        self.noeudOptimisation.flattenStrong()
-
-    def construireBase(self):
+    def construirePlancher(self):
         #Optimisation... on attache les objets statiques au même noeud et on utiliser
         #la méthode flattenStrong() pour améliorer les performances.
         self.noeudOptimisation = NodePath('NoeudOptimisation')
@@ -102,7 +134,7 @@ class Carte(DirectObject.DirectObject):
         #Construction du plancher si on tombe
         #Un plan devrait marche mais j'ai un bug de collision en continu...
         shape = BulletBoxShape(Vec3(50,50,5))
-        node = BulletRigidBodyNode('Frontiere sol')
+        node = BulletRigidBodyNode('Frontfiere sol')
         node.addShape(shape)
         np = render.attachNewNode(node)
         np.setTag("EntiteTankem","LimiteJeu")
@@ -118,9 +150,6 @@ class Carte(DirectObject.DirectObject):
         HACK_VALUE = 0.02 #Optimisation de collision, les masques ne marchent pas
         np.setZ(-2.00 - HACK_VALUE)
         self.mondePhysique.attachRigidBody(node)
-
-    def postInitialisation(self):
-        self.construireUI()
 
     def placerSurGrille(self,noeud,positionX, positionY):
         # On place l'objet en calculant sa position sur la grille
@@ -172,26 +201,6 @@ class Carte(DirectObject.DirectObject):
     #####################################################
     #Création des différentes entités sur la carte
     #####################################################
-    def creerMur(self,positionX, positionY):
-        # On charge le modèles
-        modele = loader.loadModel("../asset/Wall/Wall")
-        #On fait les cubes à peine plus petits afin que rien ne collisionne
-        #Les groupes de collision ne fonctionnent pas alors on fait son possible... 
-        HACK_VALUE = 0.98
-        formeCollision = BulletBoxShape(Vec3(HACK_VALUE, HACK_VALUE, HACK_VALUE))
-        noeud = BulletRigidBodyNode('Mur' + str(positionX) + '_' + str(positionY))
-        decalagePosition = TransformState.makePos(Vec3(0,0,1))
-        noeud.addShape(formeCollision,decalagePosition)
-        noeudPhysique = render.attachNewNode(noeud)
-        modele.reparentTo(noeudPhysique)
-        noeudPhysique.node().setFriction(0.5)
-        noeudPhysique.node().setRestitution(0.5)
-        self.mondePhysique.attachRigidBody(noeud)
-
-        noeudPhysique.reparentTo(self.noeudOptimisation)
-        #On place le bloc sur la grille
-        self.placerSurGrille(noeudPhysique,positionX,positionY)
-        self.bloquerEndroitGrille(positionX,positionY,True)
 
     def creerItem(self, positionX, positionY, armeId):
         #L'index dans le tableau d'item coincide avec son
@@ -233,55 +242,68 @@ class Carte(DirectObject.DirectObject):
         #On le joue une fois et il se rappelera lui-même :-)
         sequenceCreation.start()
 
-    def creerMurMobile(self,positionX, positionY, mouvementInverse=False):
-        # On charge le modèles
-        modele = loader.loadModel("../asset/Wall/Wall")
-        formeCollision = BulletBoxShape(Vec3(1, 1, 1))
-        noeud = BulletRigidBodyNode('Mur-Mobile' + str(positionX) + '_' + str(positionY))
-        decalagePosition = TransformState.makePos(Vec3(0,0,1))
-        noeud.addShape(formeCollision,decalagePosition)
-        noeudPhysique = render.attachNewNode(noeud)
-        modele.reparentTo(noeudPhysique)
-        noeudPhysique.node().setFriction(0.5)
-        noeudPhysique.node().setRestitution(0.5)
-        #On va l'animer et il faut le dire au moteur de physique
-        #Ça évitera que la gravité s'applique
-        noeud.setKinematic(True)
-        self.mondePhysique.attachRigidBody(noeud)
-        noeudPhysique.reparentTo(render)
+    def creerMur(self,positionX, positionY, strAnimation = None):
+        mur = Wall(self.mondePhysique)
         #On place le bloc sur la grille
-        self.placerSurGrille(noeudPhysique,positionX,positionY)
+        self.placerSurGrille(mur.noeudPhysique,positionX,positionY)
         self.bloquerEndroitGrille(positionX,positionY,True)
 
-        positionActuelle = noeudPhysique.getPos()
+        if(strAnimation):
+            mur.animate(self.dictNoeudAnimation[strAnimation])        
+
+    def creerNoeudAnimationVerticale(self):
+        #Création d'un noeud vide
+        noeudAnimationCourrant = NodePath("AnimationMurVerticale")
         tempsMouvement = 0.8
-        blocPosInterval1 = LerpPosInterval( noeudPhysique,
+        blocPosInterval1 = LerpPosInterval( noeudAnimationCourrant,
                                             tempsMouvement,
-                                            positionActuelle + Vec3(0,0,-1.95),
-                                            startPos=positionActuelle)
-        blocPosInterval2 = LerpPosInterval( noeudPhysique,
+                                            Vec3(0,0,-1.95),
+                                            startPos=Vec3(0,0,0))
+        blocPosInterval2 = LerpPosInterval( noeudAnimationCourrant,
                                             tempsMouvement,
-                                            positionActuelle,
-                                            positionActuelle + Vec3(0,0,-1.95))
+                                            Vec3(0,0,0),
+                                            startPos=Vec3(0,0,-1.95))
         delai = Wait(1.2)
         # On créé une séquence pour bouger le bloc
         mouvementBloc = Sequence()
-        if(not mouvementInverse):
-            mouvementBloc = Sequence(   blocPosInterval1,
-                                        delai,
-                                        blocPosInterval2,
-                                        delai,
-                                        name="mouvement-bloc" + str(positionX) + '_' + str(positionY))
-
-        else:
-            mouvementBloc = Sequence(   blocPosInterval2,
-                                        delai,
-                                        blocPosInterval1,
-                                        delai,
-                                        name="mouvement-bloc-inverse" + str(positionX) + '_' + str(positionY))
-        
+        mouvementBloc = Sequence(   blocPosInterval1,
+                                    delai,
+                                    blocPosInterval2,
+                                    delai,
+                                    name="mouvement-bloc")
 
         mouvementBloc.loop()
+
+        noeudAnimationCourrant.reparentTo(render)
+        #Ajout dans le dicitonnaire de l'animation
+        self.dictNoeudAnimation["AnimationMurVerticale"] = noeudAnimationCourrant
+
+    def creerNoeudAnimationVerticaleInverse(self):
+        #Création d'un noeud vide
+        noeudAnimationCourrant = NodePath("AnimationMurVerticaleInverse")
+        tempsMouvement = 0.8
+        blocPosInterval1 = LerpPosInterval( noeudAnimationCourrant,
+                                            tempsMouvement,
+                                            Vec3(0,0,-1.95),
+                                            startPos=Vec3(0,0,0))
+        blocPosInterval2 = LerpPosInterval( noeudAnimationCourrant,
+                                            tempsMouvement,
+                                            Vec3(0,0,0),
+                                            startPos=Vec3(0,0,-1.95))
+        delai = Wait(1.2)
+        # On créé une séquence pour bouger le bloc
+        mouvementBloc = Sequence()
+        mouvementBloc = Sequence(   blocPosInterval2,
+                                    delai,
+                                    blocPosInterval1,
+                                    delai,
+                                    name="mouvement-bloc-inverse")
+        mouvementBloc.loop()
+
+        noeudAnimationCourrant.reparentTo(render)
+        #Ajout dans le dicitonnaire de l'animation
+        self.dictNoeudAnimation["AnimationMurVerticaleInverse"] = noeudAnimationCourrant
+
 
     def creerChar(self,positionX, positionY, identifiant, couleur):
         someTank = tank.Tank(identifiant,couleur,self.mondePhysique)
