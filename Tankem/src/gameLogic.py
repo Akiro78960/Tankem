@@ -128,7 +128,6 @@ class GameLogic():
 
     def callBackDebutPartie(self):
         #Quand le message d'introduction est terminé, on permet aux tanks de bouger
-        print("WTF")
         self.inputManager.debuterControle()
 
     #Mise à jour du moteur de physique

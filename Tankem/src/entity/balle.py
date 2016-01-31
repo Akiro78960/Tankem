@@ -45,7 +45,6 @@ class Balle(ShowBase):
         if(identifiantDetonateur == self.lanceurId):
             self.exploser()
 
-
     def exploser(self):
         if(self.etat == "actif"):
             self.etat = "explose"
@@ -165,20 +164,19 @@ class Balle(ShowBase):
         self.intervalExplosion(3.0)
 
     def lancerGuide(self, position, noeudCible):
-            #On ignore la direction du tank, on lance la balle dans les airs
-            self.lancer(position, Vec3(0,0,1),vitesseInitialeBalle=18)
+        #On ignore la direction du tank, on lance la balle dans les airs
+        self.lancer(position, Vec3(0,0,1),vitesseInitialeBalle=18)
 
-            #C'est un ange de la mort... on le colore rouge foncé!
-            self.modele.setColorScale(0.3,0,0.1,1)
+        #C'est un ange de la mort... on le colore rouge foncé!
+        self.modele.setColorScale(0.3,0,0.1,1)
 
-            #On créé ensuite une séquence pour le guidage automatique
-            attendre = Wait(0.65)
-            fonctionViser = Func(self.lancerSurCible, noeudCible)
-            self.sequenceMissileGuide = Sequence(attendre,fonctionViser)
-            self.sequenceMissileGuide.start()
+        #On créé ensuite une séquence pour le guidage automatique
+        attendre = Wait(0.65)
+        fonctionViser = Func(self.lancerSurCible, noeudCible)
+        self.sequenceMissileGuide = Sequence(attendre,fonctionViser)
+        self.sequenceMissileGuide.start()
 
     def lancerSurCible(self,noeudCible):
-
         #Calcul de la direction de la balle
         vecteurDifference = noeudCible.getPos() - self.noeudPhysique.getPos()
         vecteurDifference.normalize()

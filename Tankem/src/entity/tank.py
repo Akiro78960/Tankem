@@ -16,7 +16,7 @@ class Tank():
         self.pointDeVieMax = 200
         self.pointDeVie = self.pointDeVieMax
 
-        self.etat = "actif"
+        self.etat = "inactif"
         self.hackRecuperation = False
         self.couleur = couleur
 
@@ -24,7 +24,7 @@ class Tank():
 
         #Défini les armes de base
         self.armePrimaire = "Canon"
-        self.armeSecondaire = "Mitraillette"
+        self.armeSecondaire = "AucuneArme"
 
         self.identifiant = identifiant
         # On charge le modèles
@@ -60,8 +60,8 @@ class Tank():
         directionGauche = Vec3(-1,0,0)
         directionDroite = Vec3(1,0,0)
 
-        if(self.etat != "actif"):
-            return
+        #Devrait être plus simple, mais un il y a un bug si je laisse une touche enfoncée au départ
+        #On contounr le problème
 
         if(message == "avance"):
             self.speed += directionHaut
@@ -79,20 +79,20 @@ class Tank():
             self.speed += directionDroite
         elif(message == "tourne-droit-stop"):
             self.speed -= directionDroite
-        elif(message == "arme-primaire"):
+        #Le mouvement doit être directement bloqué à partir de la fonction
+        #traiteMouvement sous peine d'avoir un bug en commencant le jeu
+        if(self.etat != "actif"): 
+            return
+
+        if(message == "arme-primaire"):
             self.attaquer(self.armePrimaire)
         elif(message == "arme-secondaire"):
             self.attaquer(self.armeSecondaire)
         elif(message == "exploser-balle"):
             messenger.send("detonateur-explosion", [self.identifiant])
 
-            #Todo
-            #Shotgun
-            #Ray
-            #Passthrough
-
     def attaquer(self, nomArme):
-        #Bloque le tir des balles
+        #Bloque le tir des balles si on est en train de recharger
         if(self.bloquerTir):
             return
 
@@ -133,6 +133,9 @@ class Tank():
         elif(nomArme == "Guide"):
             messenger.send("lancerGuide", [self.identifiant,self.noeudPhysique.getPos() + hauteurGrenade, directionQuePointeLeTank])
             delaiArme = 3.0
+        elif(nomArme == "Spring"):
+            self.jump()
+            delaiArme = 0.5
         elif(nomArme == "AucuneArme"):
             #Ne fais rien
             pass
@@ -148,6 +151,13 @@ class Tank():
 
     def debloquerTir(self):
         self.bloquerTir = False
+
+    def jump(self):
+        self.playerNode.setMaxJumpHeight(0.1)
+        self.playerNode.setJumpSpeed(10)
+        self.playerNode.setGravity(40)
+        self.playerNode.doJump()
+        print "Jumping and stuff"
 
     def tombe(self, mondePhysique):
         self.elimineJoueur(mondePhysique)
@@ -188,7 +198,7 @@ class Tank():
         mondePhysique.attachRigidBody(explosionNoeud)
 
         mondePhysique.removeCharacter(self.playerNode)
-        self.playerNode = None        
+        self.playerNode = None
 
     def prendDommage(self, dommage, mondePhysique):
 
@@ -209,7 +219,7 @@ class Tank():
 
 
     def recupereItem(self, armeId):
-        #ATTENTION: pour une raison inconnue, la récupération de l'itme est détectée 2 fois...
+        #ATTENTION: pour une raison inconnue, la récupération de l'item est détectée 2 fois...
         #On fait un beau hack...
         if(not self.hackRecuperation):
             self.hackRecuperation = True
@@ -223,8 +233,9 @@ class Tank():
     def traiteMouvement(self):
         if (self.playerNode != None):
 
-            #Si on a aucun mouvement, on ne bouge pas le tank
-            if(self.speed.lengthSquared() < 0.2):
+            #Si on a un petit mouvement, on ne bouge pas le tank
+            #OU que le tank n'est pas actif
+            if(self.speed.lengthSquared() < 0.2 or self.etat != "actif"):
                 self.playerNode.setLinearMovement(0.0, False)
                 self.playerNode.setAngularMovement(0.0)
             else:
@@ -234,11 +245,9 @@ class Tank():
                 vitesseAvancer = 7
                 vitesseMaxTourner = 1500
                 #On bouge le joueur dans la bonne direction
-                #TODO: Renormalize le vecteur pour ne pas avoir un bug comme le Quake 3
-                #qui nous permettrait de bouger en diagonal
+                #Renormalize le vecteur pour ne pas avoir un bug comme le Quake 3
+                #qui nous permettrait de bouger en diagonal rapidement
                 self.playerNode.setLinearMovement(speedCopy * vitesseAvancer, False)
-
-
 
                 #Cacul un vectoriel pour tourner le tank quand on bouge
                 #C'est plutôt complexe. On se base sur la théorie du pilotage

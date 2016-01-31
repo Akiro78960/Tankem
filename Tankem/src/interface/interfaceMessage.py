@@ -62,23 +62,22 @@ class InterfaceMessage(ShowBase):
         sequence.start()
 
     def displayGameOver(self, idPerdant):
-        joueurGagnant = 1
-        if(idPerdant == 1):
-            joueurGagnant = 2
+        joueurGagnant = 1 if idPerdant == 1 else 2
 
-        message = "Kaboom! \n Joueur "+ str(joueurGagnant) + " a gagné!"
+        message = "Boom! \n Joueur "+ str(joueurGagnant) + " a gagné!"
         startScale = 0.3
 
-        text = TextNode('Fin de partie')
+        text = TextNode('Annonce game over')
         text.setText(message)
         textNodePath = aspect2d.attachNewNode(text)
         textNodePath.setScale(startScale)
+        textNodePath.setColorScale(LVecBase4(1,1,1,0))
         text.setShadow(0.05, 0.05)
         text.setShadowColor(0, 0, 0, 1)
-        text.setTextColor(0.5, 0.5, 1, 1)
+        text.setTextColor(0.01, 0.2, 0.7, 1)
         text.setAlign(TextNode.ACenter)
 
-        delai = Wait(1.0)
+        delai = Wait(0.5)
         effetFadeIn = LerpColorScaleInterval(textNodePath, 1, LVecBase4(1,1,1,1), LVecBase4(1,1,1,0), blendType = 'easeIn')
 
         sequence = Sequence(delai,effetFadeIn)

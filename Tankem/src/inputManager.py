@@ -12,7 +12,6 @@ class InputManager(ShowBase):
         self.accept('f1', self.toggleDebogue)
         self.accept('f2', self.toggleFreeCam)
 
-    def debuterControle(self):
         #Faisable avec une liste de dictionnaire ce qui donnera la moitié moins de ligne,
         #mais on garde ça simple. Laissé en exercise plus tard?
         CTRL_P1_AVANCE = "w"
@@ -61,36 +60,13 @@ class InputManager(ShowBase):
         self.accept(CTRL_P2_SECONDAIRE, self.relaiControle, [1,"arme-secondaire"])
         self.accept(CTRL_P2_DETONATION, self.relaiControle, [1,"exploser-balle"])
 
+    def debuterControle(self):
+        for unTank in self.listTank:
+            unTank.etat = "actif"
+
     def bloquerControle(self):
-        #Joueur 1
-        self.ignore(CTRL_P1_AVANCE)
-        self.ignore(CTRL_P1_AVANCE)
-        self.ignore(CTRL_P1_AVANCE + "-up")
-        self.ignore(CTRL_P1_AVANCE + "-up")
-
-        self.ignore(CTRL_P1_GAUCHE)
-        self.ignore(CTRL_P1_DROITE)
-        self.ignore(CTRL_P1_GAUCHE + "-up")
-        self.ignore(CTRL_P1_DROITE + "-up")
-
-        self.ignore(CTRL_P1_PRIMAIRE)
-        self.ignore(CTRL_P1_SECONDAIRE)
-        self.ignore(CTRL_P1_DETONATION)
-
-        #Joueur 2
-        self.ignore(CTRL_P2_AVANCE)
-        self.ignore(CTRL_P2_AVANCE)
-        self.ignore(CTRL_P2_AVANCE + "-up")
-        self.ignore(CTRL_P2_AVANCE + "-up")
-
-        self.ignore(CTRL_P2_GAUCHE)
-        self.ignore(CTRL_P2_DROITE)
-        self.ignore(CTRL_P2_GAUCHE + "-up")
-        self.ignore(CTRL_P2_DROITE + "-up")
-
-        self.ignore(CTRL_P2_PRIMAIRE)
-        self.ignore(CTRL_P2_SECONDAIRE)
-        self.ignore(CTRL_P2_DETONATION)
+        for unTank in self.listTank:
+            unTank.etat = "inactif"
 
     def relaiControle(self, identifiant, message):
         self.listTank[identifiant].traiterCommande(message)

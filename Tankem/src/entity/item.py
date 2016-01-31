@@ -38,6 +38,8 @@ class Item(ShowBase):
             nomTexture = "../asset/Arme/Piege.png"
         elif(self.armeId == "Guide"):
             nomTexture = "../asset/Arme/Homing.png"
+        elif(self.armeId == "Spring"):
+            nomTexture = "../asset/Arme/Spring.png"
         elif(self.armeId == "Mitraillette"):
             pass #Déjà défini par défaut
 
