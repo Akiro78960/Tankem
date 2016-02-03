@@ -123,9 +123,10 @@ class Tank():
             delaiArme = 0.8
         elif(nomArme == "Shotgun"):
             messenger.send("tirerShotgun", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon + directionQuePointeLeTank * distanceCanon, directionQuePointeLeTank])
-            directionDroiteDiagonale = directionQuePointeLeTank + directionQuePointeLeTank + directionDroite
+            ouvertureFusil = 0.4
+            directionDroiteDiagonale = directionQuePointeLeTank + directionQuePointeLeTank + directionDroite * ouvertureFusil
             directionDroiteDiagonale.normalize()
-            directionGaucheDiagonale = directionQuePointeLeTank + directionQuePointeLeTank + directionGauche
+            directionGaucheDiagonale = directionQuePointeLeTank + directionQuePointeLeTank + directionGauche * ouvertureFusil
             directionGaucheDiagonale.normalize()
             messenger.send("tirerShotgun", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon + directionDroiteDiagonale * distanceCanon, directionDroiteDiagonale])
             messenger.send("tirerShotgun", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon + directionGaucheDiagonale * distanceCanon, directionGaucheDiagonale])

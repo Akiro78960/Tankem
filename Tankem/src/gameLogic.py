@@ -40,6 +40,15 @@ class GameLogic(ShowBase):
         #en faisant un seul gros noeud avec
         self.map.figeObjetImmobile()
 
+        #DEBUG: Décommenter pour affiche la hiérarchie
+        #self.pandaBase.startDirect()
+
+    def startGame(self):
+        #On démarrer l'effet du compte à rebour.
+        #La fonction callBackDebutPartie sera appelée à la fin
+        self.interfaceMessage.effectCountDownStart(3,self.callBackDebutPartie)
+        self.interfaceMessage.effectMessageGeneral("Appuyer sur F1 pour l'aide",3)
+
     def setupBulletPhysics(self):
         debugNode = BulletDebugNode('Debug')
         debugNode.showWireframe(True)
@@ -123,11 +132,6 @@ class GameLogic(ShowBase):
         self.interfaceTank.append(InterfaceTank(1,self.map.listTank[1].couleur))
 
         self.interfaceMessage = InterfaceMessage()
-
-    def startGame(self):
-        #On démarrer l'effet du compte à rebour.
-        #La fonction callBackDebutPartie sera appelée à la fin
-        self.interfaceMessage.effectCountDownStart(3,self.callBackDebutPartie)
 
     def callBackDebutPartie(self):
         #Quand le message d'introduction est terminé, on permet aux tanks de bouger

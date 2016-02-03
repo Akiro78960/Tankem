@@ -35,6 +35,7 @@ class Map(DirectObject.DirectObject):
         #Dictionnaire qui contient des noeuds animés.
         #On pourra attacher les objets de notre choix à animer
         self.dictNoeudAnimation = {}
+        self.creerNoeudAnimationImmobile() #Pour être consistant, on créé une animation... qui ne bouge pas
         self.creerNoeudAnimationVerticale() #Animation des blocs qui bougent verticalement
         self.creerNoeudAnimationVerticaleInverse() #Idem, mais décalé
 
@@ -74,7 +75,7 @@ class Map(DirectObject.DirectObject):
                     if(typeMur <= 1):
                         self.creerMur(cell.row, cell.col, "AnimationMurVerticale" if typeMur == 1 else "AnimationMurVerticaleInverse")
                     else:
-                        self.creerMur(cell.row, cell.col)
+                        self.creerMur(cell.row, cell.col,"AnimationMurImmobile")
 
         self.creerChar(6,6,0,Vec3(0.1,0.1,0.1)) #Char noir
         self.creerChar(3,3,1,Vec3(0.6,0.6,0.5)) #Char gris-jaune
@@ -261,7 +262,12 @@ class Map(DirectObject.DirectObject):
         self.bloquerEndroitGrille(positionX,positionY,True)
 
         if(strAnimation):
-            mur.animate(self.dictNoeudAnimation[strAnimation])        
+            mur.animate(self.dictNoeudAnimation[strAnimation])
+
+    def creerNoeudAnimationImmobile(self):
+        noeudAnimationCourrant = NodePath("AnimationMurImmobile")
+        self.dictNoeudAnimation["AnimationMurImmobile"] = noeudAnimationCourrant
+        noeudAnimationCourrant.reparentTo(render)
 
     def creerNoeudAnimationVerticale(self):
         #Création d'un noeud vide

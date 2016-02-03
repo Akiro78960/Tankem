@@ -62,7 +62,8 @@ class Balle(ShowBase):
             self.noeudPhysique.node().setKinematic(True)
 
             self.modele.setTransparency(TransparencyAttrib.MAlpha)
-            intervalPhysique = LerpScaleInterval(self.noeudPhysique, 0.2, 8.0, 1.0)
+            grosseurScaleFinal = 8.0
+            intervalPhysique = LerpScaleInterval(self.noeudPhysique, 0.2, grosseurScaleFinal, 1.0)
             intervalCouleur = LerpColorScaleInterval(self.modele,0.3,LVecBase4(0.8,0.2,0.2,0),self.modele.getColorScale())
             fonctionDetruire = Func(self.destroy)
             self.sequenceDetruire = Sequence(intervalCouleur,fonctionDetruire)
@@ -115,7 +116,7 @@ class Balle(ShowBase):
         self.noeudPhysique.node().setLinearDamping(0.0)
         self.noeudPhysique.node().setFriction(0.0)
         self.noeudPhysique.node().setRestitution(2.0)
-        vitesseBalle = random.uniform(10,16)
+        vitesseBalle = 13
         self.noeudPhysique.node().applyCentralImpulse(direction * vitesseBalle)
         self.mondePhysique.attachRigidBody(self.noeudPhysique.node())
 
@@ -131,7 +132,7 @@ class Balle(ShowBase):
         self.noeudPhysique.node().setLinearDamping(0.7)
         self.noeudPhysique.node().setFriction(0.7)
         self.noeudPhysique.node().setRestitution(0.0)
-        vitesseBalle = 1
+        vitesseBalle = 4
         self.noeudPhysique.node().applyCentralImpulse(direction * vitesseBalle)
         self.mondePhysique.attachRigidBody(self.noeudPhysique.node())
 
@@ -140,7 +141,7 @@ class Balle(ShowBase):
     def appliquerForce(self):
         self.noeudPhysique.node().applyCentralForce(self.forceApplique)
 
-    def lancer(self, position, direction, vitesseInitialeBalle=15):
+    def lancer(self, position, direction, vitesseInitialeBalle=16):
         self.etat = "actif"
 
         self.modele.setColorScale(0.8,0.1,0.6,1)
@@ -180,7 +181,8 @@ class Balle(ShowBase):
         #Calcul de la direction de la balle
         vecteurDifference = noeudCible.getPos() - self.noeudPhysique.getPos()
         vecteurDifference.normalize()
-        self.noeudPhysique.node().setLinearVelocity(vecteurDifference * 30)
+        vitesseInitialeBalle = 30
+        self.noeudPhysique.node().setLinearVelocity(vecteurDifference * vitesseInitialeBalle)
 
 
     def intervalExplosion(self, delai):

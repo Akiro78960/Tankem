@@ -94,4 +94,4 @@ class InputManager(ShowBase):
             self.pandaBase.disableMouse()
             #On doit réinitialiser la caméra
             messenger.send("initCam")
-            self.mouseEnabled = False   
+            self.mouseEnabled = False        
