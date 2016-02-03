@@ -1,7 +1,7 @@
-## -*- coding: utf-8 -*-
-import util
+# -*- coding: utf-8 -*-
+from util import *
 
-
+from direct.showbase.ShowBase import ShowBase
 from panda3d.core import *
 from panda3d.bullet import BulletWorld
 from panda3d.bullet import BulletPlaneShape
@@ -14,7 +14,7 @@ from inputManager import InputManager
 from interface import *
 
 #Classe qui gère les phases du jeu (Menu, début, pause, fin de partie)
-class GameLogic():
+class GameLogic(ShowBase):
     def __init__(self,pandaBase):
         self.pandaBase = pandaBase
         self.setup()
@@ -61,9 +61,11 @@ class GameLogic():
 
         #Le flag pour savoir si la souris est activée ou non n'est pas accessible
         #Petit fail de Panda3D
-        self.pandaBase.mouseEnabled = False
         taskMgr.add(self.updateCamera, "updateCamera")
+        self.setupTransformCamera()
 
+
+    def setupTransformCamera(self):
         #Défini la position et l'orientation de la caméra
         self.positionBaseCamera = Vec3(0,-18,32)
         camera.setPos(self.positionBaseCamera)
@@ -109,10 +111,11 @@ class GameLogic():
         #On doit activer l'ombre sur les modèles
         render.setShaderAuto()
 
-    def setupControle(self):
+    def setupControle(self,):
         #Créer le contrôle
         #A besoin de la liste de tank pour relayer correctement le contrôle
-        self.inputManager = InputManager(self.map.listTank)
+        self.inputManager = InputManager(self.map.listTank,self.debugNP,self.pandaBase)
+        self.accept("initCam",self.setupTransformCamera)
 
     def setupInterface(self):
         self.interfaceTank = []
@@ -133,7 +136,7 @@ class GameLogic():
     #Mise à jour du moteur de physique
     def updateCamera(self,task):
         #On ne touche pas à la caméra si on est en mode debug
-        if(self.pandaBase.mouseEnabled):
+        if(self.inputManager.mouseEnabled):
             return task.cont
 
         vecTotal = Vec3(0,0,0)

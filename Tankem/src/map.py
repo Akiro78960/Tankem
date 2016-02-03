@@ -57,22 +57,27 @@ class Map(DirectObject.DirectObject):
         self.noeudOptimisation.flattenStrong()
 
     def construireMapHasard(self):
+        #Utilisation du module de création au hasard
         maze = mazeUtil.MazeBuilder(self.map_nb_tuile_x, self.map_nb_tuile_y)
         maze.build()
         mazeArray = maze.refine(.75)
 
+        #Interprétation du résultat de l'algo
         for row in mazeArray:
             for cell in row:
                 if(cell.type == 1):
                     typeMur = random.randint(0, 5)
-                    #On créé parfois un mur mobile...
+                    #On créé des murs!
+                    #60% du temps un mur immobile
+                    #20% du temps un mur mobile
+                    #20% du temps un mur mobile inverse
                     if(typeMur <= 1):
                         self.creerMur(cell.row, cell.col, "AnimationMurVerticale" if typeMur == 1 else "AnimationMurVerticaleInverse")
                     else:
                         self.creerMur(cell.row, cell.col)
 
-        self.creerChar(6,6,0,Vec3(0.1,0.1,0.1))
-        self.creerChar(3,3,1,Vec3(0.9,0.9,0.9))
+        self.creerChar(6,6,0,Vec3(0.1,0.1,0.1)) #Char noir
+        self.creerChar(3,3,1,Vec3(0.6,0.6,0.5)) #Char gris-jaune
 
         #Dans la carte par défaut, des items vont appraître constamment entre 10 et 20 secondes d'interval
         self.genererItemParInterval(10,20)
@@ -114,6 +119,13 @@ class Map(DirectObject.DirectObject):
         modele.set_two_sided(True);
         modele.set_depth_write(False);
         modele.set_compass();
+        verticalRandomAngle = random.randint(0,45)
+        modele.setHpr(0,verticalRandomAngle,-90)
+        randomGrayScale = random.uniform(0.6,1.2)
+        semiRandomColor = Vec4(randomGrayScale,randomGrayScale,randomGrayScale,1)
+        modele.setColorScale(semiRandomColor)
+        modele.setPos(0,0,0.5)
+        #Et oui! Le ciel est parenté à la caméra!
         modele.reparentTo(camera)
 
     def construirePlancher(self):

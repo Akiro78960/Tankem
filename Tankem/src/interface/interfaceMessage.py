@@ -13,6 +13,11 @@ class InterfaceMessage(ShowBase):
         self.accept("tankElimine",self.displayGameOver)
         self.callBackFunction = None
 
+        self.accept("showHelp",self.displayHelp)
+
+        self.createHelpText()
+        self.displayHelp(False)
+
     def effectCountDownStart(self,nombre,callbackFunction):
         self.callBackFunction = callbackFunction
         self.displayCountDown(nombre)
@@ -82,3 +87,34 @@ class InterfaceMessage(ShowBase):
 
         sequence = Sequence(delai,effetFadeIn)
         sequence.start()
+
+    def displayHelp(self,mustShow):
+        self.textNodePath.show() if mustShow else self.textNodePath.hide()
+
+    def createHelpText(self):
+        #TODO: touches sont dupliquées dans le inputManager et ici. On doit centraliser
+        message = """Contrôle\n
+        Contrôle avec la souris: F2\n
+        ----Joueur 1----\n
+        Bouger: wasd\n
+        Tirer arme principale: v\n
+        Tirer arme secondaire: b\n
+        Détonation des balles: b\n
+        \n
+        ----Joueur 2----\n
+        Bouger: flèches\n
+        Tirer arme principale: NumPad-1\n
+        Tirer arme secondaire: NumPad-2\n
+        Détonation des balles: NumPad-3\n\n
+        """
+
+        text = TextNode('Aide')
+        text.setText(message)
+        self.textNodePath = aspect2d.attachNewNode(text)
+        self.textNodePath.setScale(0.055)
+        self.textNodePath.setColorScale(LVecBase4(1,1,1,1))
+        text.setShadow(0.05, 0.05)
+        text.setShadowColor(0, 0, 0, 1)
+        text.setTextColor(0.01, 0.2, 0.1, 1)
+        text.setAlign(TextNode.ALeft)
+        self.textNodePath.setPos(Vec3(-1.65,0,0.65))

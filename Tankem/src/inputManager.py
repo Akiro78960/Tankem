@@ -4,8 +4,12 @@ import sys
 from direct.showbase.ShowBase import ShowBase
 
 class InputManager(ShowBase):
-    def __init__(self, listTank):
+    def __init__(self, listTank, debugNode, pandaBase):
 
+        self.mouseEnabled = False
+
+        self.pandaBase = pandaBase
+        self.debugNP = debugNode
         self.listTank = listTank
         #Contrôle de débug
         self.accept("escape", sys.exit)
@@ -76,15 +80,18 @@ class InputManager(ShowBase):
         if self.debugNP.isHidden():
             self.debugNP.show()
             base.setFrameRateMeter(True)
+            messenger.send("showHelp",[True])
         else:
             self.debugNP.hide()
             base.setFrameRateMeter(False)
+            messenger.send("showHelp",[False])
 
     def toggleFreeCam(self):
         if(not self.mouseEnabled):
-            self.enableMouse()
+            self.pandaBase.enableMouse()
             self.mouseEnabled = True
         else:
-            self.disableMouse()
-            self.placerCameraInitiale()
+            self.pandaBase.disableMouse()
+            #On doit réinitialiser la caméra
+            messenger.send("initCam")
             self.mouseEnabled = False   
