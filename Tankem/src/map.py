@@ -224,7 +224,7 @@ class Map(DirectObject.DirectObject):
         self.placerSurGrille(itemCourrant.noeudPhysique,positionX,positionY)
 
     def creerItemHasard(self, positionX, positionY):
-        listeItem = ["Mitraillette", "Shotgun", "Piege", "Grenade", "Guide"]
+        listeItem = ["Mitraillette", "Shotgun", "Piege", "Grenade", "Guide","Spring"]
         itemHasard = random.choice(listeItem)
         self.creerItem(positionX, positionY,itemHasard)
 
