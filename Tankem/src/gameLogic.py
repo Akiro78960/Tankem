@@ -41,7 +41,7 @@ class GameLogic(ShowBase):
         self.map.figeObjetImmobile()
 
         #DEBUG: Décommenter pour affiche la hiérarchie
-        #self.pandaBase.startDirect()
+        self.pandaBase.startDirect()
 
     def startGame(self):
         #On démarrer l'effet du compte à rebour.
