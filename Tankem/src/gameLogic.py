@@ -17,7 +17,7 @@ from interface import *
 class GameLogic(ShowBase):
     def __init__(self,pandaBase):
         self.pandaBase = pandaBase
-        self.setup()
+        self.accept("DemarrerPartie",self.startGame)
 
     def setup(self):
         self.setupBulletPhysics()
@@ -41,9 +41,12 @@ class GameLogic(ShowBase):
         self.map.figeObjetImmobile()
 
         #DEBUG: Décommenter pour affiche la hiérarchie
-        self.pandaBase.startDirect()
+        #self.pandaBase.startDirect()
+
+        messenger.send("ChargementTermine")
 
     def startGame(self):
+        self.setup()
         #On démarrer l'effet du compte à rebour.
         #La fonction callBackDebutPartie sera appelée à la fin
         self.interfaceMessage.effectCountDownStart(3,self.callBackDebutPartie)
