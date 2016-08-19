@@ -202,7 +202,6 @@ class Tank():
         self.playerNode = None
 
     def prendDommage(self, dommage, mondePhysique):
-
         #Chaque collision détectée nous fait perdre un point de vie
         self.changerPointDeVie(self.pointDeVie - dommage)
         self.modele.setColorScale(self.couleur.getX(),self.couleur.getY(),self.couleur.getZ(),1)
@@ -231,7 +230,8 @@ class Tank():
             #Assigne une nouvelle arme à l'arme secondaire
             self.armeSecondaire = armeId
 
-    def traiteMouvement(self):
+    def traiteMouvement(self,tempsTot):
+        
         if (self.playerNode != None):
 
             #Si on a un petit mouvement, on ne bouge pas le tank

@@ -386,6 +386,6 @@ class Map(DirectObject.DirectObject):
         return retour
 
     #On met à jour ce qui est nécessaire de mettre à jour
-    def update(self):
+    def update(self,tempsTot):
         for tank in self.listTank:
-            tank.traiteMouvement()
+            tank.traiteMouvement(tempsTot)

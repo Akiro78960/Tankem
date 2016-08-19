@@ -172,5 +172,6 @@ class GameLogic(ShowBase):
         return task.cont
 
     def updateCarte(self,task):
-        self.map.update()
+        print task.time
+        self.map.update(task.time)
         return task.cont
