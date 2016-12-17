@@ -14,10 +14,11 @@ class Item(ShowBase):
     #tout en les comptants
     compteItem = 0
 
-    def __init__(self, armeId, mondePhysique):
+    def __init__(self, armeId, mondePhysique, cleanUpFunc):
         self.mondePhysique = mondePhysique
         self.armeId = armeId
         self.etat = "actif"
+        self.cleanUpFunction = cleanUpFunc
 
         #Attribut un identifiant unique et augmente le compte
         #Manière simple d'avoir un ID unique et de trouver l'objet dans l'index
@@ -96,9 +97,10 @@ class Item(ShowBase):
 
             #Arrêt de la sequence de destruction automatique
             if hasattr(self, 'sequenceDetruireDelai'):
-               self.sequenceDetruireDelai.finish()
+               self.sequenceDetruireDelai.pause()
 
-            self.mondePhysique.removeRigidBody(self.noeudPhysique.node())
+            if(self.noeudPhysique.node() is not None):
+                self.mondePhysique.removeRigidBody(self.noeudPhysique.node())
             #Effet de récupération
             self.modele.setTransparency(TransparencyAttrib.MAlpha)
             intervalCouleur = LerpColorScaleInterval(self.modele,0.3,LVecBase4(1,1,1,0),self.modele.getColorScale())
@@ -110,7 +112,7 @@ class Item(ShowBase):
             self.sequenceDetruire.start()
 
     def destroy(self):
-        if(self.etat == "recupere"):
+        if(self.etat == "detruit"):
             return
 
         self.etat = "detruit"
@@ -125,6 +127,11 @@ class Item(ShowBase):
         if hasattr(self, 'rotationItem'):
             self.rotationItem.finish()
 
-        self.mondePhysique.removeRigidBody(self.noeudPhysique.node())
-        self.noeudPhysique.removeNode()
-        self.modele.removeNode()
+        self.cleanUpFunction()
+        #Ce code (ou celui dans recuperer) genere un warning dans bullet :-(
+
+        if(self.noeudPhysique.node() is not None):
+            self.mondePhysique.removeRigidBody(self.noeudPhysique.node())
+            self.noeudPhysique.removeNode()
+        if(self.modele.node() is not None):
+            self.modele.removeNode()

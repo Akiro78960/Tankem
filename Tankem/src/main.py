@@ -27,11 +27,11 @@ class Tankem(ShowBase):
         self.gameLogic = GameLogic(self)
         #Commenter/décommenter la ligne de votre choix pour démarrer le jeu
         #Démarre dans le menu
-        self.menuPrincipal = InterfaceMenuPrincipal()
+        #self.menuPrincipal = InterfaceMenuPrincipal()
         #Démarre directement dans le jeu
-        #messenger.send("DemarrerPartie")
+        messenger.send("DemarrerPartie")
 
 
-#Main de l'application.. assez simple!
+#Main de l'application.. assez simple!w
 app = Tankem()
 app.run()

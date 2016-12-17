@@ -158,23 +158,21 @@ class Tank():
         self.playerNode.setJumpSpeed(10)
         self.playerNode.setGravity(40)
         self.playerNode.doJump()
-        print "Jumping and stuff"
+        #print "Jumping and stuff"
 
     def tombe(self, mondePhysique):
         self.elimineJoueur(mondePhysique)
 
         #On le fait tourner un peu
         self.noeudPhysiqueExplosion.node().applyTorqueImpulse(YUp * 1)
-
         #On le laisse tomber :-D On désactive la collision avec le plancher
         self.noeudPhysiqueExplosion.setCollideMask(BitMask32.allOff())
+
 
     def explose(self, mondePhysique):
         self.elimineJoueur(mondePhysique)
         #On lui donne une petite poussé car c'est drôle!
         self.noeudPhysiqueExplosion.node().applyImpulse(ZUp * 5,Point3(-0.5,-0.5,0))
-
-        messenger.send("tankElimine", [self.identifiant])
 
     def elimineJoueur(self, mondePhysique):
         if(self.etat != "actif"):
@@ -200,6 +198,7 @@ class Tank():
 
         mondePhysique.removeCharacter(self.playerNode)
         self.playerNode = None
+        messenger.send("tankElimine", [self.identifiant])
 
     def prendDommage(self, dommage, mondePhysique):
         #Chaque collision détectée nous fait perdre un point de vie

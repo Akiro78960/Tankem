@@ -19,9 +19,10 @@ class Map(DirectObject.DirectObject):
         self.mondePhysique = mondePhysique
 
         #initialisation des constantes utiles
-        self.map_nb_tuile_x = 10
-        self.map_nb_tuile_y = 10
+        self.map_nb_tuile_x = 25
+        self.map_nb_tuile_y = 8
         self.map_grosseur_carre = 2.0 #dimension d'un carré
+        self.map_petite_valeur_carre = 0.05 #Afin de contourner des problèmes d'affichage, on va parfois décaler les carrés/animations d'une petite valeur. Par exmeple, on ne veut pas que les cubes animés passent dans le plancher.
 
         #On veut que le monde soit centré. On calcul donc le décalage nécessaire des tuiles
         self.position_depart_x = - self.map_grosseur_carre * self.map_nb_tuile_x / 2.0
@@ -41,7 +42,7 @@ class Map(DirectObject.DirectObject):
 
         #Initialise le contenu vide la carte
         #On y mettra les id selon ce qu'on met
-        self.endroitDisponible = [[True for x in range(self.map_nb_tuile_x)] for x in range(self.map_nb_tuile_y)]
+        self.endroitDisponible = [[True for x in range(self.map_nb_tuile_y)] for x in range(self.map_nb_tuile_x)]
 
         #Message qui permettent la création d'objets pendant la partie
         self.accept("tirerCanon",self.tirerCanon)
@@ -51,7 +52,8 @@ class Map(DirectObject.DirectObject):
         self.accept("deposerPiege",self.deposerPiege)
         self.accept("tirerShotgun",self.tirerShotgun)
 
-    def bloquerEndroitGrille(self,i,j,doitBloquer):
+    def libererEndroitGrille(self,i,j,doitBloquer):
+        #print "bloque " + str(i) + " " + str(j)
         self.endroitDisponible[i][j] = doitBloquer
 
     def figeObjetImmobile(self):
@@ -59,7 +61,8 @@ class Map(DirectObject.DirectObject):
 
     def construireMapHasard(self):
         #Utilisation du module de création au hasard
-        maze = mazeUtil.MazeBuilder(self.map_nb_tuile_x, self.map_nb_tuile_y)
+        #Le module a un x et y inversé!
+        maze = mazeUtil.MazeBuilder(self.map_nb_tuile_y, self.map_nb_tuile_x)
         maze.build()
         mazeArray = maze.refine(.75)
 
@@ -81,38 +84,7 @@ class Map(DirectObject.DirectObject):
         self.creerChar(3,3,1,Vec3(0.6,0.6,0.5)) #Char gris-jaune
 
         #Dans la carte par défaut, des items vont appraître constamment entre 10 et 20 secondes d'interval
-        self.genererItemParInterval(10,20)
-
-    #Une map par défaut quelconque
-    def creerCarteParDefaut(self):
-        self.creerMur(4,5)
-        self.creerMur(5,4)
-        self.creerMurMobile(4,4)
-        self.creerMurMobile(5,5)
-
-        self.creerMur(8,2)
-        self.creerMur(9,9)
-        self.creerMur(8,3)
-        self.creerMur(8,4)
-
-        self.creerMur(2,8)
-        self.creerMur(3,8)
-        self.creerMur(4,8)
-
-        self.creerMur(1,2)
-        self.creerMur(1,1)
-        self.creerMur(2,1)
-        self.creerMurMobile(1,3, True)
-        self.creerMurMobile(3,1, False)
-
-        #Va avoir un item dès le départ
-        self.creerItemPositionHasard()
-
-        self.creerChar(6,6,0,Vec3(0.1,0.1,0.5))
-        self.creerChar(3,3,1,Vec3(0.9,0.5,0.9))
-
-        #Dans la carte par défaut, des items vont appraître constamment
-        self.carte.genererItemParInterval(5,20)
+        self.genererItemParInterval(0.1,0.1)
 
     def construireDecor(self, camera):
         modele = loader.loadModel("../asset/Skybox/skybox")
@@ -218,10 +190,11 @@ class Map(DirectObject.DirectObject):
     def creerItem(self, positionX, positionY, armeId):
         #L'index dans le tableau d'item coincide avec son
         #itemId. Ça va éviter une recherche inutile pendant l'éxécution
-        itemCourrant = item.Item(armeId,self.mondePhysique)
+        itemCourrant = item.Item(armeId,self.mondePhysique , lambda : self.libererEndroitGrille(positionX, positionY,True))
         self.listeItem.append(itemCourrant)
         #On place le tank sur la grille
         self.placerSurGrille(itemCourrant.noeudPhysique,positionX,positionY)
+        self.libererEndroitGrille(positionX, positionY,False)
 
     def creerItemHasard(self, positionX, positionY):
         listeItem = ["Mitraillette", "Shotgun", "Piege", "Grenade", "Guide","Spring"]
@@ -230,13 +203,13 @@ class Map(DirectObject.DirectObject):
 
     def creerItemPositionHasard(self):
         #Pas de do while en Python! Beurk...
-        randomX = random.randrange(0,self.map_nb_tuile_x-1)
-        randomY = random.randrange(0,self.map_nb_tuile_y-1)
+        randomX = random.randrange(0,self.map_nb_tuile_x)
+        randomY = random.randrange(0,self.map_nb_tuile_y)
 
         #Tant qu'on trouve pas d'endroit disponibles...
         while(not self.endroitDisponible[randomX][randomY]):
-            randomX = random.randrange(0,self.map_nb_tuile_x-1)
-            randomY = random.randrange(0,self.map_nb_tuile_y-1)
+            randomX = random.randrange(0,self.map_nb_tuile_x)
+            randomY = random.randrange(0,self.map_nb_tuile_y)
 
         #Quand c'est fait on met un item au hasard
         self.creerItemHasard(randomX,randomY)
@@ -259,7 +232,7 @@ class Map(DirectObject.DirectObject):
         mur = Wall(self.mondePhysique)
         #On place le bloc sur la grille
         self.placerSurGrille(mur.noeudPhysique,positionX,positionY)
-        self.bloquerEndroitGrille(positionX,positionY,True)
+        self.libererEndroitGrille(positionX,positionY,False)
 
         if(strAnimation):
             mur.animate(self.dictNoeudAnimation[strAnimation])
@@ -275,12 +248,12 @@ class Map(DirectObject.DirectObject):
         tempsMouvement = 0.8
         blocPosInterval1 = LerpPosInterval( noeudAnimationCourrant,
                                             tempsMouvement,
-                                            Vec3(0,0,-1.95),
+                                            Vec3(0,0,-self.map_grosseur_carre + self.map_petite_valeur_carre),
                                             startPos=Vec3(0,0,0))
         blocPosInterval2 = LerpPosInterval( noeudAnimationCourrant,
                                             tempsMouvement,
                                             Vec3(0,0,0),
-                                            startPos=Vec3(0,0,-1.95))
+                                            startPos=Vec3(0,0,-self.map_grosseur_carre + self.map_petite_valeur_carre))
         delai = Wait(1.2)
         # On créé une séquence pour bouger le bloc
         mouvementBloc = Sequence()
@@ -302,12 +275,12 @@ class Map(DirectObject.DirectObject):
         tempsMouvement = 0.8
         blocPosInterval1 = LerpPosInterval( noeudAnimationCourrant,
                                             tempsMouvement,
-                                            Vec3(0,0,-1.95),
+                                            Vec3(0,0,-self.map_grosseur_carre + self.map_petite_valeur_carre),
                                             startPos=Vec3(0,0,0))
         blocPosInterval2 = LerpPosInterval( noeudAnimationCourrant,
                                             tempsMouvement,
                                             Vec3(0,0,0),
-                                            startPos=Vec3(0,0,-1.95))
+                                            startPos=Vec3(0,0,-self.map_grosseur_carre + self.map_petite_valeur_carre))
         delai = Wait(1.2)
         # On créé une séquence pour bouger le bloc
         mouvementBloc = Sequence()

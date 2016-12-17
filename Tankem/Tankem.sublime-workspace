@@ -132,6 +132,7 @@
 			"settings":
 			{
 				"buffer_size": 12218,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
@@ -140,6 +141,7 @@
 			"settings":
 			{
 				"buffer_size": 7413,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
@@ -148,6 +150,7 @@
 			"settings":
 			{
 				"buffer_size": 16737,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
@@ -156,6 +159,7 @@
 			"settings":
 			{
 				"buffer_size": 6275,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -201,9 +205,7 @@
 	},
 	"expanded_folders":
 	[
-		"/J/MyPrep/TankemProf/Tankem",
-		"/J/MyPrep/TankemProf/Tankem/src",
-		"/J/MyPrep/TankemProf/Tankem/src/entity"
+		"/Y/MyPrep/Tankem/Tankem"
 	],
 	"file_history":
 	[
@@ -260,7 +262,7 @@
 	],
 	"find":
 	{
-		"height": 43.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -456,7 +458,9 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage"
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 6174.0,
@@ -484,7 +488,9 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage"
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 81.0,
@@ -506,16 +512,18 @@
 						"selection":
 						[
 							[
-								6909,
-								6909
+								13651,
+								13651
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage"
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4291.0,
+						"translation.y": 4201.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -540,7 +548,9 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage"
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 4385.0,
@@ -554,7 +564,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 37.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -598,11 +608,11 @@
 	{
 		"height": 124.0
 	},
-	"pinned_build_system": "TankemCegep",
+	"pinned_build_system": "Tankem",
 	"project": "Tankem.sublime-project",
 	"replace":
 	{
-		"height": 70.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
