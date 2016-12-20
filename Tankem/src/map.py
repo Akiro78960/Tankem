@@ -19,7 +19,7 @@ class Map(DirectObject.DirectObject):
         self.mondePhysique = mondePhysique
 
         #initialisation des constantes utiles
-        self.map_nb_tuile_x = 25
+        self.map_nb_tuile_x = 8
         self.map_nb_tuile_y = 8
         self.map_grosseur_carre = 2.0 #dimension d'un carré
         self.map_petite_valeur_carre = 0.05 #Afin de contourner des problèmes d'affichage, on va parfois décaler les carrés/animations d'une petite valeur. Par exmeple, on ne veut pas que les cubes animés passent dans le plancher.
@@ -84,7 +84,7 @@ class Map(DirectObject.DirectObject):
         self.creerChar(3,3,1,Vec3(0.6,0.6,0.5)) #Char gris-jaune
 
         #Dans la carte par défaut, des items vont appraître constamment entre 10 et 20 secondes d'interval
-        self.genererItemParInterval(0.1,0.1)
+        self.genererItemParInterval(3,8)
 
     def construireDecor(self, camera):
         modele = loader.loadModel("../asset/Skybox/skybox")
@@ -190,11 +190,12 @@ class Map(DirectObject.DirectObject):
     def creerItem(self, positionX, positionY, armeId):
         #L'index dans le tableau d'item coincide avec son
         #itemId. Ça va éviter une recherche inutile pendant l'éxécution
-        itemCourrant = item.Item(armeId,self.mondePhysique , lambda : self.libererEndroitGrille(positionX, positionY,True))
+        itemCourrant = item.Item()
         self.listeItem.append(itemCourrant)
         #On place le tank sur la grille
         self.placerSurGrille(itemCourrant.noeudPhysique,positionX,positionY)
         self.libererEndroitGrille(positionX, positionY,False)
+        itemCourrant.initialisationComplete(armeId,self.mondePhysique , lambda : self.libererEndroitGrille(positionX, positionY,True))
 
     def creerItemHasard(self, positionX, positionY):
         listeItem = ["Mitraillette", "Shotgun", "Piege", "Grenade", "Guide","Spring"]
@@ -322,6 +323,7 @@ class Map(DirectObject.DirectObject):
             if(itemID != -1):
                 #Avertit l'item et le tank de la récupération
                 itemCourrant = self.listeItem[itemID]
+                #print "détecte item touché!!!!"
                 itemCourrant.recupere()
                 self.listTank[indiceTank].recupereItem(itemCourrant.armeId)
                 return
@@ -340,7 +342,8 @@ class Map(DirectObject.DirectObject):
         tag1 = node1.getTag("EntiteTankem")
         retour = -1
         if(tag0 == "Tank" and tag1 == testEntite):
-           retour = node0.getTag("IdTank")
+            #print node1
+            retour = node0.getTag("IdTank")
 
         if(tag0 == testEntite and tag1 == "Tank"):
             retour = node1.getTag("IdTank")
