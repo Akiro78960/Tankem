@@ -5,8 +5,10 @@ import sys
 from panda3d.bullet import *
 from panda3d.core import *
 from direct.interval.IntervalGlobal import *
+from direct.particles.ParticleEffect import ParticleEffect
 import math
 
+#On doit faire que les particles sont dans les chemins... because reasons. Sinon elles ne marchent vraiment pas.
 
 class Tank():
     def __init__(self, identifiant,couleur,mondePhysique):
@@ -53,6 +55,42 @@ class Tank():
 
         self.noeudPhysique.setTag("EntiteTankem","Tank")
         self.noeudPhysique.setTag("IdTank",str( self.identifiant))
+
+
+        #with open("../asset/KoprakaParticle/testFire.json") as f:  
+        #    values=json.load(f)
+        # self.ptfFirstDamage=createEffect(values)
+        # self.ptfFirstDamage.setPos(Vec3(0,0,5))
+
+        # print "Création des particules"
+        # self.ptfFirstDamage.start(parent = self.playerNode, renderParent = render)
+
+
+        #UGLY HACK - Panda3D particle editor wants particle image to be in same file as python file
+        #NOT ON MY WATCH. I hacked the .ptf files with (example):
+        # p0.renderer.setTexture(loader.loadTexture('smoke.png'))
+        # to
+        # p0.renderer.setTexture(loader.loadTexture('../asset/Particle/smoke.png'))
+        # self.ptfFirstDamage = ParticleEffect()
+        # self.ptfFirstDamage.loadConfig("../asset/Particle/fireish.ptf")
+        # #Le système de particle est attaché au modèle MAIS les particules sont attachées au monde
+        # self.ptfFirstDamage.start(parent = self.modele, renderParent = render)
+
+        # intervalName = ParticleInterval(
+        #    self.ptfFirstDamage,
+        #    self.modele,
+        #    worldRelative = 1,
+        #    duration = 0.4
+        # )
+
+
+        # intervalDelai = Wait(0.4)
+        # sequenceCreation = Sequence(intervalName,
+        #                            intervalDelai,
+        #                            name="Feu")
+        # #On le joue une fois et il se rappelera lui-même :-)
+        # sequenceCreation.loop()
+
 
     def traiterCommande(self,message):
         directionHaut = Vec3(0,1,0)

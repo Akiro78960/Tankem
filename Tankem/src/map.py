@@ -19,8 +19,8 @@ class Map(DirectObject.DirectObject):
         self.mondePhysique = mondePhysique
 
         #initialisation des constantes utiles
-        self.map_nb_tuile_x = 8
-        self.map_nb_tuile_y = 8
+        self.map_nb_tuile_x = 10
+        self.map_nb_tuile_y = 10
         self.map_grosseur_carre = 2.0 #dimension d'un carré
         self.map_petite_valeur_carre = 0.05 #Afin de contourner des problèmes d'affichage, on va parfois décaler les carrés/animations d'une petite valeur. Par exmeple, on ne veut pas que les cubes animés passent dans le plancher.
 
@@ -39,6 +39,9 @@ class Map(DirectObject.DirectObject):
         self.creerNoeudAnimationImmobile() #Pour être consistant, on créé une animation... qui ne bouge pas
         self.creerNoeudAnimationVerticale() #Animation des blocs qui bougent verticalement
         self.creerNoeudAnimationVerticaleInverse() #Idem, mais décalé
+
+        #Création de l'objet qui génèrera des arbres pour nous
+        self.treeOMatic  = treeMaker.TreeOMatic()
 
         #Initialise le contenu vide la carte
         #On y mettra les id selon ce qu'on met
@@ -64,21 +67,27 @@ class Map(DirectObject.DirectObject):
         #Le module a un x et y inversé!
         maze = mazeUtil.MazeBuilder(self.map_nb_tuile_y, self.map_nb_tuile_x)
         maze.build()
-        mazeArray = maze.refine(.75)
+        mazeArray = maze.refine(.6)
 
         #Interprétation du résultat de l'algo
         for row in mazeArray:
             for cell in row:
                 if(cell.type == 1):
-                    typeMur = random.randint(0, 5)
-                    #On créé des murs!
-                    #60% du temps un mur immobile
-                    #20% du temps un mur mobile
-                    #20% du temps un mur mobile inverse
-                    if(typeMur <= 1):
-                        self.creerMur(cell.row, cell.col, "AnimationMurVerticale" if typeMur == 1 else "AnimationMurVerticaleInverse")
+                    typeMur = random.randint(0, 100)
+                    #On créé des éléments!
+                    #40% du temps un mur immobile (5% de chance d'avoir un arbre)
+                    #5% du temps un arbre seul
+                    #18% du temps un mur mobile (5% de chance d'avoir un arbre)
+                    #17% du temps un mur mobile inverse (5% de chance d'avoir un arbre)
+                    if(typeMur <= 40):
+                        noeudAnimationDuMur = "AnimationMurVerticale" if typeMur <= 20 else "AnimationMurVerticaleInverse"
+                        noeudAAttacher = None if random.randint(0, 20) != 0 else Arbre(self.mondePhysique,self.treeOMatic)
+                        self.creerMur(cell.row, cell.col, noeudAnimationDuMur, noeudAAttacher)
+                    elif(typeMur <= 45):
+                        self.creerArbre(cell.row, cell.col)
                     else:
-                        self.creerMur(cell.row, cell.col,"AnimationMurImmobile")
+                        noeudAAttacher = None if random.randint(0, 20) != 0 else Arbre(self.mondePhysique,self.treeOMatic)
+                        self.creerMur(cell.row, cell.col,"AnimationMurImmobile",noeudAAttacher)
 
         self.creerChar(6,6,0,Vec3(0.1,0.1,0.1)) #Char noir
         self.creerChar(3,3,1,Vec3(0.6,0.6,0.5)) #Char gris-jaune
@@ -229,14 +238,24 @@ class Map(DirectObject.DirectObject):
         #On le joue une fois et il se rappelera lui-même :-)
         sequenceCreation.start()
 
-    def creerMur(self,positionX, positionY, strAnimation = None):
+    def creerMur(self,positionX, positionY, strAnimation = None, appendObject = None):
         mur = Wall(self.mondePhysique)
         #On place le bloc sur la grille
+        if(appendObject != None):
+            #Décale l'objet de 1 unité pour être SUR le mur et non dedans
+            appendObject.noeudPhysique.setZ(appendObject.noeudPhysique.getZ() + 1.0)
+            appendObject.noeudPhysique.reparentTo(mur.noeudPhysique)
         self.placerSurGrille(mur.noeudPhysique,positionX,positionY)
         self.libererEndroitGrille(positionX,positionY,False)
 
         if(strAnimation):
             mur.animate(self.dictNoeudAnimation[strAnimation])
+
+    def creerArbre(self,positionX, positionY):
+        arbre = Arbre(self.mondePhysique,self.treeOMatic)
+        #On place le bloc sur la grille
+        self.placerSurGrille(arbre.noeudPhysique,positionX,positionY)
+        self.libererEndroitGrille(positionX,positionY,False)
 
     def creerNoeudAnimationImmobile(self):
         noeudAnimationCourrant = NodePath("AnimationMurImmobile")

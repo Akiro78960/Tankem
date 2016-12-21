@@ -2,16 +2,12 @@
 #Ajout des chemins vers les librarires
 from util import inclureCheminCegep
 import sys
-print(sys.path)
-
 
 #Importe la configuration de notre jeu
 from panda3d.core import loadPrcFile
 loadPrcFile("config/ConfigTankem.prc")
 
-
-
-#Module de Panda3D
+#Module de Panda3DappendObject
 from direct.showbase.ShowBase import ShowBase
 
 #Modules internes
@@ -31,7 +27,6 @@ class Tankem(ShowBase):
         #Démarre directement dans le jeu
         messenger.send("DemarrerPartie")
 
-
-#Main de l'application.. assez simple!w
+#Main de l'application.. assez simple!
 app = Tankem()
 app.run()

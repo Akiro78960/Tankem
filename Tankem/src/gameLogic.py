@@ -17,6 +17,7 @@ from interface import *
 class GameLogic(ShowBase):
     def __init__(self,pandaBase):
         self.pandaBase = pandaBase
+        self.pandaBase.enableParticles()
         self.accept("DemarrerPartie",self.startGame)
 
     def setup(self):
