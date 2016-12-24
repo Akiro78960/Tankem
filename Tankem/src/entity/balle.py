@@ -9,6 +9,8 @@ from panda3d.ai import *
 from direct.interval.IntervalGlobal import *
 import random
 
+from direct.particles.ParticleEffect import ParticleEffect
+
 class Balle(ShowBase):
 
     balleID = 0
@@ -41,6 +43,12 @@ class Balle(ShowBase):
         self.noeudPhysique.setTag("balleId",str(self.balleId))
         self.noeudPhysique.setTag("lanceurId",str(self.lanceurId))
 
+        self.pftExplosion = ParticleEffect()
+        self.pftExplosion.loadConfig("../asset/Particle/tankemExplode.ptf")
+
+        self.pftRacine = NodePath("Racine pfx expolision")
+        self.pftRacine.reparentTo(render)
+
     def detonateurDistance(self, identifiantDetonateur):
         if(identifiantDetonateur == self.lanceurId):
             self.exploser()
@@ -61,15 +69,19 @@ class Balle(ShowBase):
             #ne bougera pas
             self.noeudPhysique.node().setKinematic(True)
 
-            self.modele.setTransparency(TransparencyAttrib.MAlpha)
-            grosseurScaleFinal = 8.0
+            #self.modele.setTransparency(TransparencyAttrib.MAlpha)
+            grosseurScaleFinal = 10.0
+            self.modele.removeNode()
+
             intervalPhysique = LerpScaleInterval(self.noeudPhysique, 0.2, grosseurScaleFinal, 1.0)
-            intervalCouleur = LerpColorScaleInterval(self.modele,0.3,LVecBase4(0.8,0.2,0.2,0),self.modele.getColorScale())
+            #intervalCouleur = LerpColorScaleInterval(self.modele,0.3,LVecBase4(0.8,0.2,0.2,0),self.modele.getColorScale())
             fonctionDetruire = Func(self.destroy)
-            self.sequenceDetruire = Sequence(intervalCouleur,fonctionDetruire)
+            self.sequenceDetruire = Sequence(Wait(0.5),fonctionDetruire)
 
             intervalPhysique.start()
             self.sequenceDetruire.start()
+            self.pftRacine.setPos(self.noeudPhysique.getPos())
+            self.pftExplosion.start(parent = self.pftRacine, renderParent = self.pftRacine)
 
     def projetter(self, position, direction):
         self.etat = "actif"
@@ -194,8 +206,9 @@ class Balle(ShowBase):
 
     def destroy(self):
         self.etat = "Detruit"
+        self.pftExplosion.cleanup()
         self.mondePhysique.removeRigidBody(self.noeudPhysique.node())
         self.noeudPhysique.removeNode()
-        self.modele.removeNode()
+
         #Enlève l'écoute des messages
         self.ignoreAll()

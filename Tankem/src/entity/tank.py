@@ -56,41 +56,16 @@ class Tank():
         self.noeudPhysique.setTag("EntiteTankem","Tank")
         self.noeudPhysique.setTag("IdTank",str( self.identifiant))
 
-
-        #with open("../asset/KoprakaParticle/testFire.json") as f:  
-        #    values=json.load(f)
-        # self.ptfFirstDamage=createEffect(values)
-        # self.ptfFirstDamage.setPos(Vec3(0,0,5))
-
-        # print "Création des particules"
-        # self.ptfFirstDamage.start(parent = self.playerNode, renderParent = render)
-
-
         #UGLY HACK - Panda3D particle editor wants particle image to be in same file as python file
         #NOT ON MY WATCH. I hacked the .ptf files with (example):
         # p0.renderer.setTexture(loader.loadTexture('smoke.png'))
         # to
         # p0.renderer.setTexture(loader.loadTexture('../asset/Particle/smoke.png'))
-        # self.ptfFirstDamage = ParticleEffect()
-        # self.ptfFirstDamage.loadConfig("../asset/Particle/fireish.ptf")
-        # #Le système de particle est attaché au modèle MAIS les particules sont attachées au monde
-        # self.ptfFirstDamage.start(parent = self.modele, renderParent = render)
-
-        # intervalName = ParticleInterval(
-        #    self.ptfFirstDamage,
-        #    self.modele,
-        #    worldRelative = 1,
-        #    duration = 0.4
-        # )
-
-
-        # intervalDelai = Wait(0.4)
-        # sequenceCreation = Sequence(intervalName,
-        #                            intervalDelai,
-        #                            name="Feu")
-        # #On le joue une fois et il se rappelera lui-même :-)
-        # sequenceCreation.loop()
-
+        self.ptfDustTrail = ParticleEffect()
+        self.ptfDustTrail.loadConfig("../asset/Particle/tankemDust.ptf")
+        self.ptfDustTrail.start(parent = self.noeudPhysique, renderParent = render)
+        self.ptfDustTrail.softStop()
+        self.tracePoussiereActive = False
 
     def traiterCommande(self,message):
         directionHaut = Vec3(0,1,0)
@@ -192,8 +167,8 @@ class Tank():
         self.bloquerTir = False
 
     def jump(self):
-        self.playerNode.setMaxJumpHeight(0.1)
-        self.playerNode.setJumpSpeed(10)
+        self.playerNode.setMaxJumpHeight(1.1)
+        self.playerNode.setJumpSpeed(15)
         self.playerNode.setGravity(40)
         self.playerNode.doJump()
         #print "Jumping and stuff"
@@ -276,12 +251,16 @@ class Tank():
             if(self.speed.lengthSquared() < 0.2 or self.etat != "actif"):
                 self.playerNode.setLinearMovement(0.0, False)
                 self.playerNode.setAngularMovement(0.0)
+
+                if(self.tracePoussiereActive):
+                    self.ptfDustTrail.softStop()
+                    self.tracePoussiereActive = False
             else:
                 speedCopy = Vec3(self.speed)
                 speedCopy.normalize()
 
-                vitesseAvancer = 7
-                vitesseMaxTourner = 1500
+                vitesseAvancer = 10
+                vitesseMaxTourner = 1700
                 #On bouge le joueur dans la bonne direction
                 #Renormalize le vecteur pour ne pas avoir un bug comme le Quake 3
                 #qui nous permettrait de bouger en diagonal rapidement
@@ -319,3 +298,8 @@ class Tank():
                     vitesseTourner = 0.0
                     signeAngle = 0.0
                 self.playerNode.setAngularMovement(signeAngle * vitesseTourner)
+
+                if(not self.tracePoussiereActive):
+                    #Le système de particle est attaché au modèle MAIS les particules sont attachées au mondev
+                    self.ptfDustTrail.softStart()
+                    self.tracePoussiereActive = True
