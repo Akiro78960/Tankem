@@ -142,6 +142,7 @@ class GameLogic(ShowBase):
         self.inputManager.debuterControle()
 
     #Mise à jour du moteur de physique
+    #HAHAHA VOUS NE TROUVEREZ JAMAIS CETTE MODIF!!! -Nicolas
     def updateCamera(self,task):
         #On ne touche pas à la caméra si on est en mode debug
         if(self.inputManager.mouseEnabled):
