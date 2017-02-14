@@ -2,6 +2,7 @@
 #Ajout des chemins vers les librarires
 from util import inclureCheminCegep
 import sys
+#TEST
 
 #Importe la configuration de notre jeu
 from panda3d.core import loadPrcFile
