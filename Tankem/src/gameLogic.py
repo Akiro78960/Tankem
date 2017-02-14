@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
+<<<<<<< HEAD
 #fuck you too
+=======
+#Lolol fuck you clovis
+>>>>>>> f7ee784d691faec8eaaf9521048609895647c5ee
 from util import *
 
 from direct.showbase.ShowBase import ShowBase
