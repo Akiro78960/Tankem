@@ -2,6 +2,7 @@
 
 class DTObject():
 	def __init__(self):
+		#variable par defaut
 		self.vitesseChar = 7.0
 		self.vitesseRotChar = 1500.0
 		self.ptsVieChar = 200.0
@@ -27,6 +28,28 @@ class DTObject():
 		self.messComRebDuree = 3.0
 		self.messSigDebParContenu = "Sw4g"
 		self.messFinParContenu = "K1ll M3"
+
+	# Retourne true si la valeur ne respecte pas son min/max
+	def isBelowMin(self, value, min):
+		result = true 
+
+		if(min <= value):
+				result = false
+
+		return result
+
+	def isAboveMax(self, value, max):
+		result = true 
+
+		if(value <= max):
+				result = false
+
+		return result
+
+	# Retourne true is toutes les valeurs respectent leur min/max
+	def isBalanced(self):
+		if(self.isNotInRange(self.vitesseChar, 4.0, 12.0)):
+			print "La vitesse des chars ne respecte pas le min/max"
 
 # PARTI DE CODE POUR SE CONNECTER À LA DATABSE, DÉSOLÉ
 
