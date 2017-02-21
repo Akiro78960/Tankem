@@ -2,31 +2,31 @@
 
 class DTObject():
 	def __init__(self):
-		self.vitesseChar = 0
-		self.vitesseRotChar = 0
-		self.ptsVieChar = 0
-		self.tpsMovementBlocs = 0
-		self.canonVitBalle = 0
-		self.canonTpsRecharge = 0
-		self.mitVitBalle = 0
-		self.mitTpsRecharge = 0
-		self.grenVitInitballe = 0
-		self.grenTpsRecharge = 0
-		self.shotVitBalle = 0
-		self.shotTpsRecharge = 0
-		self.shotOuvFusil = 0
-		self.piegeVitBalle = 0
-		self.piegeTpsRecharge = 0
-		self.missVitGuiBalle = 0
-		self.missTpsRecharge = 0
-		self.sprVitInitSaut = 0
-		self.sprTpsRecharge = 0
-		self.grosExplosion = 0
-		self.messAccContenu = ""
-		self.messAccDuree = 0
-		self.messComRebDuree = 0
-		self.messSigDebParContenu = ""
-		self.messFinParContenu = ""
+		self.vitesseChar = 7.0
+		self.vitesseRotChar = 1500.0
+		self.ptsVieChar = 200.0
+		self.tpsMovementBlocs = 0.8
+		self.canonVitBalle = 14.0
+		self.canonTpsRecharge = 1.2
+		self.mitVitBalle = 18.0
+		self.mitTpsRecharge = 0.4
+		self.grenVitInitballe = 16.0
+		self.grenTpsRecharge = 0.8
+		self.shotVitBalle = 13.0
+		self.shotTpsRecharge = 1.8
+		self.shotOuvFusil = 0.4
+		self.piegeVitBalle = 1.0
+		self.piegeTpsRecharge = 0.8
+		self.missVitGuiBalle = 30.0
+		self.missTpsRecharge = 3.0
+		self.sprVitInitSaut = 10.0
+		self.sprTpsRecharge = 0.5
+		self.grosExplosion = 9.0
+		self.messAccContenu = "Yolo"
+		self.messAccDuree = 3.0
+		self.messComRebDuree = 3.0
+		self.messSigDebParContenu = "Sw4g"
+		self.messFinParContenu = "K1ll M3"
 
 # PARTI DE CODE POUR SE CONNECTER À LA DATABSE, DÉSOLÉ
 
