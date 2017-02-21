@@ -23,7 +23,7 @@
 			"pythonPath":"C:/LogicielsPortable/Panda3D-1.9.1-x64/python/python.exe",
 			"request": "launch",
 			"stopOnEntry": false,
-			"console": "none",
+			"console": "integratedTerminal",
 			"program": "${file}",
 			"cwd": "${workspaceRoot}",
 			"debugOptions": [

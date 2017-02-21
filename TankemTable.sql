@@ -1,13 +1,31 @@
 -- Mettre un commentaire
 -- Pour exécuter ce script dans sqlplus: start creationTable.sql (ou chemin relatif)
--- DROP TABLE test_cx_oracle;
+-- DROP TABLE tankem_values;
+-- DROP TABLE tankem_text;
 CREATE TABLE tankem_values(
 	id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
-	description VARCHAR2(200) UNIQUE,
-	valMin NUMBER NOT NULL,
-	valMax NUMBER NOT NULL,
-	defaut NUMBER NOT NULL,
-	current_value NUMBER NOT NULL
+	vitesse_char REAL NOT NULL CHECK (vitesse_char > 4 AND vitesse_char < 12 ),
+	vitesse_rotation REAL NOT NULL CHECK (vitesse_rotation > 1000 AND vitesse_rotation < 2000 ),
+	vie REAL NOT NULL CHECK (vie > 100 AND vie < 2000),
+	temps_mouvement_blocs REAL NOT NULL CHECK (temps_mouvement_blocs > 0.2 AND temps_mouvement_blocs < 2),
+	canon_vitesse_balle REAL NOT NULL CHECK (canon_vitesse_balle > 4 AND canon_vitesse_balle < 30),
+	canon_reload REAL NOT NULL CHECK (canon_reload > 0.2 AND canon_reload < 10),
+	mitraillette_vitesse_balle REAL NOT NULL CHECK (mitraillette_vitesse_balle > 4 AND mitraillette_vitesse_balle < 30),
+	mitraillette_reload REAL NOT NULL CHECK (mitraillette_reload > 0.2 AND mitraillette_reload < 10),
+	grenade_vitesse_balle REAL NOT NULL CHECK (grenade_vitesse_balle > 10 AND grenade_vitesse_balle < 25),
+	grenade_reload REAL NOT NULL CHECK (grenade_reload > 0.2 AND grenade_reload < 10),
+	shotgun_vitesse_balle REAL NOT NULL CHECK (shotgun_vitesse_balle > 4 AND shotgun_vitesse_balle < 30),
+	shotgun_reload REAL NOT NULL CHECK (shotgun_reload > 0.2 AND shotgun_reload < 10),
+	shotgun_spread REAL NOT NULL CHECK (shotgun_spread > 0.1 AND shotgun_spread < 1.5),
+	piege_vitesse_balle REAL NOT NULL CHECK (piege_vitesse_balle > 0.2 AND piege_vitesse_balle < 4),
+	piege_reload REAL NOT NULL CHECK (piege_reload > 0.2 AND piege_reload < 10),
+	missile_vitesse_balle REAL NOT NULL CHECK (missile_vitesse_balle > 20 AND missile_vitesse_balle < 40),
+	missile_reload REAL NOT NULL CHECK (missile_reload > 0.2 AND missile_reload < 10),
+	spring_vitesse_saut REAL NOT NULL CHECK (spring_vitesse_saut > 6 AND spring_vitesse_saut < 20),
+	spring_reload REAL NOT NULL CHECK (spring_reload > 0.2 AND spring_reload < 10),
+	rayon_explosion REAL NOT NULL CHECK (rayon_explosion > 1 AND rayon_explosion < 30),
+	message_acceuil_duree REAL NOT NULL CHECK (message_acceuil_duree > 1 AND message_acceuil_duree < 10),
+	message_countdown_duree REAL NOT NULL CHECK (message_countdown_duree > 0 AND message_countdown_duree < 10)
 );
 CREATE TABLE tankem_text(
 	id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
@@ -15,30 +33,12 @@ CREATE TABLE tankem_text(
 	message_start VARCHAR2(50)
 );
 -- Insertion de valeurs dans la table
-
-INSERT INTO tankem_values (description, valMin, valMax,defaut,current_value) VALUES ('vitesse_char',4,12,7,7);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('vitesse_rotation',1000,2000,1500,1500);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('vie',100,2000,200,200);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('temps_mouvement_blocs',0.2,2,0.8,0.8);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('canon_vitesse_balle',4,30,14,14);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('canon_reload',0.2,10,1.2,1.2);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('mitraillette_vitesse_balle',4,30,18,18);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('mitraillette_reload',0.2,10,0.4,0.4);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('grenade_vitesse_balle',10,25,16,16);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('grenade_reload',0.2,10,0.8,0.8);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('shotgun_vitesse_balle',4,30,13,13);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('shotgun_reload',0.2,10,1.8,1.8);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('shotgun_spread',0.1,1.5,0.4,0.4);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('piege_vitesse_balle'0.2,4,1,1);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('piege_reload',0.2,10,0.8,0.8);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('missile_vitesse_balle',20,40,30,30);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('missile_reload',0.2,10,3,3);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('spring_vitesse_saut',6,20,10,10);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('spring_reload',0.2,10,0.5,0.5);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('rayon_explosion',1,30,8,8);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('message_acceuil_duree',1,10,3,3);
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('message_countdown_duree',1,10,3,3);
-
+INSERT INTO tankem_values (vitesse_char,vitesse_rotation,vie,temps_mouvement_blocs,
+canon_vitesse_balle,canon_reload,mitraillette_vitesse_balle,mitraillette_reload,
+grenade_vitesse_balle,grenade_reload,shotgun_vitesse_balle,shotgun_reload,shotgun_spread,
+piege_vitesse_balle,piege_reload,missile_vitesse_balle,missile_reload,spring_vitesse_saut,
+spring_reload,rayon_explosion,message_acceuil_duree,message_countdown_duree)
+VALUES (7,1500,200,0.8,14,1.2,18,0.4,16,0.8,13,1.8,0.4,1,0.8,30,3,10,0.5,8,3,3);
 INSERT INTO tankem_text (message_acceuil,message_start) VALUES ('Es ist Zeit für Reich!','Wir müssen die Juden ausrotten!');
 
 
