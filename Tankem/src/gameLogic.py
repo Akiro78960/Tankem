@@ -13,6 +13,7 @@ from panda3d.bullet import BulletDebugNode
 from map import Map
 from inputManager import InputManager
 from interface import *
+import BDtoGame
 
 #Classe qui gère les phases du jeu (Menu, début, pause, fin de partie)
 class GameLogic(ShowBase):
