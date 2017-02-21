@@ -4,19 +4,19 @@
 CREATE TABLE tankem_values(
 	id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
 	description VARCHAR2(200) UNIQUE,
-	min NUMBER NOT NULL,
-	max NUMBER NOT NULL,
-	default NUMBER NOT NULL,
+	valMin NUMBER NOT NULL,
+	valMax NUMBER NOT NULL,
+	defaut NUMBER NOT NULL,
 	current_value NUMBER NOT NULL
 );
 CREATE TABLE tankem_text(
 	id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
 	message_acceuil VARCHAR2(60),
-	message_start VARCHAR2(50),
+	message_start VARCHAR2(50)
 );
 -- Insertion de valeurs dans la table
 
-INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('vitesse_char',4,12,7,7);
+INSERT INTO tankem_values (description, valMin, valMax,defaut,current_value) VALUES ('vitesse_char',4,12,7,7);
 INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('vitesse_rotation',1000,2000,1500,1500);
 INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('vie',100,2000,200,200);
 INSERT INTO tankem_values (description,min, max,default,current_value) VALUES ('temps_mouvement_blocs',0.2,2,0.8,0.8);
