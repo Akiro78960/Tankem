@@ -8,7 +8,7 @@
 			"type": "python",
 			"request": "launch",
 			"stopOnEntry": true,
-			"pythonPath":"C:/LogicielsPortable/Panda3D-1.9.1-x64/python/python.exe",
+			"pythonPath": "${config.python.pythonPath}",
 			"program": "${file}",
 			"cwd": "${workspaceRoot}",
 			"debugOptions": [
@@ -18,14 +18,14 @@
 			]
 		},
 		{
-			"name": "Pythontest",
+			"name": "PythonCegep",
 			"type": "python",
-			"pythonPath":"C:/LogicielsPortable/Panda3D-1.9.1-x64/python/python.exe",
+			"pythonPath":"C:/LogicielsPortable/Panda3D-1.9.1-x64/python/python.exe", 
 			"request": "launch",
 			"stopOnEntry": false,
 			"console": "none",
-			"program": "${file}",
-			"cwd": "${workspaceRoot}",
+			"program": "${workspaceRoot}/Tankem/src/main.py",
+			"cwd": "${workspaceRoot}/Tankem/src/",
 			"debugOptions": [
 				"WaitOnAbnormalExit",
 				"WaitOnNormalExit",
