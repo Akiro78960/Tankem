@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#fuck you too
 from util import *
 
 from direct.showbase.ShowBase import ShowBase
