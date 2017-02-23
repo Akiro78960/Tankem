@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-import DAOBalance
+from DAOBalance import DAOBalance
 
-class DAOBalanceCsv():
-	__metaclass__ = DAOBalance
-
-	@abstractmethod
+class DAOBalanceCsv(DAOBalance):
 	def read(self):
-		print "Yoyo"
+		print "Ça marche"

@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
+from abc import ABCMeta, abstractmethod
 
-class DAOBalance():
+class DAOBalance(object):
+	__metaclass__ = ABCMeta
+
+	@abstractmethod
 	def __init__ (self):
 		pass
 

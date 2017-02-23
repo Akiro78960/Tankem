@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from util import *
+import DAOBalanceCsv
 
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import *
@@ -16,6 +17,7 @@ from interface import *
 #Classe qui gère les phases du jeu (Menu, début, pause, fin de partie)
 class GameLogic(ShowBase):
     def __init__(self,pandaBase):
+        self.dao = DAOBalanceCsv
         self.pandaBase = pandaBase
         self.pandaBase.enableParticles()
         self.accept("DemarrerPartie",self.startGame)
