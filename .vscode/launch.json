@@ -32,6 +32,21 @@
 				"RedirectOutput"
 			]
 		},
+				{
+			"name": "Pythontest-CWD=defaut",
+			"type": "python",
+			"pythonPath":"C:/LogicielsPortable/Panda3D-1.9.1-x64/python/python.exe",
+			"request": "launch",
+			"stopOnEntry": false,
+			"console": "integratedTerminal",
+			"program": "${workspaceRoot}/tools/ChangerBalance/lectureModif.py",
+			"cwd": "${workspaceRoot}",
+			"debugOptions": [
+				"WaitOnAbnormalExit",
+				"WaitOnNormalExit",
+				"RedirectOutput"
+			]
+		},
 		{
 			"name": "PySpark",
 			"type": "python",

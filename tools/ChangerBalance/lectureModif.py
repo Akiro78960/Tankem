@@ -1,8 +1,10 @@
 # -*- coding:utf-8 -*-
 
-import cx_Oracle
+
 from Tkinter import Tk
 from tkFileDialog import askopenfilename
+import csv
+import os
 
 
 #methode d'ouverture de la fenetre pour choisir le fichier
@@ -17,10 +19,15 @@ print ("Voulez vous utiliser un fichier csv existant ou en creer un nouveau ?")
 reponse = raw_input("pesez C pour creer ou U pour ouvrir un CSV ")
 if str.upper(reponse) == str.upper('c'):
     print ("creation de fichier")
+    with open("test.csv","wb") as csvfile :
+        csvwriter = csv.writer(csvfile,delimiter=";")
+        csvwriter.writerow(["test1","test2","test3"])
+        os.system("start excel.exe " + "test.csv")
+        print("fichier test.csv créer")
     
 else:
     print ("choisir un fichier CSV")
     nomFichier = choisirFichierCSV()
-
+    os.system("start excel.exe " + nomFichier)
 
 
