@@ -24,8 +24,8 @@
 			"request": "launch",
 			"stopOnEntry": false,
 			"console": "integratedTerminal",
-			"program": "${file}",
-			"cwd": "${workspaceRoot}",
+			"program": "${workspaceRoot}/Tankem/src/main.py",
+			"cwd": "${workspaceRoot}/Tankem/src/",
 			"debugOptions": [
 				"WaitOnAbnormalExit",
 				"WaitOnNormalExit",
