@@ -1,60 +1,29 @@
 # -*- coding: utf-8 -*-
 
+# Le DTO consiste d'un dictionnaire de plusieurs dictionnaires.
+# Les dictionnaires contiennent le nom lisible, la valeur utilisée et le min/max 
+# de chaque options du jeux.
+
 class DTObject():
         #####
         # Constructeur
 
 	def __init__(self):
-            self.variableList = []
+            self.dictionarInception = {}
 
-        #####
-        # Cree un dictionnaire pour la balance
+        # Ajouter un dictionnaire au dictionnaire
 
-        def createDictionary (self, name, value, min, max):
+        def appendDictionary (self, key, name, value, min, max):
             tmp = {}
             tmp['name'] = name
             tmp['value'] = value
             tmp['min'] = min
             tmp['max'] = max
 
-            return tmp
+            self.dictionarInception[key] = tmp
 
-        #####
-        # Verifie si les valeurs respectent les min/max
+        # Avoir un dictionnaire
 
-	def isBelowMin(value, min):
-            result = true 
+        def getDic (self, key):
+            return self.dictionarInception[key]
 
-            if(min <= value):
-                result = false
-
-            return result
-
-	def isAboveMax(value, max):
-            result = true 
-
-            if(value <= max):
-                result = false
-
-            return result
-
-	def dicIsBalanced(dictionary):
-            result = true
-
-            if(isBelowMin( dictionary['value'], dictionary['min']):
-                result = false
-                print dictionary['name'] + " est sous le minimum requis"
-            else if(isAboveMax( dictionary['value'], dictionary['max']):
-                result = false
-                print dictionary['name'] + " est au dessus du maximum requis"
-
-            return result
-
-        def allIsBalanced(self):
-            result = true
-
-            for dic in self.dicList:
-                if(!dicIsBalanced(dic)):
-                    result = false
-
-            return result
