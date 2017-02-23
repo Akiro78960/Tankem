@@ -19,6 +19,7 @@ class GameLogic(ShowBase):
         self.pandaBase = pandaBase
         self.pandaBase.enableParticles()
         self.accept("DemarrerPartie",self.startGame)
+        
 
     def setup(self):
         self.setupBulletPhysics()
