@@ -21,7 +21,7 @@ if str.upper(reponse) == str.upper('c'):
     print ("creation de fichier")
     with open("test.csv","wb") as csvfile :
         csvwriter = csv.writer(csvfile,delimiter=";")
-        csvwriter.writerow(["test1","test2","test3"])
+        #csvwriter.writerow(["Nom","Value"])
         os.system("start excel.exe " + "test.csv")
         print("fichier test.csv créer")
     

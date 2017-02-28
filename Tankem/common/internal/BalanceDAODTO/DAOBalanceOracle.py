@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import DAOBalance
+from DAOBalance import DAOBalance
 
-class DAOBalanceOrdre():
-	__metaclass__ = DAOBalance
+class DAOBalanceOracle(DAOBalance):
+	
