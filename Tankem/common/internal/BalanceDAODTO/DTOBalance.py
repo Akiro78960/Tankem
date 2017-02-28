@@ -13,7 +13,7 @@ class DTObject():
 
         # Ajouter un dictionnaire au dictionnaire
 
-        def appendDictionary (self, key, name, value, min, max):
+        def appendNewDictionary (self, key, name, value, min, max):
             tmp = {}
             tmp['name'] = name
             tmp['value'] = value

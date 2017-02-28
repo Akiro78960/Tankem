@@ -10,20 +10,10 @@ class Sanitizer():
     # Verifie si les valeurs respectent les min/max
 
     def isBelowMin(value, min):
-        result = true 
-
-        if(min <= value):
-            result = false
-
-        return result
+        return value < min
 
     def isAboveMax(value, max):
-        result = true 
-
-        if(value <= max):
-            result = false
-
-        return result
+        return value > max
 
     def dicIsBalanced(dictionary):
         result = true
@@ -37,10 +27,10 @@ class Sanitizer():
 
         return result
 
-    def allIsBalanced(self):
+    def allIsBalanced(self,dictionarInception):
         result = true
 
-        for key, dic in self.dictionarInception:
+        for dic in dictionarInception:
             if(!dicIsBalanced(dic)):
                 result = false
 
