@@ -27,11 +27,15 @@ class Sanitizer():
 
         return result
 
-    def allIsBalanced(self,dictionarInception):
+    #####
+    # Main, retourne true si tout est beaux
+
+    def sanitizeDTO(self,dictionarInception):
         result = true
 
         for dic in dictionarInception:
             if(!dicIsBalanced(dic)):
                 result = false
+                break
 
         return result

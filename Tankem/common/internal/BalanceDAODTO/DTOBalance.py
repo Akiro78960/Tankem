@@ -4,7 +4,7 @@
 # Les dictionnaires contiennent le nom lisible, la valeur utilisée et le min/max 
 # de chaque options du jeux.
 
-class DTObject():
+class DTObalance():
         #####
         # Constructeur
 
