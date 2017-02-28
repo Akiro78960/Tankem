@@ -2,4 +2,4 @@
 from DAOBalance import DAOBalance
 
 class DAOBalanceOracle(DAOBalance):
-	
+	pass

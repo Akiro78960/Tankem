@@ -13,7 +13,7 @@ class DTObalance():
 
         # Ajouter un dictionnaire au dictionnaire
 
-        def appendNewDictionary (self, key, name, value, min, max):
+        def appendNewDictionary (self, key, name, value, min, max):# key: nom, name: nom détaillé
             tmp = {}
             tmp['name'] = name
             tmp['value'] = value
