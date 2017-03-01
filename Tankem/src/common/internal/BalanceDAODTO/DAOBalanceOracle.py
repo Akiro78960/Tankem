@@ -10,17 +10,19 @@ class DAOBalanceOracle(DAOBalance):
         self.connection = cx_Oracle.connect('e1384492','C','10.57.4.60/DECINFO.edu')
 
     def read(self):
-        curRead = con.cursor()
+        curRead = self.connection.cursor()
 
-        keysList = curRead.execute("SELECT column_name FROM user_tab_columns WHERE table_name = 'table_nametankem_values'")
+        curRead = curRead.execute("SELECT column_name FROM user_tab_columns WHERE table_name = 'TANKEM_VALUES'")
+        keysList = curRead.fetchall()
 
         curRead.close()
 
         for key in keysList:
-            curRead = con.cursor()
-            value = curRead.execute("SELECT %s FROM tankem_values" % (key))
+            curRead = self.connection.cursor()
+            curRead.execute("SELECT %s FROM tankem_values" % (key[0]))
+            value = curRead.fetchall()
 
-            self.dto.appendNewDictionary(key, value)
+            self.dto.appendNewValue(key[0], value[0][0])
 
             curRead.close()
 

@@ -1,7 +1,7 @@
 -- Mettre un commentaire
 -- Pour exécuter ce script dans sqlplus: start creationTable.sql (ou chemin relatif)
-DROP TABLE tankem_values;
-DROP TABLE tankem_text;
+--DROP TABLE tankem_values;
+--DROP TABLE tankem_text;
 CREATE TABLE tankem_values(
 	id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
 	vitesse_char REAL NOT NULL CHECK (vitesse_char > 4 AND vitesse_char < 12 ),
