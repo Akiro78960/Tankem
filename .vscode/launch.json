@@ -39,7 +39,7 @@
 			"request": "launch",
 			"stopOnEntry": false,
 			"console": "integratedTerminal",
-			"program": "${workspaceRoot}/Tankem/lectureModif.py",
+			"program": "${workspaceRoot}/Tankem/src/ecritureBalance.py",
 			"cwd": "${workspaceRoot}",
 			"debugOptions": [
 				"WaitOnAbnormalExit",
