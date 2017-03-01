@@ -13,12 +13,16 @@ from map import Map
 from inputManager import InputManager
 from interface import *
 
+import common
+
 #Classe qui gère les phases du jeu (Menu, début, pause, fin de partie)
 class GameLogic(ShowBase):
     def __init__(self,pandaBase):
         self.pandaBase = pandaBase
         self.pandaBase.enableParticles()
         self.accept("DemarrerPartie",self.startGame)
+        self.daoBalanceOracle = common.internal.BalanceDAODTO.DAOBalanceOracle.DAOBalanceOracle()
+        self.dto = daoBalanceOracle.read()
         
 
     def setup(self):
