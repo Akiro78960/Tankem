@@ -83,7 +83,7 @@ class Balle(ShowBase):
             self.pftRacine.setPos(self.noeudPhysique.getPos())
             self.pftExplosion.start(parent = self.pftRacine, renderParent = self.pftRacine)
 
-    def projetter(self, position, direction):
+    def projetter(self, position, direction): #Cannon
         self.etat = "actif"
 
         self.noeudPhysique.setPos(position)
@@ -100,7 +100,7 @@ class Balle(ShowBase):
 
         self.intervalExplosion(1.2)
 
-    def projetterRapide(self, position, direction):
+    def projetterRapide(self, position, direction): #Mitraillette
         self.etat = "actif"
 
         self.noeudPhysique.setPos(position)
@@ -117,7 +117,7 @@ class Balle(ShowBase):
 
         self.intervalExplosion(0.8)
 
-    def projetterVariable(self, position, direction):
+    def projetterVariable(self, position, direction): #Shotgun
         self.etat = "actif"
 
         self.noeudPhysique.setPos(position)
@@ -134,7 +134,7 @@ class Balle(ShowBase):
 
         self.intervalExplosion(0.5)
 
-    def deposer(self, position, direction):
+    def deposer(self, position, direction): #Piege
         self.etat = "actif"
 
         self.noeudPhysique.setPos(position)
@@ -189,7 +189,7 @@ class Balle(ShowBase):
         self.sequenceMissileGuide = Sequence(attendre,fonctionViser)
         self.sequenceMissileGuide.start()
 
-    def lancerSurCible(self,noeudCible):
+    def lancerSurCible(self,noeudCible): #Missile guidée
         #Calcul de la direction de la balle
         vecteurDifference = noeudCible.getPos() - self.noeudPhysique.getPos()
         vecteurDifference.normalize()
