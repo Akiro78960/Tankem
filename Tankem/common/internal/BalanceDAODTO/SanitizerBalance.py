@@ -122,35 +122,18 @@ class Sanitize:
 
     def sanitizeDto(self):
         for key in self.keysList:
+            value = self.dtoValues.getValue(key)
+            min = self.dtoMin.getValue(key)
+            max = self.dtoMax.getValue(key)
 
+            if(value < min):
+                if(self.feedback):
+                    print key + " est en dessous du minimum"
+                if(self.rewrite):
+                   self.dtoValues.appendNewValue(key,min)
 
-    # def isBelowMin(value, min):
-    #     return value < min
-    #
-    # def isAboveMax(value, max):
-    #     return value > max
-    #
-    # def dicIsBalanced(dictionary):
-    #     result = true
-    #
-    #     if(isBelowMin( dictionary['value'], dictionary['min']):
-    #         result = false
-    #         print dictionary['name'] + " est sous le minimum requis"
-    #     else if(isAboveMax( dictionary['value'], dictionary['max']):
-    #         result = false
-    #         print dictionary['name'] + " est au dessus du maximum requis"
-    #
-    #     return result
-
-    #####
-    # Main, retourne true si tout est beaux
-
-    def sanitizeDTO(self,dictionarInception):
-        result = true
-
-        for dic in dictionarInception:
-            if(!dicIsBalanced(dic)):
-                result = false
-                break
-
-        return result
+            if(value < max):
+                if(self.feedback):
+                    print key + " est au dessus du maximum"
+                if(self.rewrite):
+                   self.dtoValues.appendNewValue(key,max)
