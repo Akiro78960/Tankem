@@ -1,14 +1,8 @@
 # -*- coding: utf-8 -*-
-<<<<<<< HEAD
-from DAOBalance import DAOBalance
-
-class DAOBalanceOracle(DAOBalance):
-	
-=======
 import DAOBalance
 import cx_Oracle
 
-class DAOBalanceOrdre():
+class DAOBalanceOracle(DAOBalance):
     __metaclass__ = DAOBalance
 
     def __init__(self):
@@ -24,4 +18,4 @@ class DAOBalanceOrdre():
             self.dto.appendNewDictionary()
 
     def update(self):
->>>>>>> cfd5c6fa0986e4c82bd1c3af8b6d98df76569f69
+        pass

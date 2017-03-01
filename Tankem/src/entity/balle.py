@@ -153,7 +153,7 @@ class Balle(ShowBase):
     def appliquerForce(self):
         self.noeudPhysique.node().applyCentralForce(self.forceApplique)
 
-    def lancer(self, position, direction, vitesseInitialeBalle=40):
+    def lancer(self, position, direction, vitesseInitialeBalle=16):
         self.etat = "actif"
 
         self.modele.setColorScale(0.8,0.1,0.6,1)
