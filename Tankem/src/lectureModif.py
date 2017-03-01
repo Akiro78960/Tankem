@@ -16,7 +16,7 @@ def choisirFichierCSV():
 
 DAOcsv = common.internal.BalanceDAODTO.DAOBalanceCsv.DAOBalanceCsv()
 DTO = DAOcsv.read("test.csv")
-DAOcsv.update("test.csv", DTO)
+DAOcsv.update("test2.csv", DTO.getDTO())
 print "success"
 
 
@@ -30,11 +30,8 @@ if str.upper(reponse) == str.upper('c'):
         csvwriter.writerow(["Name","Value"])
         os.system("start excel.exe " + "test.csv")
         print("fichier test.csv créer")
-    
 else:
     print ("choisir un fichier CSV")
     nomFichier = choisirFichierCSV()
     os.system("start excel.exe " + nomFichier)
-
-
 '''

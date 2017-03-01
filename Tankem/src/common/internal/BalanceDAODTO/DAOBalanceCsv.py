@@ -13,9 +13,9 @@ class DAOBalanceCsv(DAOBalance):
 				DTO.appendNewValue(row['Name'],row['Value'])
 		return DTO
 
-	def update(self, csvfile, dto):
-		with open(csvfile) as csvfile :
+	def update(self, file, dto):
+		with open(file,"wb") as csvfile :
 			csvwriter = csv.writer(csvfile,delimiter=";")
-        	csvwriter.writerow(["Name","Value"])
-		for key, value in dto.getDTO.iteritems():
-			csvwriter.writerow([key,value])
+			csvwriter.writerow(["Name","Value"])
+			for key, value in dto.iteritems():
+				csvwriter.writerow([key,value])
