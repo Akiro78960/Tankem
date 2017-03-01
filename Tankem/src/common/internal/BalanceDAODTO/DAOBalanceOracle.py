@@ -3,11 +3,8 @@ from DAOBalance import DAOBalance
 import cx_Oracle
 
 class DAOBalanceOracle(DAOBalance):
-<<<<<<< HEAD
-=======
     __metaclass__ = DAOBalance
 
->>>>>>> 12441c9b6c5645e91dd59f6e0665358964cdccc4
     def __init__(self):
         self.dto = DTOBalance()
         self.connection = cx_Oracle.connect('1338283','A','10.57.4.60/DECINFO.edu')

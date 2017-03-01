@@ -16,6 +16,7 @@ def choisirFichierCSV():
 
 DAOcsv = common.internal.BalanceDAODTO.DAOBalanceCsv.DAOBalanceCsv()
 DTO = DAOcsv.read("test.csv")
+#DAOracle = common.internal.BalanceDAODTO.DAOBalanceOracle.DAOBalanceOracle()
 DAOcsv.update("test2.csv", DTO.getDTO())
 print "success"
 
