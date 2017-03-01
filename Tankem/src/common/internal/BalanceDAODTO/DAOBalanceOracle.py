@@ -11,10 +11,20 @@ class DAOBalanceOracle(DAOBalance):
 
     def read(self):
         curRead = con.cursor()
-        listeDB = curRead.execute("SELECT * FROM tankem_values")
+
+        keysList = curRead.execute("SELECT column_name FROM user_tab_columns WHERE table_name = 'table_nametankem_values'")
+
         curRead.close()
-        for value in listeDB:
-            self.dto.appendNewDictionary()
+
+        for key in keysList:
+            curRead = con.cursor()
+            value = curRead.execute("SELECT %s FROM tankem_values" % (key))
+
+            self.dto.appendNewDictionary(key, value)
+
+            curRead.close()
+
+        return self.dto
 
     def update(self):
         pass
