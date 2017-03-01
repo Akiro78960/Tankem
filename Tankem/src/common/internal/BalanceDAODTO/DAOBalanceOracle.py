@@ -26,7 +26,13 @@ class DAOBalanceOracle(DAOBalance):
 
             curRead.close()
 
-        return self.dto
+        return DTO
 
-    def update(self):
-        pass
+    def update(DTO):
+        tmpDict = DTO
+
+        curRead = self.connection.cursor()
+        for key,value in tmpDict.items():
+            curRead.execure("UPDATE tankem_values SET %s = %s" % (key,value))
+
+        curRead.close()
