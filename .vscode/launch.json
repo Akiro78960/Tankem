@@ -39,7 +39,7 @@
 			"request": "launch",
 			"stopOnEntry": false,
 			"console": "integratedTerminal",
-			"program": "${workspaceRoot}/tools/ChangerBalance/lectureModif.py",
+			"program": "${workspaceRoot}/Tankem/lectureModif.py",
 			"cwd": "${workspaceRoot}",
 			"debugOptions": [
 				"WaitOnAbnormalExit",

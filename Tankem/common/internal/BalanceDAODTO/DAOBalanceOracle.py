@@ -18,4 +18,3 @@ class DAOBalanceOrdre():
             self.dto.appendNewDictionary()
 
     def update(self):
-
