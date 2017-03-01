@@ -14,8 +14,10 @@ def choisirFichierCSV():
     filename = askopenfilename(filetypes=[("CSV files","*.csv"), ("all files", "*")], defaultextension= "*.csv")
     return filename
 
-DAO = common.internal.BalanceDAODTO.DAOBalanceCsv.DAOBalanceCsv()
-DAO.read("test.csv")
+DAOcsv = common.internal.BalanceDAODTO.DAOBalanceCsv.DAOBalanceCsv()
+DTO = DAOcsv.read("test.csv")
+DAOcsv.update("test.csv", DTO)
+print "success"
 
 
 '''
