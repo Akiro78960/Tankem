@@ -3,16 +3,31 @@ from DAOBalance import DAOBalance
 import cx_Oracle
 
 class DAOBalanceOracle(DAOBalance):
+<<<<<<< HEAD
+=======
+    __metaclass__ = DAOBalance
+
+>>>>>>> 12441c9b6c5645e91dd59f6e0665358964cdccc4
     def __init__(self):
         self.dto = DTOBalance()
         self.connection = cx_Oracle.connect('1338283','A','10.57.4.60/DECINFO.edu')
 
     def read(self):
         curRead = con.cursor()
-        listeDB = curRead.execute("SELECT * FROM tankem_values")
+
+        keysList = curRead.execute("SELECT column_name FROM user_tab_columns WHERE table_name = 'table_nametankem_values'")
+
         curRead.close()
-        for value in listeDB:
-            self.dto.appendNewDictionary()
+
+        for key in keysList:
+            curRead = con.cursor()
+            value = curRead.execute("SELECT %s FROM tankem_values" % (key))
+
+            self.dto.appendNewDictionary(key, value)
+
+            curRead.close()
+
+        return self.dto
 
     def update(self):
         pass
