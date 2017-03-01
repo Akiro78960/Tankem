@@ -1,29 +1,17 @@
 # -*- coding: utf-8 -*-
 
-# Le DTO consiste d'un dictionnaire de plusieurs dictionnaires.
-# Les dictionnaires contiennent le nom lisible, la valeur utilisée et le min/max 
-# de chaque options du jeux.
-
 class DTObalance():
         #####
         # Constructeur
 
 	def __init__(self):
-            self.dictionarInception = {}
+            self.values = {}
 
         # Ajouter un dictionnaire au dictionnaire
-
-        def appendNewDictionary (self, key, name, value, min, max):
-            tmp = {}
-            tmp['name'] = name
-            tmp['value'] = value
-            tmp['min'] = min
-            tmp['max'] = max
-
-            self.dictionarInception[key] = tmp
+        def appendNewValue (self, key, value):
+            self.values[key] = value
 
         # Avoir un dictionnaire
-
-        def getDic (self, key):
-            return self.dictionarInception[key]
+        def getValue (self, key):
+            return self.values[key]
 
