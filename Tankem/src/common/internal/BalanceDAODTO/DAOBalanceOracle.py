@@ -37,7 +37,7 @@ class DAOBalanceOracle(DAOBalance):
         table_name = DTO.getValue("TABLE_NAME")
 
         for key,value in tmpDict.items():
-            if(key != "ID"):
+            if(key != "ID" and key != "TABLE_NAME"):
                 curRead = self.connection.cursor()
                 curRead.execute("UPDATE %s SET %s = %s WHERE id = %s" % (table_name,key,value,tmpID))
                 curRead.close()
