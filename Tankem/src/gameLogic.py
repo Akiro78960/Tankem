@@ -23,7 +23,10 @@ class GameLogic(ShowBase):
         self.accept("DemarrerPartie",self.startGame)
         self.daoBalanceOracle = common.internal.BalanceDAODTO.DAOBalanceOracle.DAOBalanceOracle()
         self.dtoValues = self.daoBalanceOracle.read("tankem_values")
-        print self.dto.getValue("MISSILE_RELOAD")
+        print "1", self.dtoValues.getValue("MISSILE_RELOAD")
+        self.dtoValues.setValue("MISSILE_RELOAD", 4.0)
+        print "2", self.dtoValues.getValue("MISSILE_RELOAD")
+        self.daoBalanceOracle.update(self.dtoValues)
         # tmpDic = self.dto.getDTO()
         # for k,v in tmpDic.items():
         #     print k, v

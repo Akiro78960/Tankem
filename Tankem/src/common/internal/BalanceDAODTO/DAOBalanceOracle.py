@@ -8,8 +8,8 @@ class DAOBalanceOracle(DAOBalance):
     def __init__(self):
         self.connection = cx_Oracle.connect('e1384492','C','10.57.4.60/DECINFO.edu')
 
-    def read(table_name):
-        table_name.upper()
+    def read(self, table_name):
+        table_name = table_name.upper()
         tmpDTO = DTObalance()
         curRead = self.connection.cursor()
 
@@ -29,11 +29,14 @@ class DAOBalanceOracle(DAOBalance):
 
         return tmpDTO
 
-    def update(DTO):
+    def update(self, DTO):
         tmpDict = DTO.getDictionary()
+        tmpID = DTO.getValue("ID")
 
         for key,value in tmpDict.items():
-            curRead = self.connection.cursor()
-            curRead.execute("UPDATE tankem_values SET %s = %s" % (key,value))
-            curRead.close()
+            if(key != "ID"):
+                curRead = self.connection.cursor()
+                curRead.execute("UPDATE tankem_values SET %s = %s WHERE id = %s" % (key,value,tmpID))
+                curRead.close()
+        self.connection.commit()
 
