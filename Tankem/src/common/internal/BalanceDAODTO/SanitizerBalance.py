@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-import intertools
+# from itertools import *
+import itertools
+from DTOBalance import DTObalance
 
-class Sanitize:
+class SanitizerBalance():
     #####
     # Constructeur
 
@@ -19,31 +21,31 @@ class Sanitize:
     # Init Hardcoded shizzles
 
     # KeysList
-    def initKeysList():
+    def initKeysList(self):
         tmpList = []
 
-        tmpList.append(vitesse_char)
-        tmpList.append(vitesse_rotation)
-        tmpList.append(vie)
-        tmpList.append(temps_mouvement_blocs)
-        tmpList.append(canon_vitesse_balle)
-        tmpList.append(canon_reload)
-        tmpList.append(mitraillette_vitesse_balle)
-        tmpList.append(mitraillette_reload)
-        tmpList.append(grenade_vitesse_balle)
-        tmpList.append(grenade_reload)
-        tmpList.append(shotgun_vitesse_balle)
-        tmpList.append(shotgun_reload)
-        tmpList.append(shotgun_spread)
-        tmpList.append(piege_vitesse_balle)
-        tmpList.append(piege_reload)
-        tmpList.append(missile_vitesse_balle)
-        tmpList.append(missile_reload)
-        tmpList.append(spring_vitesse_saut)
-        tmpList.append(spring_reload)
-        tmpList.append(rayon_explosion)
-        tmpList.append(message_acceuil_duree)
-        tmpList.append(message_countdown_duree)
+        tmpList.append("vitesse_char")
+        tmpList.append("vitesse_rotation")
+        tmpList.append("vie")
+        tmpList.append("temps_mouvement_blocs")
+        tmpList.append("canon_vitesse_balle")
+        tmpList.append("canon_reload")
+        tmpList.append("mitraillette_vitesse_balle")
+        tmpList.append("mitraillette_reload")
+        tmpList.append("grenade_vitesse_balle")
+        tmpList.append("grenade_reload")
+        tmpList.append("shotgun_vitesse_balle")
+        tmpList.append("shotgun_reload")
+        tmpList.append("shotgun_spread")
+        tmpList.append("piege_vitesse_balle")
+        tmpList.append("piege_reload")
+        tmpList.append("missile_vitesse_balle")
+        tmpList.append("missile_reload")
+        tmpList.append("spring_vitesse_saut")
+        tmpList.append("spring_reload")
+        tmpList.append("rayon_explosion")
+        tmpList.append("message_acceuil_duree")
+        tmpList.append("message_countdown_duree")
 
         return tmpList
 
@@ -78,9 +80,9 @@ class Sanitize:
 
         # init tmpDTO
         for key,min in itertools.izip(self.keysList, minList):
-            tmpDTO.appendNewValue(key,min)
+            tmpDTO.setValue(key,min)
 
-        return tmpDTO.getDTO()
+        return tmpDTO
 
     # DTO max
     def initDtoMax(self):
@@ -113,9 +115,9 @@ class Sanitize:
 
         # init tmpDTO
         for key,max in itertools.izip(self.keysList, maxList):
-            tmpDTO.appendNewValue(key,max)
+            tmpDTO.setValue(key,max)
 
-        return tmpDTO.getDTO()
+        return tmpDTO
 
     #####
     # Verifie si les valeurs respectent les min/max
@@ -130,10 +132,10 @@ class Sanitize:
                 if(self.feedback):
                     print key + " est en dessous du minimum"
                 if(self.rewrite):
-                   self.dtoValues.appendNewValue(key,min)
+                   self.dtoValues.setValue(key,min)
 
-            if(value < max):
+            if(value > max):
                 if(self.feedback):
                     print key + " est au dessus du maximum"
                 if(self.rewrite):
-                   self.dtoValues.appendNewValue(key,max)
+                   self.dtoValues.setValue(key,max)
