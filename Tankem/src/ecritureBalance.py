@@ -4,4 +4,7 @@
 import common
 
 DAOracle = common.internal.BalanceDAODTO.DAOBalanceOracle.DAOBalanceOracle()
-DTO = DAOracle.read()
+DAOcsv = common.internal.BalanceDAODTO.DAOBalanceCsv.DAOBalanceCsv()
+
+DTO = DAOcsv.read("test.csv")
+DAOracle.update(DTO)

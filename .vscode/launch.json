@@ -33,13 +33,28 @@
 			]
 		},
 				{
-			"name": "Pythontest-CWD=defaut",
+			"name": "Pythontest-CWD=ecritureBalance",
 			"type": "python",
 			"pythonPath":"C:/LogicielsPortable/Panda3D-1.9.1-x64/python/python.exe",
 			"request": "launch",
 			"stopOnEntry": false,
 			"console": "integratedTerminal",
 			"program": "${workspaceRoot}/Tankem/src/ecritureBalance.py",
+			"cwd": "${workspaceRoot}",
+			"debugOptions": [
+				"WaitOnAbnormalExit",
+				"WaitOnNormalExit",
+				"RedirectOutput"
+			]
+		},
+						{
+			"name": "Pythontest-CWD=lectureModif",
+			"type": "python",
+			"pythonPath":"C:/LogicielsPortable/Panda3D-1.9.1-x64/python/python.exe",
+			"request": "launch",
+			"stopOnEntry": false,
+			"console": "integratedTerminal",
+			"program": "${workspaceRoot}/Tankem/src/lectureModif.py",
 			"cwd": "${workspaceRoot}",
 			"debugOptions": [
 				"WaitOnAbnormalExit",
