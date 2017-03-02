@@ -8,12 +8,12 @@ class DTObalance:
         self.values = {}
 
     # Ajouter une valeur au dictionnaire
-    def appendNewValue (self, key, value):
+    def setValue (self, key, value):
         self.values[key] = value
 
     # Avoir une valeur dans le dictionnaire
     def getValue (self, key):
         return self.values[key]
 
-    def getDTO (self):
+    def getDictionary (self):
         return self.values

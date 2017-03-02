@@ -22,7 +22,7 @@ class GameLogic(ShowBase):
         self.pandaBase.enableParticles()
         self.accept("DemarrerPartie",self.startGame)
         self.daoBalanceOracle = common.internal.BalanceDAODTO.DAOBalanceOracle.DAOBalanceOracle()
-        self.dto = self.daoBalanceOracle.read()
+        self.dtoValues = self.daoBalanceOracle.read("tankem_values")
         print self.dto.getValue("MISSILE_RELOAD")
         # tmpDic = self.dto.getDTO()
         # for k,v in tmpDic.items():
