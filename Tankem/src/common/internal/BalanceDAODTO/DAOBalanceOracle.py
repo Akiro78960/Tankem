@@ -20,23 +20,26 @@ class DAOBalanceOracle(DAOBalance):
 
         for key in keysList:
             curRead = self.connection.cursor()
-            curRead.execute("SELECT %s FROM tankem_values" % (key[0]))
+            curRead.execute("SELECT %s FROM %s" % (key[0],table_name))
             value = curRead.fetchall()
 
             tmpDTO.setValue(key[0], value[0][0])
 
             curRead.close()
 
+        tmpDTO.setValue("TABLE_NAME", table_name)
+
         return tmpDTO
 
     def update(self, DTO):
         tmpDict = DTO.getDictionary()
         tmpID = DTO.getValue("ID")
+        table_name = DTO.getValue("TABLE_NAME")
 
         for key,value in tmpDict.items():
             if(key != "ID"):
                 curRead = self.connection.cursor()
-                curRead.execute("UPDATE tankem_values SET %s = %s WHERE id = %s" % (key,value,tmpID))
+                curRead.execute("UPDATE %s SET %s = %s WHERE id = %s" % (table_name,key,value,tmpID))
                 curRead.close()
         self.connection.commit()
 

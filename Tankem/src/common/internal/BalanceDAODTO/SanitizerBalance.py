@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import intertools
+from itertools import *
 
-class Sanitize:
+class SanitizerBalance():
     #####
     # Constructeur
 
@@ -78,7 +78,7 @@ class Sanitize:
 
         # init tmpDTO
         for key,min in itertools.izip(self.keysList, minList):
-            tmpDTO.appendNewValue(key,min)
+            tmpDTO.setValue(key,min)
 
         return tmpDTO.getDTO()
 
@@ -113,7 +113,7 @@ class Sanitize:
 
         # init tmpDTO
         for key,max in itertools.izip(self.keysList, maxList):
-            tmpDTO.appendNewValue(key,max)
+            tmpDTO.setValue(key,max)
 
         return tmpDTO.getDTO()
 
@@ -130,10 +130,10 @@ class Sanitize:
                 if(self.feedback):
                     print key + " est en dessous du minimum"
                 if(self.rewrite):
-                   self.dtoValues.appendNewValue(key,min)
+                   self.dtoValues.setValue(key,min)
 
             if(value < max):
                 if(self.feedback):
                     print key + " est au dessus du maximum"
                 if(self.rewrite):
-                   self.dtoValues.appendNewValue(key,max)
+                   self.dtoValues.setValue(key,max)
