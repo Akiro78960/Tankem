@@ -15,7 +15,10 @@ class Balle(ShowBase):
 
     balleID = 0
 
-    def __init__(self, identifiantLanceur,mondePhysique):
+    def __init__(self, identifiantLanceur,mondePhysique,dtoValues):
+        #On prend les infos du dto
+        self.dtoValues = dtoValues
+
         self.mondePhysique = mondePhysique
         self.lanceurId = identifiantLanceur
         self.balleId = Balle.balleID
@@ -70,7 +73,7 @@ class Balle(ShowBase):
             self.noeudPhysique.node().setKinematic(True)
 
             #self.modele.setTransparency(TransparencyAttrib.MAlpha)
-            grosseurScaleFinal = 10.0
+            grosseurScaleFinal = self.dtoValues.getValue("RAYON_EXPLOSION")
             self.modele.removeNode()
 
             intervalPhysique = LerpScaleInterval(self.noeudPhysique, 0.2, grosseurScaleFinal, 1.0)
@@ -94,7 +97,7 @@ class Balle(ShowBase):
         self.noeudPhysique.node().setLinearDamping(0.0)
         self.noeudPhysique.node().setFriction(0.0)
         self.noeudPhysique.node().setRestitution(2.0)
-        vitesseBalle = 14
+        vitesseBalle = self.dtoValues.getValue("CANON_VITESSE_BALLE")
         self.noeudPhysique.node().applyCentralImpulse(direction * vitesseBalle)
         self.mondePhysique.attachRigidBody(self.noeudPhysique.node())
 
@@ -111,7 +114,7 @@ class Balle(ShowBase):
         self.noeudPhysique.node().setLinearDamping(0.0)
         self.noeudPhysique.node().setFriction(0.0)
         self.noeudPhysique.node().setRestitution(2.0)
-        vitesseBalle = 18
+        vitesseBalle = self.dtoValues.getValue("MITRAILLETTE_VITESSE_BALLE")
         self.noeudPhysique.node().applyCentralImpulse(direction * vitesseBalle)
         self.mondePhysique.attachRigidBody(self.noeudPhysique.node())
 
@@ -128,7 +131,7 @@ class Balle(ShowBase):
         self.noeudPhysique.node().setLinearDamping(0.0)
         self.noeudPhysique.node().setFriction(0.0)
         self.noeudPhysique.node().setRestitution(2.0)
-        vitesseBalle = 13
+        vitesseBalle = self.dtoValues.getValue("SHOTGUN_VITESSE_BALLE")
         self.noeudPhysique.node().applyCentralImpulse(direction * vitesseBalle)
         self.mondePhysique.attachRigidBody(self.noeudPhysique.node())
 
@@ -144,7 +147,7 @@ class Balle(ShowBase):
         self.noeudPhysique.node().setLinearDamping(0.7)
         self.noeudPhysique.node().setFriction(0.7)
         self.noeudPhysique.node().setRestitution(0.0)
-        vitesseBalle = 4
+        vitesseBalle = self.dtoValues.getValue("PIEGE_VITESSE_BALLE")
         self.noeudPhysique.node().applyCentralImpulse(direction * vitesseBalle)
         self.mondePhysique.attachRigidBody(self.noeudPhysique.node())
 
@@ -193,7 +196,7 @@ class Balle(ShowBase):
         #Calcul de la direction de la balle
         vecteurDifference = noeudCible.getPos() - self.noeudPhysique.getPos()
         vecteurDifference.normalize()
-        vitesseInitialeBalle = 30
+        vitesseInitialeBalle = self.dtoValues.getValue("MISSILE_VITESSE_BALLE")
         self.noeudPhysique.node().setLinearVelocity(vecteurDifference * vitesseInitialeBalle)
 
 

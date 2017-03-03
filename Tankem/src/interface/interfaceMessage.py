@@ -9,7 +9,10 @@ from direct.interval.LerpInterval import *
 from direct.interval.IntervalGlobal import *
  
 class InterfaceMessage(ShowBase):
-    def __init__(self):
+    def __init__(self, dtoValues):
+        #On prends les infos du dto
+        self.dtoValues = dtoValues
+
         self.accept("tankElimine",self.displayGameOver)
         self.callBackFunction = None
 
@@ -60,7 +63,7 @@ class InterfaceMessage(ShowBase):
         text.setTextColor(0.5, 0.5, 1, 1)
         text.setAlign(TextNode.ACenter)
 
-        delai = Wait(0.3)
+        delai = Wait(self.dtoValues.getValue("MESSAGE_ACCEUIL_DUREE"))
         effetFadeOut = LerpColorScaleInterval(textNodePath, 0.15, LVecBase4(1,1,1,0), LVecBase4(1,1,1,1), blendType = 'easeIn')
 
         sequence = Sequence(delai,effetFadeOut,Func(self.callBackFunction))

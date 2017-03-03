@@ -11,11 +11,14 @@ import math
 #On doit faire que les particles sont dans les chemins... because reasons. Sinon elles ne marchent vraiment pas.
 
 class Tank():
-    def __init__(self, identifiant,couleur,mondePhysique):
+    def __init__(self, identifiant,couleur,mondePhysique,dtoValues):
+        #On prends les info du dtoValues
+        self.dtoValues = dtoValues
+
         #Défini les variables pour avancer et tourner
         self.speed = Vec3(0,0,0)
         self.omega = 0.0
-        self.pointDeVieMax = 200
+        self.pointDeVieMax = self.dtoValues.getValue("VIE")
         self.pointDeVie = self.pointDeVieMax
 
         self.etat = "inactif"
@@ -123,33 +126,33 @@ class Tank():
 
         if(nomArme == "Canon"):
             messenger.send("tirerCanon", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon + directionQuePointeLeTank * distanceCanon, directionQuePointeLeTank])
-            delaiArme = 1.2
+            delaiArme = self.dtoValues.getValue("CANON_RELOAD")
         elif(nomArme == "Grenade"):
             messenger.send("lancerGrenade", [self.identifiant,self.noeudPhysique.getPos() + hauteurGrenade, directionQuePointeLeTank])
-            delaiArme = 0.8
+            delaiArme = self.dtoValues.getValue("GRENADE_RELOAD")
         elif(nomArme == "Mitraillette"):
             #Tir une balle mais moins de délai pour tirer
             messenger.send("tirerMitraillette", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon + directionQuePointeLeTank * distanceCanon, directionQuePointeLeTank])
-            delaiArme = 0.4
+            delaiArme = self.dtoValues.getValue("MITRAILLETTE_RELOAD")
         elif(nomArme == "Piege"):
             messenger.send("deposerPiege", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon - directionQuePointeLeTank * distanceDerriere, - directionQuePointeLeTank])
-            delaiArme = 0.8
+            delaiArme = self.dtoValues.getValue("PIEGE_RELOAD")
         elif(nomArme == "Shotgun"):
             messenger.send("tirerShotgun", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon + directionQuePointeLeTank * distanceCanon, directionQuePointeLeTank])
-            ouvertureFusil = 0.4
+            ouvertureFusil = self.dtoValues.getValue("SHOTGUN_SPREAD")
             directionDroiteDiagonale = directionQuePointeLeTank + directionQuePointeLeTank + directionDroite * ouvertureFusil
             directionDroiteDiagonale.normalize()
             directionGaucheDiagonale = directionQuePointeLeTank + directionQuePointeLeTank + directionGauche * ouvertureFusil
             directionGaucheDiagonale.normalize()
             messenger.send("tirerShotgun", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon + directionDroiteDiagonale * distanceCanon, directionDroiteDiagonale])
             messenger.send("tirerShotgun", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon + directionGaucheDiagonale * distanceCanon, directionGaucheDiagonale])
-            delaiArme = 1.8
+            delaiArme = self.dtoValues.getValue("SHOTGUN_RELOAD")
         elif(nomArme == "Guide"):
             messenger.send("lancerGuide", [self.identifiant,self.noeudPhysique.getPos() + hauteurGrenade, directionQuePointeLeTank])
-            delaiArme = 3.0
+            delaiArme = self.dtoValues.getValue("MISSILE_RELOAD")
         elif(nomArme == "Spring"):
             self.jump()
-            delaiArme = 0.5
+            delaiArme = self.dtoValues.getValue("SPRING_RELOAD")
         elif(nomArme == "AucuneArme"):
             #Ne fais rien
             pass
@@ -168,7 +171,7 @@ class Tank():
 
     def jump(self):
         self.playerNode.setMaxJumpHeight(1.1)
-        self.playerNode.setJumpSpeed(15)
+        self.playerNode.setJumpSpeed(self.dtoValues.getValue("SPRING_VITESSE_SAUT"))
         self.playerNode.setGravity(40)
         self.playerNode.doJump()
         #print "Jumping and stuff"
@@ -259,8 +262,8 @@ class Tank():
                 speedCopy = Vec3(self.speed)
                 speedCopy.normalize()
 
-                vitesseAvancer = 10
-                vitesseMaxTourner = 1700
+                vitesseAvancer = self.dtoValues.getValue("VITESSE_CHAR")
+                vitesseMaxTourner = self.dtoValues.getValue("VITESSE_ROTATION")
                 #On bouge le joueur dans la bonne direction
                 #Renormalize le vecteur pour ne pas avoir un bug comme le Quake 3
                 #qui nous permettrait de bouger en diagonal rapidement

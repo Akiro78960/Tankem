@@ -14,9 +14,12 @@ import random
 
 #Module qui sert à la création des maps
 class Map(DirectObject.DirectObject):
-    def __init__(self, mondePhysique):
+    def __init__(self, mondePhysique, dtoValues):
         #On garde le monde physique en référence
         self.mondePhysique = mondePhysique
+
+        #On prends les infos du dto
+        self.dtoValues = dtoValues
 
         #initialisation des constantes utiles
         self.map_nb_tuile_x = 10
@@ -152,25 +155,25 @@ class Map(DirectObject.DirectObject):
 
     def tirerCanon(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
-        someBalle = balle.Balle(identifiantLanceur,self.mondePhysique)
+        someBalle = balle.Balle(identifiantLanceur,self.mondePhysique,self.dtoValues)
         self.listeBalle.append(someBalle)
         someBalle.projetter(position,direction)
 
     def tirerMitraillette(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
-        someBalle = balle.Balle(identifiantLanceur,self.mondePhysique)
+        someBalle = balle.Balle(identifiantLanceur,self.mondePhysique,self.dtoValues)
         self.listeBalle.append(someBalle)
         someBalle.projetterRapide(position,direction)
 
     def lancerGrenade(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
-        someBalle = balle.Balle(identifiantLanceur, self.mondePhysique)
+        someBalle = balle.Balle(identifiantLanceur, self.mondePhysique,self.dtoValues)
         self.listeBalle.append(someBalle)
-        someBalle.lancer(position,direction)
+        someBalle.lancer(position,direction,self.dtoValues.getValue("GRENADE_VITESSE_BALLE"))
 
     def lancerGuide(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
-        someBalle = balle.Balle(identifiantLanceur, self.mondePhysique)
+        someBalle = balle.Balle(identifiantLanceur, self.mondePhysique,self.dtoValues)
         self.listeBalle.append(someBalle)
 
         #On définit la position d'arrivé de missile guidé
@@ -182,13 +185,13 @@ class Map(DirectObject.DirectObject):
 
     def deposerPiege(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
-        someBalle = balle.Balle(identifiantLanceur, self.mondePhysique)
+        someBalle = balle.Balle(identifiantLanceur, self.mondePhysique,self.dtoValues)
         self.listeBalle.append(someBalle)
         someBalle.deposer(position,direction)
 
     def tirerShotgun(self, identifiantLanceur, position, direction):
         #Création d'une balle de physique
-        someBalle = balle.Balle(identifiantLanceur,self.mondePhysique)
+        someBalle = balle.Balle(identifiantLanceur,self.mondePhysique,self.dtoValues)
         self.listeBalle.append(someBalle)
         someBalle.projetterVariable(position,direction)
 
@@ -265,7 +268,7 @@ class Map(DirectObject.DirectObject):
     def creerNoeudAnimationVerticale(self):
         #Création d'un noeud vide
         noeudAnimationCourrant = NodePath("AnimationMurVerticale")
-        tempsMouvement = 0.8
+        tempsMouvement = self.dtoValues.getValue("TEMPS_MOUVEMENT_BLOCS")
         blocPosInterval1 = LerpPosInterval( noeudAnimationCourrant,
                                             tempsMouvement,
                                             Vec3(0,0,-self.map_grosseur_carre + self.map_petite_valeur_carre),
@@ -292,7 +295,7 @@ class Map(DirectObject.DirectObject):
     def creerNoeudAnimationVerticaleInverse(self):
         #Création d'un noeud vide
         noeudAnimationCourrant = NodePath("AnimationMurVerticaleInverse")
-        tempsMouvement = 0.8
+        tempsMouvement = self.dtoValues.getValue("TEMPS_MOUVEMENT_BLOCS")
         blocPosInterval1 = LerpPosInterval( noeudAnimationCourrant,
                                             tempsMouvement,
                                             Vec3(0,0,-self.map_grosseur_carre + self.map_petite_valeur_carre),
@@ -317,7 +320,7 @@ class Map(DirectObject.DirectObject):
 
 
     def creerChar(self,positionX, positionY, identifiant, couleur):
-        someTank = tank.Tank(identifiant,couleur,self.mondePhysique)
+        someTank = tank.Tank(identifiant,couleur,self.mondePhysique,self.dtoValues)
         #On place le tank sur la grille
         self.placerSurGrille(someTank.noeudPhysique,positionX,positionY)
 

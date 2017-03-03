@@ -23,10 +23,7 @@ class GameLogic(ShowBase):
         self.accept("DemarrerPartie",self.startGame)
         self.daoBalanceOracle = common.internal.BalanceDAODTO.DAOBalanceOracle.DAOBalanceOracle()
         self.dtoValues = self.daoBalanceOracle.read("tankem_values")
-        print "1", self.dtoValues.getValue("MISSILE_RELOAD")
-        self.dtoValues.setValue("MISSILE_RELOAD", 4.0)
-        print "2", self.dtoValues.getValue("MISSILE_RELOAD")
-        self.daoBalanceOracle.update(self.dtoValues)
+        # self.dtoText = self.daoBalanceOracle.read("tankem_text")
         # tmpDic = self.dto.getDTO()
         # for k,v in tmpDic.items():
         #     print k, v
@@ -62,8 +59,8 @@ class GameLogic(ShowBase):
         self.setup()
         #On démarrer l'effet du compte à rebour.
         #La fonction callBackDebutPartie sera appelée à la fin
-        self.interfaceMessage.effectCountDownStart(3,self.callBackDebutPartie)
-        self.interfaceMessage.effectMessageGeneral("Appuyer sur F1 pour l'aide",3)
+        self.interfaceMessage.effectCountDownStart(int(self.dtoValues.getValue("MESSAGE_COUNTDOWN_DUREE")),self.callBackDebutPartie)
+        self.interfaceMessage.effectMessageGeneral("Appuyer sur F1 pour l'aide",int(self.dtoValues.getValue("MESSAGE_COUNTDOWN_DUREE")))
 
     def setupBulletPhysics(self):
         debugNode = BulletDebugNode('Debug')
@@ -98,7 +95,7 @@ class GameLogic(ShowBase):
         camera.lookAt(render)
 
     def setupMap(self):
-        self.map = Map(self.mondePhysique)
+        self.map = Map(self.mondePhysique, self.dtoValues)
         #On construire la carte comme une coquille, de l'extérieur à l'intérieur
         #Décor et ciel
         self.map.construireDecor(camera)
@@ -147,7 +144,7 @@ class GameLogic(ShowBase):
         self.interfaceTank.append(InterfaceTank(0,self.map.listTank[0].couleur))
         self.interfaceTank.append(InterfaceTank(1,self.map.listTank[1].couleur))
 
-        self.interfaceMessage = InterfaceMessage()
+        self.interfaceMessage = InterfaceMessage(self.dtoValues)
 
     def callBackDebutPartie(self):
         #Quand le message d'introduction est terminé, on permet aux tanks de bouger

@@ -30,7 +30,8 @@ CREATE TABLE tankem_values(
 CREATE TABLE tankem_text(
 	id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
 	message_acceuil VARCHAR2(60),
-	message_start VARCHAR2(50)
+	message_start VARCHAR2(50),
+	message_fin VARCHAR2(70)
 );
 -- Insertion de valeurs dans la table
 INSERT INTO tankem_values (vitesse_char,vitesse_rotation,vie,temps_mouvement_blocs,
@@ -39,7 +40,7 @@ grenade_vitesse_balle,grenade_reload,shotgun_vitesse_balle,shotgun_reload,shotgu
 piege_vitesse_balle,piege_reload,missile_vitesse_balle,missile_reload,spring_vitesse_saut,
 spring_reload,rayon_explosion,message_acceuil_duree,message_countdown_duree)
 VALUES (7,1500,200,0.8,14,1.2,18,0.4,16,0.8,13,1.8,0.4,1,0.8,30,3,10,0.5,8,3,3);
-INSERT INTO tankem_text (message_acceuil,message_start) VALUES ('Es ist Zeit für Reich!','Wir müssen die Juden ausrotten!');
+INSERT INTO tankem_text (message_acceuil,message_start,message_fin) VALUES ('Es ist Zeit für Reich!','Wir müssen die Juden ausrotten!','Jai pas de jokes :c');
 
 
 -- Ne pas oublier le commit pour que les données soient vraiment dans la table
