@@ -23,7 +23,15 @@ class GameLogic(ShowBase):
         self.accept("DemarrerPartie",self.startGame)
         self.daoBalanceOracle = common.internal.BalanceDAODTO.DAOBalanceOracle.DAOBalanceOracle()
         self.dtoValues = self.daoBalanceOracle.read("tankem_values")
+<<<<<<< HEAD
         # self.dtoText = self.daoBalanceOracle.read("tankem_text")
+=======
+        self.dtoValues.setValue("MISSILE_RELOAD", 5000000)
+        self.sanitizer = common.internal.BalanceDAODTO.SanitizerBalance.SanitizerBalance(self.dtoValues,True,True)
+        self.sanitizer.sanitizeDto()
+        print self.dtoValues.getValue("missile_reload")
+        # self.daoBalanceOracle.update(self.dtoValues)
+>>>>>>> 41a180ffcce1a7bf65f83c4557b834209b959991
         # tmpDic = self.dto.getDTO()
         # for k,v in tmpDic.items():
         #     print k, v

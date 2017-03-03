@@ -14,25 +14,22 @@ def choisirFichierCSV():
     filename = askopenfilename(filetypes=[("CSV files","*.csv"), ("all files", "*")], defaultextension= "*.csv")
     return filename
 
-DAOcsv = common.internal.BalanceDAODTO.DAOBalanceCsv.DAOBalanceCsv()
-DTO = DAOcsv.read("test.csv")
-#DAOracle = common.internal.BalanceDAODTO.DAOBalanceOracle.DAOBalanceOracle()
-DAOcsv.update("test2.csv", DTO.getDTO())
-print "success"
+
+nomFichier = "test.csv"
 
 
-'''
 print ("Voulez vous utiliser un fichier csv existant ou en creer un nouveau ?")
 reponse = raw_input("pesez C pour creer ou U pour ouvrir un CSV ")
 if str.upper(reponse) == str.upper('c'):
     print ("creation de fichier")
-    with open("test.csv","wb") as csvfile :
-        csvwriter = csv.writer(csvfile,delimiter=";")
-        csvwriter.writerow(["Name","Value"])
-        os.system("start excel.exe " + "test.csv")
-        print("fichier test.csv créer")
+    DAOracle = common.internal.BalanceDAODTO.DAOBalanceOracle.DAOBalanceOracle()
+    DAOcsv = common.internal.BalanceDAODTO.DAOBalanceCsv.DAOBalanceCsv()
+    DTO = DAOracle.read("tankem_values")
+    DAOcsv.update(nomFichier, DTO)
+    print("fichier test.csv créer")
+    os.system("start excel.exe " + nomFichier)
 else:
     print ("choisir un fichier CSV")
     nomFichier = choisirFichierCSV()
     os.system("start excel.exe " + nomFichier)
-'''
+

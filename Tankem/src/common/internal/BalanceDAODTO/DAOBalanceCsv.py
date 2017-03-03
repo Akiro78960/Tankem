@@ -10,12 +10,13 @@ class DAOBalanceCsv(DAOBalance):
 			reader = csv.DictReader(csvfile,delimiter=";")
 			for row in reader:
 				print(row['Name'], row['Value'])
-				DTO.appendNewValue(row['Name'],row['Value'])
+				DTO.setValue(row['Name'],row['Value'])
 		return DTO
 
 	def update(self, file, dto):
+		DTO = dto.getDictionary()
 		with open(file,"wb") as csvfile :
 			csvwriter = csv.writer(csvfile,delimiter=";")
 			csvwriter.writerow(["Name","Value"])
-			for key, value in dto.iteritems():
+			for key, value in DTO.iteritems():
 				csvwriter.writerow([key,value])
