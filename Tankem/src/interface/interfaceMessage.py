@@ -9,9 +9,10 @@ from direct.interval.LerpInterval import *
 from direct.interval.IntervalGlobal import *
  
 class InterfaceMessage(ShowBase):
-    def __init__(self, dtoValues):
+    def __init__(self, dtoValues, dtoText):
         #On prends les infos du dto
         self.dtoValues = dtoValues
+        self.dtoText = dtoText
 
         self.accept("tankElimine",self.displayGameOver)
         self.callBackFunction = None
@@ -51,7 +52,7 @@ class InterfaceMessage(ShowBase):
         sequence.start()
 
     def displayStartGame(self):
-        message = "Tankem!"
+        message = self.dtoText.getValue("MESSAGE_START")
         startScale = 0.4
 
         text = TextNode('Début de la partie')
@@ -72,7 +73,7 @@ class InterfaceMessage(ShowBase):
     def displayGameOver(self, idPerdant):
         joueurGagnant = 1 if idPerdant == 1 else 2
 
-        message = "\n Joueur "+ str(joueurGagnant) + " a gagné!"
+        message = self.dtoText.getValue("MESSAGE_FIN")#"\n Joueur "+ str(joueurGagnant) + " a gagné!"
         startScale = 0.3
 
         text = TextNode('Annonce game over')
