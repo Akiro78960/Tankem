@@ -123,19 +123,24 @@ class SanitizerBalance():
     # Verifie si les valeurs respectent les min/max
 
     def sanitizeDto(self):
+        isValid = True
         for key in self.keysList:
             value = self.dtoValues.getValue(key)
             min = self.dtoMin.getValue(key)
             max = self.dtoMax.getValue(key)
 
             if(value < min):
+                isValid = False
                 if(self.feedback):
-                    print key + " est en dessous du minimum"
+                    print key + " est en dessous du minimum " + str(value) + "/" + str(min)
                 if(self.rewrite):
                    self.dtoValues.setValue(key,min)
 
             if(value > max):
+                isValid = False
                 if(self.feedback):
-                    print key + " est au dessus du maximum"
+                    print key + " est au dessus du maximum " + str(value) + "/" + str(max)
                 if(self.rewrite):
                    self.dtoValues.setValue(key,max)
+                
+        return isValid

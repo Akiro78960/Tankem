@@ -10,7 +10,10 @@ class DAOBalanceCsv(DAOBalance):
 			reader = csv.DictReader(csvfile,delimiter=";")
 			for row in reader:
 				print(row['Name'], row['Value'])
-				DTO.setValue(row['Name'],row['Value'])
+				if((row['Value'] != "TANKEM_VALUES") and row['Value']!= ""):
+					DTO.setValue((row['Name']),float(row['Value']))
+				else:
+					DTO.setValue((row['Name']),row['Value'])
 		return DTO
 
 	def update(self, file, dto):
