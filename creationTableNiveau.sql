@@ -1,0 +1,30 @@
+-- DROP TABLE editor_spawn;
+-- DROP TABLE editor_tuile;
+-- DROP TABLE editor_niveau;
+
+CREATE TABLE editor_niveau (
+	id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+	name VARCHAR2(50) NOT NULL,
+	creation_date DATE NOT NULL,
+	status NUMBER(1) NOT NULL,
+	size_x NUMBER NOT NULL,
+	size_y NUMBER NOT NULL,
+	item_delay REAL NOT NULL
+);
+
+CREATE TABLE editor_tuile (
+	id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+	id_niveau NUMBER NOT NULL,
+	type NUMBER NOT NULL,
+	pos_x NUMBER NOT NULL,
+	pos_y NUMBER NOT NULL,
+	has_tree NUMBER(1) NOT NULL,
+	CONSTRAINT fk_niveau FOREIGN KEY (id_niveau) REFERENCES editor_niveau(id)
+);
+
+CREATE TABLE editor_spawn (
+	id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+	id_tuile NUMBER NOT NULL,
+	no_player NUMBER NOT NULL,
+	CONSTRAINT fk_tuile FOREIGN KEY (id_tuile) REFERENCES editor_tuile(id)
+);
