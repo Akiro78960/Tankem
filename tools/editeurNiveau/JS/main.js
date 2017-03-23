@@ -9,6 +9,32 @@ var imgblock1 = new Image()
 var imgblock2 = new Image()
 var imgblock3 = new Image()
 var imgblock4 = new Image()
+var imgtree = new Image()
+var selector = null;
+var is0pushed = false
+var is1pushed = false
+var is2pushed = false
+var is3pushed = false
+var is4pushed = false
+
+
+document.onkeydown = function (e) {
+    console.log(e);
+    switch(e.key){
+        case "0":
+            is0pushed=true
+            break
+    }
+    selector.updatePosition(e)
+}
+
+document.onkeyup = function(e){
+    switch(e.key){
+        case "0":
+            is0pushed=false
+            break
+    }
+}
 
 window.onload = function(){
 
@@ -19,11 +45,14 @@ window.onload = function(){
     imgblock2.src="images/block2.jpg"
     imgblock3.src="images/block3.jpg"
     imgblock4.src="images/block4.png"
+    imgtree.src="images/treeAlpha.png"
 
     longueurGrid = sizeTuile * niveau.tailleX;
     hauteurGrid = sizeTuile * niveau.tailleY;
     debX = (document.getElementById("canvas").width - longueurGrid) / 2;
     debY = (document.getElementById("canvas").height - hauteurGrid) / 2;
+
+    selector = new Selector(0,0,sizeTuile);
 
     tick()
 }
@@ -33,11 +62,13 @@ function tick(){
     ctx.clearRect(0,0,document.getElementById("canvas").width,document.getElementById("canvas").height)
     drawTiles();
     drawGrid();
+    selector.tick();
 
     window.requestAnimationFrame(tick)
 }
 
 function drawGrid(){
+    ctx.strokeStyle = "black"
     for(var i = 0; i <= niveau.tailleY; ++i){
         ctx.beginPath();
         ctx.moveTo(debX,debY + sizeTuile * i);
@@ -72,6 +103,9 @@ function drawTiles() {
                 case 4:
                     ctx.drawImage(imgblock4,debX + x * sizeTuile, debY + y * sizeTuile, sizeTuile, sizeTuile )
                     break
+            }
+            if(niveau.tabTile[x][y].hasTree){
+                ctx.drawImage(imgtree, sizeTuile/4+ debX + x * sizeTuile, sizeTuile/4+ debY + y * sizeTuile, sizeTuile/2, sizeTuile/2)
             }
         }
     }

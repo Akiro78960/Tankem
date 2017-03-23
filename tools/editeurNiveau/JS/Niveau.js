@@ -14,9 +14,15 @@ class Niveau{
         this.tabTile[2][2].type = 2
         this.tabTile[3][3].type = 3
         this.tabTile[4][4].type = 4
+        this.tabTile[2][2].hasTree = 1
+        this.tabTile[4][4].hasTree = 1
+        this.tabTile[1][1].hasTree = 1
     }
     setSize(x,y){
         this.tailleX = x
         this.tailleY = y
+    }
+    setTile(x,y,type){
+        this.tabTile[x][y].type=type
     }
 }
