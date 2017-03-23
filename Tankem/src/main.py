@@ -14,7 +14,7 @@ from direct.showbase.ShowBase import ShowBase
 #Modules internes
 from gameLogic import GameLogic
 from interface import InterfaceMenuPrincipal
- 
+from menu import *
 class Tankem(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
@@ -24,9 +24,9 @@ class Tankem(ShowBase):
         self.gameLogic = GameLogic(self)
         #Commenter/décommenter la ligne de votre choix pour démarrer le jeu
         #Démarre dans le menu
-        #self.menuPrincipal = InterfaceMenuPrincipal()
+        self.menuPrincipal = MenuPrincipal()
         #Démarre directement dans le jeu
-        messenger.send("DemarrerPartie")
+        #messenger.send("DemarrerPartie")
 
 #Main de l'application.. assez simple!
 app = Tankem()
