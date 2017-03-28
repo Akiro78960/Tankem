@@ -2,6 +2,7 @@
 #Ajout des chemins vers les librarires
 from util import inclureCheminCegep
 import sys
+# from Menu import MenuPrincipal
 #TEST
 
 #Importe la configuration de notre jeu
@@ -10,11 +11,10 @@ loadPrcFile("config/ConfigTankem.prc")
 
 #Module de Panda3DappendObject
 from direct.showbase.ShowBase import ShowBase
-
+from interface import *
 #Modules internes
 from gameLogic import GameLogic
 from interface import InterfaceMenuPrincipal
-from menu import *
 class Tankem(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
