@@ -16,7 +16,6 @@ class Selector{
         ctx.lineTo(pixX, pixY + this.size);
         ctx.lineTo(pixX, pixY);
         ctx.stroke();
-        console.log(this.x);
     }
 
     updatePosition(e){
@@ -38,7 +37,7 @@ class Selector{
                 }
                 break
             case "ArrowUp":
-                if (this.x>0) {
+                if (this.y>0) {
                     --this.y;
                 }
                 break
@@ -57,8 +56,55 @@ class Selector{
             case "4":
                 niveau.setTile(this.x, this.y, 4)
                 break;
+            case "q":
+                if(!niveau.isSpawnHere(this.x, this.y, 0))
+                niveau.toggleTree(this.x, this.y)
+                break
+            case "a":
+                var spawn = niveau.tabSpawn[0]
+                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 1)){
+                    if(spawn.x == this.x && spawn.y == this.y){
+                        spawn.isActive = ! spawn.isActive
+                    } else{
+                        spawn.isActive = true;
+                    }
+                    niveau.tabSpawn[0].changePos(this.x, this.y)
+                }
+                break
+            case "s":
+                var spawn = niveau.tabSpawn[1]
+                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 2)){
+                    if(spawn.x == this.x && spawn.y == this.y){
+                        spawn.isActive = ! spawn.isActive
+                    } else {
+                        spawn.isActive = true;
+                    }
+                    niveau.tabSpawn[1].changePos(this.x, this.y)
+                }
+                break
+            case "d":
+                var spawn = niveau.tabSpawn[2]
+                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 3)){
+                    if(spawn.x == this.x && spawn.y == this.y){
+                        spawn.isActive = ! spawn.isActive
+                    } else {
+                        spawn.isActive = true;
+                    }
+                    niveau.tabSpawn[2].changePos(this.x, this.y)
+                }
+                break
+            case "f":
+                var spawn = niveau.tabSpawn[3]
+                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 4)){
+                    if(spawn.x == this.x && spawn.y == this.y){
+                        spawn.isActive = ! spawn.isActive
+                    } else {
+                        spawn.isActive = true;
+                    }
+                    niveau.tabSpawn[3].changePos(this.x, this.y)
+                }
+                break
             default:
-
         }
     }
 }

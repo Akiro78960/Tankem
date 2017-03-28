@@ -19,27 +19,30 @@ var is4pushed = false
 
 
 document.onkeydown = function (e) {
-    console.log(e);
-    switch(e.key){
-        case "0":
-            is0pushed=true
-            break
-    }
+    // console.log(e);
+    // switch(e.key){
+    //     case "0":
+    //         is0pushed=true
+    //         break
+    // }
     selector.updatePosition(e)
 }
 
-document.onkeyup = function(e){
-    switch(e.key){
-        case "0":
-            is0pushed=false
-            break
-    }
-}
+// document.onkeyup = function(e){
+//     switch(e.key){
+//         case "0":
+//             is0pushed=false
+//             break
+//     }
+// }
 
 window.onload = function(){
 
     ctx = document.getElementById("canvas").getContext("2d")
     niveau = new Niveau(12,12)
+    document.getElementById("tailleX").value=niveau.tailleX
+    document.getElementById("tailleY").value=niveau.tailleY
+
 
     imgblock1.src="images/block1.png"
     imgblock2.src="images/block2.jpg"
@@ -54,6 +57,7 @@ window.onload = function(){
 
     selector = new Selector(0,0,sizeTuile);
 
+
     tick()
 }
 
@@ -63,6 +67,9 @@ function tick(){
     drawTiles();
     drawGrid();
     selector.tick();
+    for (var i = 0; i < niveau.tabSpawn.length; i++) {
+        niveau.tabSpawn[i].tick();
+    }
 
     window.requestAnimationFrame(tick)
 }
