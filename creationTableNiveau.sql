@@ -17,7 +17,7 @@ CREATE TABLE editor_tuile (
 	pos_x NUMBER NOT NULL,
 	pos_y NUMBER NOT NULL,
 	id_niveau NUMBER NOT NULL,
-	type NUMBER NOT NULL,
+	type_tuile NUMBER NOT NULL,
 	has_tree NUMBER(1) NOT NULL,
 	CONSTRAINT pk_tuile PRIMARY KEY (pos_x, pos_y),
 	CONSTRAINT fk_niveau_tuile FOREIGN KEY (id_niveau) REFERENCES editor_niveau(id)
