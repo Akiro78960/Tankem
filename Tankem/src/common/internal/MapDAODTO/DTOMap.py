@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class DTOMap:
+class DTOmap:
 
     # Constructor
     def __init__(self, name, creation_date, status, size_x, size_y, item_delay_min, item_delay_max):

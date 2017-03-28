@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class DTOTuile:
+class DTOtuile:
 
     # Constructor
     def __init__(self, pos_x, pos_y, id_niveau, type_tuile, has_tree):

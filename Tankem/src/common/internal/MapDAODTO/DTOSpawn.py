@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class DTOSpawn:
+class DTOspawn:
 
     # Constructor
     def __init__(self, pos_x, pos_y, id_niveau, no_player):
