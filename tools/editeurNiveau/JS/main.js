@@ -11,30 +11,11 @@ var imgblock3 = new Image()
 var imgblock4 = new Image()
 var imgtree = new Image()
 var selector = null;
-var is0pushed = false
-var is1pushed = false
-var is2pushed = false
-var is3pushed = false
-var is4pushed = false
 
 
 document.onkeydown = function (e) {
-    // console.log(e);
-    // switch(e.key){
-    //     case "0":
-    //         is0pushed=true
-    //         break
-    // }
     selector.updatePosition(e)
 }
-
-// document.onkeyup = function(e){
-//     switch(e.key){
-//         case "0":
-//             is0pushed=false
-//             break
-//     }
-// }
 
 window.onload = function(){
 
@@ -129,4 +110,34 @@ function clickButton(){
     hauteurGrid = sizeTuile * niveau.tailleY;
     debX = (document.getElementById("canvas").width - longueurGrid) / 2;
     debY = (document.getElementById("canvas").height - hauteurGrid) / 2;
+}
+
+function envoyerTables(){
+    var date = new Date();
+    date = date.getUTCFullYear() + '-' +
+        ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
+        ('00' + date.getUTCDate()).slice(-2) + ' ' + 
+        ('00' + date.getUTCHours()).slice(-2) + ':' + 
+        ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
+        ('00' + date.getUTCSeconds()).slice(-2);
+
+    var dtoNiveau = new DTONiveau(
+        document.getElementById("nomNiveau").value,
+        date,
+        document.getElementById("status").value,
+        niveau.tailleX,
+        niveau.tailleY,
+        document.getElementById("itemDelMin").value,
+        document.getElementById("itemDelMax")
+    )
+
+    var tabTuile = [];
+    for (var i = 0; i < niveau.tailleX; ++i){
+        for(var j = 0; j < niveau.tailleY; ++j){
+            if(niveau.tabTile[i][j].type != 0){
+                tabTuile.push(new DTOTuile(niveau.tabTile[i][j].x,niveau.tabTile[i][j].y,niveau.tabTile[i][j].type,niveau.tabTile[i][j].hasTree));
+            }
+        }
+    }
+
 }
