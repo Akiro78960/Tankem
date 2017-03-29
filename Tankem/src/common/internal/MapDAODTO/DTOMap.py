@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-
 class DTOmap:
 
     # Constructor
-    def __init__(self, name, creation_date, status, size_x, size_y, item_delay_min, item_delay_max):
+    def __init__(self, id_niveau, name, creation_date, status,
+                 size_x, size_y, item_delay_min, item_delay_max):
+
         self.id_niveau = id_niveau
         self.name = name
         self.creation_date = creation_date
@@ -17,32 +18,32 @@ class DTOmap:
 
     # Getters
 
-    def getId (self):
+    def getId(self):
         return self.id_niveau
 
-    def getName (self):
+    def getName(self):
         return self.name
 
-    def getDate (self):
+    def getDate(self):
         return self.creation_date
 
-    def getStatus (self):
+    def getStatus(self):
         return self.status
 
-    def getSizeX (self):
+    def getSizeX(self):
         return self.size_x
 
-    def getSizeY (self):
+    def getSizeY(self):
         return self.size_y
 
-    def getItemDelayMin (self):
+    def getItemDelayMin(self):
         return self.item_delay_min
 
-    def getItemDelayMax (self):
+    def getItemDelayMax(self):
         return self.item_delay_max
 
-    def getArrayTuiles (self):
+    def getArrayTuiles(self):
         return self.array_tuiles
 
-    def getArraySpawns (self):
+    def getArraySpawns(self):
         return self.array_spawns

@@ -3,33 +3,46 @@ from DAO import DAO
 from DTOTuile import DTOtuile
 from DTOSpawn import DTOspawn
 from DTOMap import DTOmap
+from DTOListmap import DTOlistmap
 import cx_Oracle
 
-class DAOMapOracle(DAOBalance):
 
+class DAOmaporacle():
+
+    # Connection
     def __init__(self):
-        self.connection = cx_Oracle.connect('e1384492','C','10.57.4.60/DECINFO.edu')
+        self.connection = cx_Oracle.connect('e1384492', 'C',
+                                            '10.57.4.60/DECINFO.edu')
 
-    def read (self):
-        table_name = table_name.upper()
-        DTO
-        DTOmap = DTOmap()
+        self.DTOlistmap = DTOlistmap()
+
+    def read(self):
+        # Get array maps
         curRead = self.connection.cursor()
-
-        curRead = curRead.execute("SELECT column_name FROM user_tab_columns WHERE table_name = '%s'" % (table_name))
-        keysList = curRead.fetchall()
-
+        curRead = curRead.execute("SELECT * FROM %s " % ("EDITOR_NIVEAU"))
+        arrayMapTmp = curRead.fetchall()
         curRead.close()
 
-        for key in keysList:
+        nbMaps = arrayMapTmp.length()
+
+        # Append each map to DTOlistmap
+        for i in range(0, nbMaps):
+            DTOmapTmp = DTOmap()
+
+            # Get tuiles of map
             curRead = self.connection.cursor()
-            curRead.execute("SELECT %s FROM %s" % (key[0],table_name))
-            value = curRead.fetchall()
+            curRead.execute("SELECT * FROM EDITOR_TUILE WHERE id_niveau='%s'"
+                            % (i))
 
-            tmpDTO.setValue(key[0], value[0][0])
-
+            arrayTuilesTmp = curRead.fetchall()
             curRead.close()
 
-        tmpDTO.setValue("TABLE_NAME", table_name)
+            # Get tuiles of map
+            curRead = self.connection.cursor()
+            curRead.execute("SELECT * FROM EDITOR_SPAWN WHERE id_niveau='%s'"
+                            % (i))
 
-        return DTOmap
+            arraySpawnTmp = curRead.fetchall()
+            curRead.close()
+
+        return self.DTOlistmap
