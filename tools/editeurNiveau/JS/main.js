@@ -113,6 +113,12 @@ function clickButton(){
 }
 
 function envoyerTables(){
+    var dtoNiveau; //Le niveau qu'on envoie à la BD
+    var dtoTuile; //La table de tuiles que l'on envoie à la BD
+    var dtoSpawn; //la table de spawn que on envoit à la BD
+    var tabReturn; //La table que l'on return qui contient les infos des 2 variables précédentes
+
+    //Création du'ne variable de la date actuelle pour Oracle
     var date = new Date();
     date = date.getUTCFullYear() + '-' +
         ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
@@ -121,7 +127,7 @@ function envoyerTables(){
         ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
         ('00' + date.getUTCSeconds()).slice(-2);
 
-    var dtoNiveau = new DTONiveau(
+    dtoNiveau = new DTONiveau(
         document.getElementById("nomNiveau").value,
         date,
         document.getElementById("status").value,
@@ -131,13 +137,39 @@ function envoyerTables(){
         document.getElementById("itemDelMax")
     )
 
-    var tabTuile = [];
-    for (var i = 0; i < niveau.tailleX; ++i){
-        for(var j = 0; j < niveau.tailleY; ++j){
+    dtoTuile = [];
+    for (var i = 0; i < niveau.tailleY; ++i){
+        for(var j = 0; j < niveau.tailleX; ++j){
             if(niveau.tabTile[i][j].type != 0){
-                tabTuile.push(new DTOTuile(niveau.tabTile[i][j].x,niveau.tabTile[i][j].y,niveau.tabTile[i][j].type,niveau.tabTile[i][j].hasTree));
+                dtoTuile.push(new DTOTuile(niveau.tabTile[i][j].x,niveau.tabTile[i][j].y,niveau.tabTile[i][j].type,niveau.tabTile[i][j].hasTree));
             }
         }
     }
 
+    dtoSpawn = [];
+    for(var i = 0; i < niveau.tabSpawn.length; ++i){
+        if(niveau.tabSpawn[i].isActive){
+            dtoSpawn.push(new DTOSpawn(niveau.tabSpawn[i].x, niveau.tabSpawn[i].y, niveau.tabSpawn[i].idPlayer));
+        }
+    }
+    for(var i = 0; i < dtoSpawn.length; ++i){
+        var present = false;
+        for(var j = 0; j < dtoSpawn.length; ++j){
+            if(dtoSpawn[j].no_player == i + 1){
+                present = true;
+            }
+        }
+        console.log("Present : " + present);
+        if(present == false){
+            for(var j = i; j < dtoSpawn.length; ++j){
+                --dtoSpawn[j].no_player;
+            }
+        }
+    }
+
+    tabReturn = [dtoNiveau, dtoTuile, dtoSpawn];
+    
+    console.log(tabReturn);
+
+    return tabReturn;
 }

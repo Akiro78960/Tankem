@@ -16,6 +16,7 @@
         <script src="JS/jquery.js"></script>
         <script src="JS/DTONiveau.js"></script>
         <script src="JS/DTOTuile.js"></script>
+        <script src="JS/DTOSpawn.js"></script>
         <link rel="stylesheet" href="style.css" type="text/css"/>
         <title>level editor</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>

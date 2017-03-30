@@ -57,12 +57,13 @@ class Selector{
                 niveau.setTile(this.x, this.y, 4)
                 break;
             case "q":
-                if(!niveau.isSpawnHere(this.x, this.y, 0))
-                niveau.toggleTree(this.x, this.y)
+                if(!niveau.isSpawnHere(this.x, this.y, 0) && niveau.tabTile[this.x][this.y].type != 0){
+                    niveau.toggleTree(this.x, this.y)
+                }
                 break
             case "a":
                 var spawn = niveau.tabSpawn[0]
-                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 1)){
+                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 1) && niveau.tabTile[this.x][this.y].type != 0){
                     if(spawn.x == this.x && spawn.y == this.y){
                         spawn.isActive = ! spawn.isActive
                     } else{
@@ -73,7 +74,7 @@ class Selector{
                 break
             case "s":
                 var spawn = niveau.tabSpawn[1]
-                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 2)){
+                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 2) && niveau.tabTile[this.x][this.y].type != 0){
                     if(spawn.x == this.x && spawn.y == this.y){
                         spawn.isActive = ! spawn.isActive
                     } else {
@@ -84,7 +85,7 @@ class Selector{
                 break
             case "d":
                 var spawn = niveau.tabSpawn[2]
-                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 3)){
+                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 3) && niveau.tabTile[this.x][this.y].type != 0){
                     if(spawn.x == this.x && spawn.y == this.y){
                         spawn.isActive = ! spawn.isActive
                     } else {
@@ -95,7 +96,7 @@ class Selector{
                 break
             case "f":
                 var spawn = niveau.tabSpawn[3]
-                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 4)){
+                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 4) && niveau.tabTile[this.x][this.y].type != 0){
                     if(spawn.x == this.x && spawn.y == this.y){
                         spawn.isActive = ! spawn.isActive
                     } else {
