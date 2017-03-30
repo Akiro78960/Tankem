@@ -1,6 +1,22 @@
 #canvas{
     border: 1px solid grey;
+    margin: 3%;
 }
 main{
     text-align: center;
+}
+table{
+    margin: 5%;
+    text-align: left;
+    border: 1px solid black;
+}
+table td {
+   border-top: 1px solid black;
+}
+table tr:nth-of-type(1) td{
+   border-top: none;
+}
+.bold{
+    margin-top: 10%;
+    font-weight: bold;
 }

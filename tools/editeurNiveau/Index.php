@@ -35,6 +35,94 @@
                 Delai minimum des objets: <input type="text" id="itemDelMin"/>
                 Delai maximum des objets: <input type="text" id="itemDelMax"/>
             </div>
+            <div style="float:left;margin:5%;">
+                <table class="controles">
+                    <div class="bold">Controles:</div>
+                    <tr>
+                        <td>Fleches:</td>
+                        <td>Deplacer le selecteur</td>
+                    </tr>
+                    <tr>
+                        <td>0:</td>
+                        <td>Enleve tuile</td>
+                    </tr>
+                    <tr>
+                        <td>1:</td>
+                        <td>Place tuile sol</td>
+                    </tr>
+                    <tr>
+                        <td>2:</td>
+                        <td>Place tuile mur</td>
+                    </tr>
+                    <tr>
+                        <td>3:</td>
+                        <td>Place tuile mobile</td>
+                    </tr>
+                    <tr>
+                        <td>4:</td>
+                        <td>Place tuile mobile avec rythme inversé</td>
+                    </tr>
+                    <tr>
+                        <td>Q:</td>
+                        <td>Place/enleve arbre</td>
+                    </tr>
+                    <tr>
+                        <td>A:</td>
+                        <td>Place spawn Joueur1</td>
+                    </tr>
+                    <tr>
+                        <td>S:</td>
+                        <td>Place spawn Joueur2</td>
+                    </tr>
+                    <tr>
+                        <td>D:</td>
+                        <td>Place spawn Joueur3</td>
+                    </tr>
+                    <tr>
+                        <td>F:</td>
+                        <td>Place spawn Joueur4</td>
+                    </tr>
+                </table>
+                <table class="legende">
+                    <div class="bold">Legende:</div>
+                    <tr>
+                        <td><div style="border:2px solid red;width:30px;height:30px;"></div></td>
+                        <td>Selector</td>
+                    </tr>
+                    <tr>
+                        <td><div style="border:2px solid blue;width:30px;height:30px;"></div></td>
+                        <td>Spawn Joueur1</td>
+                    </tr>
+                    <tr>
+                        <td><div style="border:2px solid purple;width:30px;height:30px;"></div></td>
+                        <td>Spawn Joueur2</td>
+                    </tr>
+                    <tr>
+                        <td><div style="border:2px solid yellow;width:30px;height:30px;"></div></td>
+                        <td>Spawn Joueur3</td>
+                    </tr>
+                    <tr>
+                        <td><div style="border:2px solid green;width:30px;height:30px;"></div></td>
+                        <td>Spawn Joueur4</td>
+                    </tr>
+                    <tr>
+                        <td><img src="images/block1.png" width="30" height="30"></td>
+                        <td>Tuile sol</td>
+                    </tr>
+                    <tr>
+                        <td><img src="images/block2.jpg" width="30" height="30"></td>
+                        <td>Tuile mur</td>
+                    </tr>
+                    <tr>
+                        <td><img src="images/block3.jpg" width="30" height="30"></td>
+                        <td>Tuile mobile</td>
+                    </tr>
+                    <tr>
+                        <td><img src="images/block4.png" width="30" height="30"></td>
+                        <td>Tuile mobile avec rythme inversé</td>
+                    </tr>
+                </table>
+            </div>
             <canvas height="800", width="800" id="canvas"></canvas>
         </main>
     </body>
