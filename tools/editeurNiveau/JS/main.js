@@ -11,15 +11,8 @@ var imgblock3 = new Image()
 var imgblock4 = new Image()
 var imgtree = new Image()
 var selector = null;
-
-
-document.onkeydown = function (e) {
-    selector.updatePosition(e)
-}
-
-$(function(){
-    $("#dialog").dialog();
-});
+var span = null;
+var txtFocus = false;
 
 window.onload = function(){
 
@@ -27,7 +20,7 @@ window.onload = function(){
     niveau = new Niveau(12,12)
     document.getElementById("tailleX").value=niveau.tailleX
     document.getElementById("tailleY").value=niveau.tailleY
-
+    span = document.getElementsByClassName("close")[0];
 
     imgblock1.src="images/block1.png"
     imgblock2.src="images/block2.jpg"
@@ -41,7 +34,6 @@ window.onload = function(){
     debY = (document.getElementById("canvas").height - hauteurGrid) / 2;
 
     selector = new Selector(0,0,sizeTuile);
-
 
     tick()
 }
@@ -57,6 +49,40 @@ function tick(){
     }
 
     window.requestAnimationFrame(tick)
+}
+
+document.onkeydown = function (e) {
+    if(document.activeElement.className != "input"){
+        selector.updatePosition(e)
+    }
+}
+
+function afficherErreur(erreur){
+    var modal = document.getElementById("myModal");
+    var message = document.getElementById("messageErreur");
+
+    modal.style.display = "block";
+    message.innerHTML = erreur;
+}
+
+window.onclick = function(e) {
+    var result = null;
+    if(e.target == span){
+        var modal = document.getElementById("myModal");
+        modal.style.display = "none";
+    }
+    else if(e.target == document.getElementById("sauvegarder")){
+        result = envoyerTables();
+    }
+
+    if(result != null){
+        if(typeof result == "string"){
+            afficherErreur(result);
+        }
+        else{
+            console.log(result); //ICI POUR LE DÉBUT DAO / DTO / PHP / WHATEVER
+        }
+    }
 }
 
 function drawGrid(){
@@ -108,9 +134,9 @@ function clickButton(){
     var tailleYinput = parseInt(document.getElementById("tailleY").value)
 
     if(tailleXinput < 6 || tailleXinput > 12 || isNaN(tailleXinput)){
-        alert("La taille X doit être un nombre de 6 à 12!");
+        afficherErreur("La taille X doit être un nombre de 6 à 12!");
     } else if(tailleYinput < 6 || tailleYinput > 12 || isNaN(tailleYinput)){
-        alert("La taille Y doit être un nombre de 6 à 12!");
+        afficherErreur("La taille Y doit être un nombre de 6 à 12!");
     } else {
         niveau.setSize(tailleXinput, tailleYinput);
         longueurGrid = sizeTuile * niveau.tailleX;
@@ -187,17 +213,16 @@ function envoyerTables(){
         tabReturn = "Votre niveau a besoin d'un délai maximal des objets!";
     } else if(isNaN(dtoNiveau.itemDelMax)){
         tabReturn = "Votre délai maximal des objets doit être un nombre!";
-    } else if (dtoNiveau.itemDelMin > dtoNiveau.itemDelMax){
+    } else if (parseInt(dtoNiveau.itemDelMin) > parseInt(dtoNiveau.itemDelMax)){
         tabReturn = "Votre délai maximal des objets doit être plus grand que votre délai minimal des objets";
     } else if(dtoSpawn.length < 2){
         tabReturn = "Il n'y a pas assez de joueur sur le terrain!";
     }
 
+    //S'il n'y a pas de strings dans tabReturn, il n'y a donc pas de problème, tabReturn sera un tableau des infos
     if(tabReturn == null){
         tabReturn = [dtoNiveau, dtoTuile, dtoSpawn];
     }
-    
-    console.log(tabReturn);
 
     return tabReturn;
 }

@@ -37,7 +37,7 @@ class Niveau{
             this.tabTile[x][y].hasTree = 0
             this.nbtree--
         } else if(this.nbtree>=this.maxTree) {
-            alert("On ne peut pas avoir plus de " + this.maxTree + " surle terrain!");
+            afficherErreur("On ne peut pas avoir plus que " + this.maxTree + " arbres sur le terrain!");
         }else if(this.nbtree<this.maxTree){
             this.tabTile[x][y].hasTree = 1
             this.nbtree++

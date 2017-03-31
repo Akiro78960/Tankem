@@ -10,7 +10,6 @@
     <head>
         <script src="JS/jquery.js"></script>
         <script src="JS/spawn.js"></script>
-        <script src="JS/jquery-ui-1.9.2.custom.min.js"></script>
         <script src="JS/Tile.js"></script>
         <script src="JS/Niveau.js"></script>
         <script src="JS/main.js"></script>
@@ -25,16 +24,20 @@
     <body>
         <main>
             <div>
-                Nom du niveau: <input type="text" id="nomNiveau"/>
-                Taille X: <input type="text" id="tailleX" size="2"/>
-                Taille Y: <input type="text" id="tailleY" size="2"/>
+                Nom du niveau: <input type="text" id="nomNiveau" class="input"/>
+                Taille X: <input type="text" id="tailleX" size="2" class="input"/>
+                Taille Y: <input type="text" id="tailleY" size="2" class="input"/>
                 <input type="button" id="tailleTuile" value="Nouvelle taille" OnClick="clickButton()"/>
                 <input type="button" id="sauvegarder" value="Sauvegarder" OnClick="envoyerTables()"/>
             </div>
             <div>
-                Status: <input type="text" id="status"/>
-                Delai minimum des objets: <input type="text" id="itemDelMin"/>
-                Delai maximum des objets: <input type="text" id="itemDelMax"/>
+                Status: <select name="status" id="status">
+                    <option value="1" selected>actif</option>
+                    <option value="2">test</option>
+                    <option value="3">inactif</option>
+                </select>
+                Delai minimum des objets: <input type="text" id="itemDelMin" class="input" value="3"/>
+                Delai maximum des objets: <input type="text" id="itemDelMax" class="input" value="20"/>
             </div>
             <div style="float:left;margin:5%;">
                 <table class="controles">
@@ -125,9 +128,15 @@
                 </table>
             </div>
             <canvas height="800", width="800" id="canvas"></canvas>
-            <div id="dialog" title="Basic dialog">
-                <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
-            </div>
         </main>
+
+        <!--Boit te dialogue-->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p id="messageErreur">ERROR</p>
+            </div>
+        </div>
+
     </body>
 </html>
