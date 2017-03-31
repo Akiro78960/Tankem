@@ -57,13 +57,26 @@ class Selector{
                 niveau.setTile(this.x, this.y, 4)
                 break;
             case "q":
-                if(!niveau.isSpawnHere(this.x, this.y, 0) && niveau.tabTile[this.x][this.y].type != 0){
+                if(niveau.isSpawnHere(this.x, this.y, 0)){
+                    alert("On ne peut pas placer un arbre sur joueur!");
+                } else if(niveau.tabTile[this.x][this.y].type == 0){
+                    alert("On peut seulement placer un arbre sur une case qui existe!")
+                } else{
                     niveau.toggleTree(this.x, this.y)
                 }
                 break
             case "a":
                 var spawn = niveau.tabSpawn[0]
-                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 1) && niveau.tabTile[this.x][this.y].type != 0){
+                if(niveau.tabTile[this.x][this.y].hasTree){
+                    alert("On ne peut pas placer un joueur sur un arbre!");
+                }
+                else if(niveau.isSpawnHere(this.x, this.y, 1)){
+                    alert("On ne peut pas placer un joueur sur un autre joueur!");
+                }
+                else if(niveau.tabTile[this.x][this.y].type != 1){
+                    alert("Le joueur doit commencer sur une case normale (gazon)!")
+                }
+                else{
                     if(spawn.x == this.x && spawn.y == this.y){
                         spawn.isActive = ! spawn.isActive
                     } else{
@@ -74,7 +87,16 @@ class Selector{
                 break
             case "s":
                 var spawn = niveau.tabSpawn[1]
-                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 2) && niveau.tabTile[this.x][this.y].type != 0){
+                if(niveau.tabTile[this.x][this.y].hasTree){
+                    alert("On ne peut pas placer un joueur sur un arbre!");
+                }
+                else if(niveau.isSpawnHere(this.x, this.y, 2)){
+                    alert("On ne peut pas placer un joueur sur un autre joueur!");
+                }
+                else if(niveau.tabTile[this.x][this.y].type != 1){
+                    alert("Le joueur doit commencer sur une case normale (gazon)!")
+                }
+                else{
                     if(spawn.x == this.x && spawn.y == this.y){
                         spawn.isActive = ! spawn.isActive
                     } else {
@@ -85,7 +107,16 @@ class Selector{
                 break
             case "d":
                 var spawn = niveau.tabSpawn[2]
-                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 3) && niveau.tabTile[this.x][this.y].type != 0){
+                if(niveau.tabTile[this.x][this.y].hasTree){
+                    alert("On ne peut pas placer un joueur sur un arbre!");
+                }
+                else if(niveau.isSpawnHere(this.x, this.y, 3)){
+                    alert("On ne peut pas placer un joueur sur un autre joueur!");
+                }
+                else if(niveau.tabTile[this.x][this.y].type != 1){
+                    alert("Le joueur doit commencer sur une case normale (gazon)!")
+                }
+                else{
                     if(spawn.x == this.x && spawn.y == this.y){
                         spawn.isActive = ! spawn.isActive
                     } else {
@@ -96,7 +127,16 @@ class Selector{
                 break
             case "f":
                 var spawn = niveau.tabSpawn[3]
-                if(!niveau.tabTile[this.x][this.y].hasTree && !niveau.isSpawnHere(this.x, this.y, 4) && niveau.tabTile[this.x][this.y].type != 0){
+                if(niveau.tabTile[this.x][this.y].hasTree){
+                    alert("On ne peut pas placer un joueur sur un arbre!");
+                }
+                else if(niveau.isSpawnHere(this.x, this.y, 4)){
+                    alert("On ne peut pas placer un joueur sur un autre joueur!");
+                }
+                else if(niveau.tabTile[this.x][this.y].type != 1){
+                    alert("Le joueur doit commencer sur une case normale (gazon)!")
+                }
+                else{
                     if(spawn.x == this.x && spawn.y == this.y){
                         spawn.isActive = ! spawn.isActive
                     } else {

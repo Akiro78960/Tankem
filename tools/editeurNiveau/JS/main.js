@@ -17,6 +17,10 @@ document.onkeydown = function (e) {
     selector.updatePosition(e)
 }
 
+$(function(){
+    $("#dialog").dialog();
+});
+
 window.onload = function(){
 
     ctx = document.getElementById("canvas").getContext("2d")
@@ -102,21 +106,25 @@ function drawTiles() {
 function clickButton(){
     var tailleXinput = parseInt(document.getElementById("tailleX").value)
     var tailleYinput = parseInt(document.getElementById("tailleY").value)
-    if(tailleXinput >= 6 && tailleXinput <= 12 && tailleYinput >= 6 && tailleYinput <= 12){
-        niveau.setSize(tailleXinput, tailleYinput)
-        console.log("tailleX: " + tailleXinput + "  tailleY: " + tailleYinput);
+
+    if(tailleXinput < 6 || tailleXinput > 12 || isNaN(tailleXinput)){
+        alert("La taille X doit être un nombre de 6 à 12!");
+    } else if(tailleYinput < 6 || tailleYinput > 12 || isNaN(tailleYinput)){
+        alert("La taille Y doit être un nombre de 6 à 12!");
+    } else {
+        niveau.setSize(tailleXinput, tailleYinput);
+        longueurGrid = sizeTuile * niveau.tailleX;
+        hauteurGrid = sizeTuile * niveau.tailleY;
+        debX = (document.getElementById("canvas").width - longueurGrid) / 2;
+        debY = (document.getElementById("canvas").height - hauteurGrid) / 2;
     }
-    longueurGrid = sizeTuile * niveau.tailleX;
-    hauteurGrid = sizeTuile * niveau.tailleY;
-    debX = (document.getElementById("canvas").width - longueurGrid) / 2;
-    debY = (document.getElementById("canvas").height - hauteurGrid) / 2;
 }
 
 function envoyerTables(){
     var dtoNiveau; //Le niveau qu'on envoie à la BD
     var dtoTuile; //La table de tuiles que l'on envoie à la BD
     var dtoSpawn; //la table de spawn que on envoit à la BD
-    var tabReturn; //La table que l'on return qui contient les infos des 2 variables précédentes
+    var tabReturn = null; //La table que l'on return qui contient les infos des 2 variables précédentes
 
     //Création du'ne variable de la date actuelle pour Oracle
     var date = new Date();
@@ -134,7 +142,7 @@ function envoyerTables(){
         niveau.tailleX,
         niveau.tailleY,
         document.getElementById("itemDelMin").value,
-        document.getElementById("itemDelMax")
+        document.getElementById("itemDelMax").value
     )
 
     dtoTuile = [];
@@ -152,6 +160,8 @@ function envoyerTables(){
             dtoSpawn.push(new DTOSpawn(niveau.tabSpawn[i].x, niveau.tabSpawn[i].y, niveau.tabSpawn[i].idPlayer));
         }
     }
+
+    //Algorithme pour mettre a jour l'id des joueurs
     for(var i = 0; i < dtoSpawn.length; ++i){
         var present = false;
         for(var j = 0; j < dtoSpawn.length; ++j){
@@ -159,7 +169,6 @@ function envoyerTables(){
                 present = true;
             }
         }
-        console.log("Present : " + present);
         if(present == false){
             for(var j = i; j < dtoSpawn.length; ++j){
                 --dtoSpawn[j].no_player;
@@ -167,7 +176,26 @@ function envoyerTables(){
         }
     }
 
-    tabReturn = [dtoNiveau, dtoTuile, dtoSpawn];
+    //Vérifications
+    if(dtoNiveau.name == ""){
+        tabReturn = "Votre niveau a besoin d'un nom!";
+    } else if(dtoNiveau.itemDelMin == ""){
+        tabReturn = "Votre niveau a besoin d'un délai minimal des objets!";
+    } else if(isNaN(dtoNiveau.itemDelMin)){
+        tabReturn = "Votre délai minimal des objets doit être un nombre!";
+    } else if(dtoNiveau.itemDelMax == ""){
+        tabReturn = "Votre niveau a besoin d'un délai maximal des objets!";
+    } else if(isNaN(dtoNiveau.itemDelMax)){
+        tabReturn = "Votre délai maximal des objets doit être un nombre!";
+    } else if (dtoNiveau.itemDelMin > dtoNiveau.itemDelMax){
+        tabReturn = "Votre délai maximal des objets doit être plus grand que votre délai minimal des objets";
+    } else if(dtoSpawn.length < 2){
+        tabReturn = "Il n'y a pas assez de joueur sur le terrain!";
+    }
+
+    if(tabReturn == null){
+        tabReturn = [dtoNiveau, dtoTuile, dtoSpawn];
+    }
     
     console.log(tabReturn);
 

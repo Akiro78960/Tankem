@@ -33,14 +33,15 @@ class Niveau{
         this.tabTile[x][y].type=type
     }
     toggleTree(x,y){
-            if (this.tabTile[x][y].hasTree) {
-                this.tabTile[x][y].hasTree = 0
-                this.nbtree--
-            }else if(this.nbtree<this.maxTree){
-                this.tabTile[x][y].hasTree = 1
-                this.nbtree++
-            }
-
+        if(this.tabTile[x][y].hasTree) {
+            this.tabTile[x][y].hasTree = 0
+            this.nbtree--
+        } else if(this.nbtree>=this.maxTree) {
+            alert("On ne peut pas avoir plus de " + this.maxTree + " surle terrain!");
+        }else if(this.nbtree<this.maxTree){
+            this.tabTile[x][y].hasTree = 1
+            this.nbtree++
+        }
     }
     addSpawn(x,y,idPlayer){
         this.tabSpawn(x,y,idPlayer);
@@ -56,7 +57,6 @@ class Niveau{
             }
         }
 
-        // console.log(playerOnCase);
         return playerOnCase
     }
 }
