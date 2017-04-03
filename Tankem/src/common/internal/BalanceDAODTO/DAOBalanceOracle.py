@@ -6,7 +6,10 @@ import cx_Oracle
 class DAOBalanceOracle(DAOBalance):
 
     def __init__(self):
-        self.connection = cx_Oracle.connect('e1384492','C','10.57.4.60/DECINFO.edu')
+        try:
+            self.connection = cx_Oracle.connect('e1384492','C','10.57.4.60/DECINFO.edu')
+        except Exception as e:
+            raise e
 
     def read(self, table_name):
         table_name = table_name.upper()
