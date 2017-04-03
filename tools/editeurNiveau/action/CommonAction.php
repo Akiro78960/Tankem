@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	require_once("action/DAO/Connection.php");
 
 	abstract class CommonAction {
 		public static $VISIBILITY_MEMBER = 1;
@@ -26,6 +27,7 @@
 			}
 
 			$this->executeAction();
+			Connection::closeConnection();
 		}
 
 		abstract protected function executeAction();
