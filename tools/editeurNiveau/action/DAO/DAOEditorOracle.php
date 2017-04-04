@@ -21,19 +21,12 @@ class DAOeditorOracle {
 													VALUES (?,?,?,?,?,?,?)");
 
 
-		echo($DTOmap->name . "\n");
 		$statementMap->bindParam(1,$DTOmap->name);
-		echo($DTOmap->creation_date . "\n");
 		$statementMap->bindParam(2,$DTOmap->creation_date);
-		echo($DTOmap->status . "\n");
 		$statementMap->bindParam(3,$DTOmap->status);
-		echo($DTOmap->size_x . "\n");
 		$statementMap->bindParam(4,$DTOmap->size_x);
-		echo($DTOmap->size_y . "\n");
 		$statementMap->bindParam(5,$DTOmap->size_y);
-		echo($DTOmap->item_delay_min . "\n");
 		$statementMap->bindParam(6,$DTOmap->item_delay_min);
-		echo($DTOmap->item_delay_max . "\n");
 		$statementMap->bindParam(7,$DTOmap->item_delay_max);
 		try{
 			$statementMap->execute();

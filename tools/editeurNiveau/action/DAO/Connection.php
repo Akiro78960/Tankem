@@ -9,7 +9,6 @@ class Connection {
 				Connection::$connection->setAttribute(PDO::ATTR_ERRMODE,
 				PDO::ERRMODE_EXCEPTION);
 				Connection::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-				echo("success connection");
 			}catch(PDOException $e){
 				echo 'Échec lors de la connexion : ' . $e->getMessage();
 			}
