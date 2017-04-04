@@ -31,8 +31,8 @@ class DAOeditorOracle {
 		try{
 			$statementMap->execute();
 		}catch(PDOException $e){
-						echo 'Échec lors de la connexion : ' . $e->getMessage();
-					}
+			echo 'Valeurs invalides lors de la sauvegarde de la map';
+		}
 	}
 
 	public function read(){
