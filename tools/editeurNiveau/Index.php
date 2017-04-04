@@ -98,7 +98,7 @@
                         <td>Spawn Joueur1</td>
                     </tr>
                     <tr>
-                        <td><div style="border:2px solid purple;width:30px;height:30px;"></div></td>
+                        <td><div style="border:2px solid orange;width:30px;height:30px;"></div></td>
                         <td>Spawn Joueur2</td>
                     </tr>
                     <tr>

@@ -1,15 +1,15 @@
 <?php
 	class DTOmap {
-        public static $id_niveau;
-        public static $name;
-        public static $creation_date;
-        public static $status;
-        public static $size_x;
-        public static $size_y;
-        public static $item_delay_min;
-        public static $item_delay_max;
-        public static $array_tuiles;
-        public static $array_spawns;
+        public $id_niveau;
+        public $name;
+        public $creation_date;
+        public $status;
+        public $size_x;
+        public $size_y;
+        public $item_delay_min;
+        public $item_delay_max;
+        public $array_tuiles;
+        public $array_spawns;
 
 		public function __construct($id_niveau, $name, $creation_date, $status,
 									$size_x, $size_y, $item_delay_min,
