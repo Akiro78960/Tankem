@@ -15,11 +15,6 @@
 									$size_x, $size_y, $item_delay_min,
 									$item_delay_max, $array_tuiles,
 									$array_spawns) {
-			$this->pos_x = $pos_x;
-			$this->pos_y = $pos_y;
-			$this->id_niveau = $id_niveau;
-			$this->type_tuile = $type_tuile;
-			$this->has_tree = $has_tree;
 			$this->id_niveau = $id_niveau;
 			$this->name = $name;
 			$this->creation_date = $creation_date;
