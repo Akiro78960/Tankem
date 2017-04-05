@@ -46,6 +46,7 @@ class DAOeditorOracle {
 			}
 		}catch(PDOException $e){
 			echo 'Valeurs invalides lors de la sauvegarde de la map';
+			echo $e;
 		}
 
 		// Creation tuiles
@@ -66,6 +67,7 @@ class DAOeditorOracle {
 				$statementTuiles->execute();
 			}catch(PDOException $e){
 				echo "Erreur tuile pos :" . $tuile->posX . "/" . $tuile->posY;
+				echo $e;
 			}
 		}
 
@@ -85,6 +87,7 @@ class DAOeditorOracle {
 				$statementSpawn->execute();
 			}catch(PDOException $e){
 				echo "Erreur spawn pos :" . $tuile->posX . "/" . $tuile->posY;
+				echo $e;
 			}
 		}
 	}
