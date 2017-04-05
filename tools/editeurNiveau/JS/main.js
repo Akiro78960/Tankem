@@ -205,6 +205,8 @@ function envoyerTables(){
     //Vérifications
     if(dtoNiveau.name == ""){
         tabReturn = "Votre niveau a besoin d'un nom!";
+    } else if(dtoNiveau.length > 20){
+        tabReturn = "Votre nom de niveau doit être moins de 20 caractères!";  
     } else if(dtoNiveau.itemDelMin == ""){
         tabReturn = "Votre niveau a besoin d'un délai minimal des objets!";
     } else if(isNaN(dtoNiveau.itemDelMin)){
