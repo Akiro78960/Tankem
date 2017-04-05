@@ -7,7 +7,10 @@ class DTOlistmap:
 
     # Getters
     def appendList(self, DTOmap):
-        self.array_maps[DTOmap.getID()] = DTOmap
+        self.array_maps.append(DTOmap)
+
+    def getArrayMaps(self):
+    	return self.array_maps
 
     def getMap(self, id_niveau):
         return self.array_maps[id_niveau]
