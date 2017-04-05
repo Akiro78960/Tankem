@@ -16,6 +16,13 @@ class DTOmap:
         self.array_tuiles = [[]]
         self.array_spawns = [[]]
 
+    # Append arrays
+    def appendTuile(self,DTOtuile):
+        self.array_tuiles.append(DTOtuile)
+
+    def appendSpawn(self,DTOspawn):
+        self.array_spawns.append(DTOspawn)
+
     # Getters
 
     def getId(self):

@@ -4,11 +4,14 @@ class Connection {
 
 	public static function getConnection() {
 		if (Connection::$connection == null) {
-			Connection::$connection = new PDO("oci:dbname=DECINFO", "e1384492", "C");
-			Connection::$connection->setAttribute(PDO::ATTR_ERRMODE,
-												  PDO::ERRMODE_EXCEPTION);
-			Connection::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES,
-												  false);
+			try{
+				Connection::$connection = new PDO("oci:dbname=DECINFO", "e1384492", "C");
+				Connection::$connection->setAttribute(PDO::ATTR_ERRMODE,
+				PDO::ERRMODE_EXCEPTION);
+				Connection::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+			}catch(PDOException $e){
+				echo 'Échec lors de la connexion : ' . $e->getMessage();
+			}
 		}
 
 		return Connection::$connection;

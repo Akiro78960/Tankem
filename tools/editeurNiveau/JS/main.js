@@ -80,7 +80,20 @@ window.onclick = function(e) {
             afficherErreur(result);
         }
         else{
-            console.log(result); //ICI POUR LE DÉBUT DAO / DTO / PHP / WHATEVER
+            $.ajax({
+                url: 'ajax.php',
+                type: 'POST',
+                data: {
+                    value:JSON.stringify(result)}
+
+                }
+            )
+            .done(function() {
+                console.log(JSON.stringify(result)); //ICI POUR LE DÉBUT DAO / DTO / PHP / WHATEVER
+                console.log("success");
+            })
+
+
         }
     }
 }
@@ -156,9 +169,9 @@ function envoyerTables(){
     var date = new Date();
     date = date.getUTCFullYear() + '-' +
         ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
-        ('00' + date.getUTCDate()).slice(-2) + ' ' + 
-        ('00' + date.getUTCHours()).slice(-2) + ':' + 
-        ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
+        ('00' + date.getUTCDate()).slice(-2) + ' ' +
+        ('00' + date.getUTCHours()).slice(-2) + ':' +
+        ('00' + date.getUTCMinutes()).slice(-2) + ':' +
         ('00' + date.getUTCSeconds()).slice(-2);
 
     dtoNiveau = new DTONiveau(
@@ -167,8 +180,8 @@ function envoyerTables(){
         document.getElementById("status").value,
         niveau.tailleX,
         niveau.tailleY,
-        document.getElementById("itemDelMin").value,
-        document.getElementById("itemDelMax").value
+        parseInt(document.getElementById("itemDelMin").value),
+        parseInt(document.getElementById("itemDelMax").value)
     )
 
     dtoTuile = [];
