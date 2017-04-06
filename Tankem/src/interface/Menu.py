@@ -4,10 +4,16 @@ from direct.showbase.ShowBase import ShowBase
 from direct.gui.OnscreenText import OnscreenText 
 from direct.gui.DirectGui import *
 from panda3d.core import *
+from pandac.PandaModules import *
 from direct.interval.LerpInterval import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.Transitions import Transitions
+
 import sys
+import common
+
+DAOMap = common.internal.MapDAODTO.DAOMapOracle.DAOmaporacle()
+DTOlistmap = DAOMap.read()
 
 class MenuPrincipal(ShowBase):
 	def __init__(self):
@@ -70,12 +76,15 @@ class MenuPrincipal(ShowBase):
 							frameSize = (-0.2,0.7,-0.5,0.59),
 							frameColor=(0,0,0,0),
 							pos = (-1,0,0),
-							#items = [b1],b2],
 							numItemsVisible = numItemsVisible,
-							forceHeight = itemHeight,
+							forceHeight = 0.11,
 							itemFrame_frameSize = (-0.2,0.7,-0.5,0.59),
-							itemFrame_pos = (0,0,-0.1)
+							itemFrame_pos = (0,0,0),
 		)
+		for map in DTOlistmap.getArrayMaps():
+			self.name = map.getName()
+			self.l = DirectButton(text = self.name, text_scale=0.08,borderWidth = (0.005,0.005),pos = (0,0,0),command = lambda : self.setNiveauChoisi(map.getId()))
+			self.scrollList.addItem(self.l)
 		
 		#Initialisation de l'effet de transition
 		curtain = loader.loadTexture("../asset/Menu/load.png")
@@ -98,6 +107,10 @@ class MenuPrincipal(ShowBase):
 			self.scrollList.hide()
 			self.textTitre.hide()
 
+	def setNiveauChoisi(self,idNiveau):
+			idNiveauChoisi = idNiveau
+			self.chargeJeu()
+
 	def chargeJeu(self):
 			#On démarre!
 			Sequence(Func(lambda : self.transition.irisOut(0.2)),
@@ -107,3 +120,4 @@ class MenuPrincipal(ShowBase):
 					 Wait(0.2), #Bug étrange quand on met pas ça. L'effet de transition doit lagger
 					 Func(lambda : self.transition.irisIn(0.2))
 			).start()
+			
