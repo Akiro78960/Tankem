@@ -11,13 +11,15 @@ from direct.showbase.Transitions import Transitions
 
 import sys
 import common
+import settings
 
 DAOMap = common.internal.MapDAODTO.DAOMapOracle.DAOmaporacle()
 DTOlistmap = DAOMap.read()
 
 class MenuPrincipal(ShowBase):
-	def __init__(self):
-
+	def __init__(self, gameLogic):
+		self.gameLogic = gameLogic
+		settings.init()
 		#Image d'arrière plan
 		self.background=OnscreenImage(parent=render2d, image="../asset/Menu/background.jpg")
 
@@ -39,9 +41,7 @@ class MenuPrincipal(ShowBase):
 		couleurBack = (0.243,0.325,0.121,1)
 		separation = 1
 		hauteur = -0.6
-		itemHeight = 0.11
 		numItemsVisible = 50
-		itemHeight = 0.11
 		
 		self.b1 = DirectButton(text = ("Jouer", "Carnage!", "DESTRUCTION", "disabled"),
 						  text_scale=btnScale,
@@ -67,23 +67,21 @@ class MenuPrincipal(ShowBase):
 						  command = lambda : sys.exit(),
 						  pos = (separation,0,hauteur))
 		#Scroll list
+
 		self.scrollList = DirectScrolledList(
-							decButton_pos = (0.25,0,0.53),
-							decButton_text = "Jouer",
-							decButton_text_scale = 0.04,
-							decButton_borderWidth = (0.005,0.005),
-							decButton_pad = (0.03,0.03),
-							frameSize = (-0.2,0.7,-0.5,0.59),
+							frameSize = (-0.4,0.7,-0.8,0.8),
 							frameColor=(0,0,0,0),
 							pos = (-1,0,0),
+							forceHeight = 0.1,
 							numItemsVisible = numItemsVisible,
-							forceHeight = 0.11,
-							itemFrame_frameSize = (-0.2,0.7,-0.5,0.59),
+							itemFrame_frameSize = (-0.4,0.7,-0.5,0.59),
 							itemFrame_pos = (0,0,0),
 		)
+
 		for map in DTOlistmap.getArrayMaps():
 			self.name = map.getName()
-			self.l = DirectButton(text = self.name, text_scale=0.08,borderWidth = (0.005,0.005),pos = (0,0,0),command = lambda : self.setNiveauChoisi(map.getId()))
+			self.i = map.getId()
+			self.l = DirectButton(text =  str(self.i) + " "+ self.name, text_scale=0.08, scale = 0.9, borderWidth = (0.005,0.005),command = self.setNiveauChoisi, extraArgs = [self.i])
 			self.scrollList.addItem(self.l)
 		
 		#Initialisation de l'effet de transition
@@ -108,7 +106,7 @@ class MenuPrincipal(ShowBase):
 			self.textTitre.hide()
 
 	def setNiveauChoisi(self,idNiveau):
-			idNiveauChoisi = idNiveau
+			self.gameLogic.setIdNiveau(idNiveau)
 			self.chargeJeu()
 
 	def chargeJeu(self):

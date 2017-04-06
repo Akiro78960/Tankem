@@ -2,6 +2,7 @@
 #Ajout des chemins vers les librarires
 from util import inclureCheminCegep
 import sys
+import settings
 # from Menu import MenuPrincipal
 #TEST
 
@@ -18,17 +19,17 @@ from gameLogic import GameLogic
 
 class Tankem(ShowBase):
 	def __init__(self):
-		#GROS SPAGHETTTIIII
-		global idNiveauChoisi
-		idNiveauChoisi = 0
+
 		ShowBase.__init__(self)
+		settings.init()
 		self.demarrer()
+	
 
 	def demarrer(self):
 		self.gameLogic = GameLogic(self)
 		#Commenter/décommenter la ligne de votre choix pour démarrer le jeu
 		#Démarre dans le menu
-		self.menuPrincipal = MenuPrincipal()
+		self.menuPrincipal = MenuPrincipal(self.gameLogic)
 		#Démarre directement dans le jeu
 		#messenger.send("DemarrerPartie")
 

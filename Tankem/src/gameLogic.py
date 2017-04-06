@@ -13,7 +13,7 @@ from panda3d.bullet import BulletDebugNode
 from map import Map
 from inputManager import InputManager
 from interface import *
-
+import settings
 import common
 #Import le DAO ORACLE
 
@@ -28,6 +28,7 @@ class GameLogic(ShowBase):
 		self.daoBalanceOracle = common.internal.BalanceDAODTO.DAOBalanceOracle.DAOBalanceOracle()
 		self.dtoValues = self.daoBalanceOracle.read("tankem_values")
 		self.dtoText = self.daoBalanceOracle.read("tankem_text")
+		self.idNiveau = 0
 		# self.dtoText = self.daoBalanceOracle.read("tankem_text")
 		# tmpDic = self.dto.getDTO()
 		# for k,v in tmpDic.items():
@@ -43,8 +44,10 @@ class GameLogic(ShowBase):
 
 		#Création d'une carte de base
 		#self.carte.creerCarteParDefaut()
-		if(idNiveauChoisi > 0):
-			self.map.construireMapChoisie(DTOlistmap.getMap(idNiveauChoisi))
+		print(self.idNiveau)
+		if(self.idNiveau > 0):
+			self.map.construireMapChoisie(DTOlistmap.getMap(self.idNiveau))
+			
 		else:
 			self.map.construireMapHasard()
 
@@ -194,3 +197,7 @@ class GameLogic(ShowBase):
 		#print task.time
 		self.map.update(task.time)
 		return task.cont
+
+	def setIdNiveau(self,newIdNiveau):
+		print("yeeep")
+		self.idNiveau = newIdNiveau

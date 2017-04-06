@@ -88,6 +88,7 @@ window.onclick = function(e) {
 				}
 			)
 			.done(function() {
+				afficherErreur == "Le niveau a été sauvegarder correctement!";
 				console.log(JSON.stringify(result)); //ICI POUR LE DÉBUT DAO / DTO / PHP / WHATEVER
 				console.log("success");
 			})

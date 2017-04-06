@@ -89,7 +89,7 @@ class Map(DirectObject.DirectObject):
 				else:
 					noeudAAttacher = None
 
-				self.creerMur(tuile.getY(), tuile.getX(), animation, noeudAAttacher)
+				self.creerMur(tuile.getX(), tuile.getY(), animation, noeudAAttacher)
 		couleurs = [0,0,0,0]
 		couleurs[0] = Vec3(0.1,0.1,0.1)
 		couleurs[1] = Vec3(0.6,0.0,0.0)
