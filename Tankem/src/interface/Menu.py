@@ -12,14 +12,13 @@ from direct.showbase.Transitions import Transitions
 import sys
 import common
 import settings
-
+from Login import *
 DAOMap = common.internal.MapDAODTO.DAOMapOracle.DAOmaporacle()
 DTOlistmap = DAOMap.read()
 
 class MenuPrincipal(ShowBase):
 	def __init__(self, gameLogic):
 		self.gameLogic = gameLogic
-		settings.init()
 		#Image d'arrière plan
 		self.background=OnscreenImage(parent=render2d, image="../asset/Menu/background.jpg")
 
@@ -81,7 +80,7 @@ class MenuPrincipal(ShowBase):
 		for map in DTOlistmap.getArrayMaps():
 			self.name = map.getName()
 			self.i = map.getId()
-			self.l = DirectButton(text =  str(self.i) + " "+ self.name, text_scale=0.08, scale = 0.9, borderWidth = (0.005,0.005),command = self.setNiveauChoisi, extraArgs = [self.i])
+			self.l = DirectButton(text =  str(self.i) + " "+ self.name, text_scale=0.08, scale = 0.9, borderWidth = (0.005,0.005),command = self.menuLogin,extraArgs = [self.gameLogic])
 			self.scrollList.addItem(self.l)
 		
 		#Initialisation de l'effet de transition
@@ -108,7 +107,9 @@ class MenuPrincipal(ShowBase):
 	def setNiveauChoisi(self,idNiveau):
 			self.gameLogic.setIdNiveau(idNiveau)
 			self.chargeJeu()
-
+	def menuLogin(self,gameLogic):
+		self.cacher();
+		self.menuPrincipal = MenuLogin(gameLogic)
 	def chargeJeu(self):
 			#On démarre!
 			Sequence(Func(lambda : self.transition.irisOut(0.2)),
