@@ -4,14 +4,22 @@ from direct.showbase.ShowBase import ShowBase
 from direct.gui.OnscreenText import OnscreenText 
 from direct.gui.DirectGui import *
 from panda3d.core import *
+from pandac.PandaModules import *
 from direct.interval.LerpInterval import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.Transitions import Transitions
+
 import sys
+import common
+import settings
+
+DAOMap = common.internal.MapDAODTO.DAOMapOracle.DAOmaporacle()
+DTOlistmap = DAOMap.read()
 
 class MenuPrincipal(ShowBase):
-	def __init__(self):
-
+	def __init__(self, gameLogic):
+		self.gameLogic = gameLogic
+		settings.init()
 		#Image d'arrière plan
 		self.background=OnscreenImage(parent=render2d, image="../asset/Menu/background.jpg")
 
@@ -33,9 +41,7 @@ class MenuPrincipal(ShowBase):
 		couleurBack = (0.243,0.325,0.121,1)
 		separation = 1
 		hauteur = -0.6
-		itemHeight = 0.11
 		numItemsVisible = 50
-		itemHeight = 0.11
 		
 		self.b1 = DirectButton(text = ("Jouer", "Carnage!", "DESTRUCTION", "disabled"),
 						  text_scale=btnScale,
@@ -61,21 +67,22 @@ class MenuPrincipal(ShowBase):
 						  command = lambda : sys.exit(),
 						  pos = (separation,0,hauteur))
 		#Scroll list
+
 		self.scrollList = DirectScrolledList(
-							decButton_pos = (0.25,0,0.53),
-							decButton_text = "Jouer",
-							decButton_text_scale = 0.04,
-							decButton_borderWidth = (0.005,0.005),
-							decButton_pad = (0.03,0.03),
-							frameSize = (-0.2,0.7,-0.5,0.59),
+							frameSize = (-0.4,0.7,-0.8,0.8),
 							frameColor=(0,0,0,0),
 							pos = (-1,0,0),
-							#items = [b1],b2],
+							forceHeight = 0.1,
 							numItemsVisible = numItemsVisible,
-							forceHeight = itemHeight,
-							itemFrame_frameSize = (-0.2,0.7,-0.5,0.59),
-							itemFrame_pos = (0,0,-0.1)
+							itemFrame_frameSize = (-0.4,0.7,-0.5,0.59),
+							itemFrame_pos = (0,0,0),
 		)
+
+		for map in DTOlistmap.getArrayMaps():
+			self.name = map.getName()
+			self.i = map.getId()
+			self.l = DirectButton(text =  str(self.i) + " "+ self.name, text_scale=0.08, scale = 0.9, borderWidth = (0.005,0.005),command = self.setNiveauChoisi, extraArgs = [self.i])
+			self.scrollList.addItem(self.l)
 		
 		#Initialisation de l'effet de transition
 		curtain = loader.loadTexture("../asset/Menu/load.png")
@@ -98,6 +105,10 @@ class MenuPrincipal(ShowBase):
 			self.scrollList.hide()
 			self.textTitre.hide()
 
+	def setNiveauChoisi(self,idNiveau):
+			self.gameLogic.setIdNiveau(idNiveau)
+			self.chargeJeu()
+
 	def chargeJeu(self):
 			#On démarre!
 			Sequence(Func(lambda : self.transition.irisOut(0.2)),
@@ -107,3 +118,4 @@ class MenuPrincipal(ShowBase):
 					 Wait(0.2), #Bug étrange quand on met pas ça. L'effet de transition doit lagger
 					 Func(lambda : self.transition.irisIn(0.2))
 			).start()
+			
