@@ -26,6 +26,8 @@ class Tankem(ShowBase):
 	
 
 	def demarrer(self):
+		self.daoJoueur = DAOUtilisateur()
+		self.daoJoueur.read("lol","shkret")
 		self.gameLogic = GameLogic(self)
 		#Commenter/décommenter la ligne de votre choix pour démarrer le jeu
 		#Démarre dans le menu
