@@ -2,6 +2,7 @@
 #Ajout des chemins vers les librarires
 from util import inclureCheminCegep
 import sys
+import settings
 # from Menu import MenuPrincipal
 #TEST
 
@@ -13,20 +14,26 @@ loadPrcFile("config/ConfigTankem.prc")
 from direct.showbase.ShowBase import ShowBase
 from interface import *
 #Modules internes
-from gameLogic import GameLogic
-from interface import InterfaceMenuPrincipal
-class Tankem(ShowBase):
-    def __init__(self):
-        ShowBase.__init__(self)
-        self.demarrer()
 
-    def demarrer(self):
-        self.gameLogic = GameLogic(self)
-        #Commenter/décommenter la ligne de votre choix pour démarrer le jeu
-        #Démarre dans le menu
-        self.menuPrincipal = MenuPrincipal()
-        #Démarre directement dans le jeu
-        #messenger.send("DemarrerPartie")
+from gameLogic import GameLogic
+
+class Tankem(ShowBase):
+	def __init__(self):
+
+		ShowBase.__init__(self)
+		settings.init()
+		self.demarrer()
+	
+
+	def demarrer(self):
+		self.daoJoueur = DAOUtilisateur()
+		self.daoJoueur.read("lol","shkret")
+		self.gameLogic = GameLogic(self)
+		#Commenter/décommenter la ligne de votre choix pour démarrer le jeu
+		#Démarre dans le menu
+		self.menuPrincipal = MenuPrincipal(self.gameLogic)
+		#Démarre directement dans le jeu
+		#messenger.send("DemarrerPartie")
 
 #Main de l'application.. assez simple!
 app = Tankem()
