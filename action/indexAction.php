@@ -1,24 +1,35 @@
 <?php
 	require_once("action/CommonAction.php");
+	require_once("action/DAO/UserDAO.php");
 
 	class IndexAction extends CommonAction {
+		public $wrongLogin;
 		
 		public function __construct() {
 			parent::__construct(CommonAction::$VISIBILITY_PUBLIC);
 		}
 
 		protected function executeAction() {
+			if ($_SESSION["visibility"] > CommonAction::$VISIBILITY_PUBLIC) {
+				header("location:home.php");
+				exit;
+			}
 
-		// if(isset($_POST["nom"])) {
-		// 	$data = [];
-		// 	$data["username"] = $_POST["nom"] ;
-		// 	$data["pwd"] = $_POST["password"];
+			$this->wrongLogin = false;
 
-		// 	$_SESSION["key"] = $this->callAPI("signin", $data);
-		// 	if(strlen($_SESSION["key"]) === 40){
-		// 		$_SESSION["visibility"] = 1;
-		// 		header('location:character.php');
-		// 	}
-		// }
+			if (isset($_POST["username"])) {
+				$visibility = UserDAO::authenticate($_POST["username"], $_POST["pwd"]);
+
+				if ($visibility > CommonAction::$VISIBILITY_PUBLIC) {
+					$_SESSION["username"] = $_POST["username"];
+					$_SESSION["visibility"] = $visibility;
+
+					header("location:Infos.php");
+					exit;
+				}
+				else {
+					$this->wrongLogin = true;
+				}
+			}
+		}
 	}
-}
