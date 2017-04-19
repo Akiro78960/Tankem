@@ -2,7 +2,7 @@
 #Ajout des chemins vers les librarires
 from util import inclureCheminCegep
 import sys
-import settings
+# import settings
 # from Menu import MenuPrincipal
 #TEST
 
