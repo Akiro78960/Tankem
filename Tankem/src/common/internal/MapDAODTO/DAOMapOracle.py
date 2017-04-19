@@ -12,8 +12,7 @@ class DAOmaporacle():
 	# Connection
 	def __init__(self):
 		try:
-			self.connection = cx_Oracle.connect('e1384492', 'C',
-											'10.57.4.60/DECINFO.edu')
+			self.connection = cx_Oracle.connect('e1384492', 'C','10.57.4.60/DECINFO.edu')
 		except cx_Oracle.DatabaseError as e:
 			error, = e.args
 			print("Erreur de commande")
@@ -46,7 +45,7 @@ class DAOmaporacle():
 					DTO_tuile_tmp = DTOtuile(tuile[0],tuile[1],tuile[2],tuile[3],tuile[4])
 					DTO_map_tmp.appendTuile(DTO_tuile_tmp)
 
-				# Get tuiles of map
+				# Get spawn of map
 				curRead = self.connection.cursor()
 				curRead.execute("SELECT * FROM EDITOR_SPAWN WHERE id_niveau='%s'"
 								% (DTO_map_tmp.getId()))
