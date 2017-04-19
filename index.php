@@ -1,5 +1,5 @@
 <?php
-	require_once("action/IndexAction.php");
+	require_once("action/indexAction.php");
 
 	$action = new IndexAction();
 
@@ -44,8 +44,15 @@
 	  <div class="row text-center">
 		<div class="col-md-3 text-center mx-auto">
 		  <form class="text-center">
-			<div class="form-group text-center w-100" id="login-email"> <label>Email address</label> <input type="email" class="form-control" placeholder="Enter email"> </div>
-			<div class="form-group text-center w-100" id="login-password"> <label class="text-center">Password</label> <input type="password" class="form-control" placeholder="Password"> </div> <button type="submit" class="btn btn-primary text-center">Login</button> </form>
+	  	<?php 
+				if ($action->wrongLogin) {
+					?>
+					<div class="error-div"><strong>Erreur : </strong>Connexion erronée</div>
+					<?php
+			  	}
+		  	?>
+			<div class="form-group text-center w-100" id="login-email" name = "username"> <label>Email address</label> <input type="value" class="form-control" placeholder="Enter email"> </div>
+			<div class="form-group text-center w-100" id="login-password" name = "pwd"> <label class="text-center">Password</label> <input type="password" class="form-control" placeholder="Password"> </div> <button type="submit" class="btn btn-primary text-center">Login</button> </form>
 		  <p class="">New to this website? Signup, it's free! There are hundreds of sexy singles near your area waiting to meet you.<br></p><a href="Signup.php" class="btn btn-primary">Signup<br></a></div>
 	  </div>
 	</div>
