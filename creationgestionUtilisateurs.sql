@@ -3,7 +3,7 @@ DROP TABLE joueur_arme;
 DROP TABLE joueur_map;
 DROP TABLE arme;
 DROP TABLE joueur;
-
+--sqlplus e1384492@\"10.57.4.60/DECINFO.edu\"
 --Création des tables
 CREATE TABLE joueur (
 	id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),

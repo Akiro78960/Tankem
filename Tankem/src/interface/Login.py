@@ -11,8 +11,7 @@ from direct.showbase.Transitions import Transitions
 
 import sys
 import common
-import settings
-
+import SingletonDBConnection
 DAOMap = common.internal.MapDAODTO.DAOMapOracle.DAOmaporacle()
 DTOlistmap = DAOMap.read()
 
@@ -26,16 +25,16 @@ class MenuLogin(ShowBase):
 		self.baseSort = base.cam.node().getDisplayRegion(0).getSort()
 		base.cam.node().getDisplayRegion(0).setSort(20)
 
-		
-
 		#Boutons
-		btnScale = (0.18,0.18)
+		btnScale = (0.06,0.06)
 		text_scale = 0.12
-		borderW = (0.04, 0.04)
-		couleurBack = (0.243,0.325,0.121,1)
+		borderW = (0.02, 0.02)
+		couleurBack = (0.243,0.325,0.321,1)
 		separation = 1
 		hauteur = -0.6
 		numItemsVisible = 50
+		self.player1ready = False
+		self.player2ready = False
 		#Titre du jeu
 
 		self.labelplayer1 = OnscreenText(text = "Player 1",
@@ -44,7 +43,7 @@ class MenuLogin(ShowBase):
 									  fg=(0,0,0,1),
 									  align=TextNode.ACenter)
 		self.username1 = DirectEntry(text = "" ,scale=.05,
-									initialText="Enter username", 
+									initialText="", 
 									numLines = 1,
 									focus=1,
 									pos=(-1.50,0,0.69) )
@@ -67,7 +66,7 @@ class MenuLogin(ShowBase):
 									  align=TextNode.ACenter)
 		
 		self.username2 = DirectEntry(text = "" ,scale=.05,
-									initialText="Enter username", 
+									initialText="", 
 									numLines = 1,
 									focus=1,
 									pos=(0,0,0.69) )
@@ -77,7 +76,7 @@ class MenuLogin(ShowBase):
 									  fg=(0,0,0,1),
 									  align=TextNode.ACenter)
 		self.labelpassword2 = OnscreenText(text = "Message box ",
-									  pos = (-0.1,0.2,-1.67), 
+									  pos = (-0.3,0.2,-1.67), 
 									  scale = 0.15,
 									  fg=(0,0,0,1),
 									  align=TextNode.ACenter)
@@ -89,11 +88,36 @@ class MenuLogin(ShowBase):
 									obscured=1 )
 		self.messageBox = DirectEntry(text = "" ,scale=.05,
 									width =55,
-									initialText="", 
+									initialText="Veuillez vous connecter à Tank'em", 
 									numLines = 1,
-									focus=1,
-									pos=(-1.5,0,0.1) )
+									focus=0,
+									pos=(-1.5,0,0.1),
+									focusInCommand=self.clearText )
+		self.b2 = DirectButton(text = ("Login", "Login", "Login", "disabled"),
+						  text_scale=btnScale,
+						  borderWidth = borderW,
+						  text_bg=couleurBack,
+						  frameColor=couleurBack,
+						  relief=2,
+						  textMayChange = 1,
+						  pad = (0,0),
+						  command = self.setPlayer1Ready,
+						  extraArgs = [True],
+						  pos = (-1.25,0,0.25))
+		self.b3 = DirectButton(text = ("Login", "Login", "Login", "disabled"),
+						  text_scale=btnScale,
+						  borderWidth = borderW,
+						  text_bg=couleurBack,
+						  frameColor=couleurBack,
+						  relief=2,
+						  textMayChange = 1,
+						  pad = (0,0),
+						  command = self.setPlayer2Ready,
+						  extraArgs = [True],
+						  pos = (0.25,0,0.25))
+
 		
+				
 
 		
 		#Initialisation de l'effet de transition
@@ -105,6 +129,30 @@ class MenuLogin(ShowBase):
 
 		self.sound = loader.loadSfx("../asset/Menu/shotgun.mp3")
 
+	def setPlayer1Ready(self,state):
+		self.player1ready = state
+		if self.player1ready == True and self.player2ready == True :
+			self.setText("Welcome to Tank'em !")
+		elif self.player1ready :
+			self.setText('Player 2 must also login')
+		elif self.player2ready :
+			self.settext('Player 1 must also login')
+
+	def setPlayer2Ready(self,state):
+		self.player2ready = state
+		if self.player1ready and self.player2ready :
+			self.setText("Welcome to Tank'em !")
+		elif self.player1ready :
+			self.setText('Player 2 must also login')
+		elif self.player2ready :
+			self.setText('Player 1 must also login')
+	#callback function to set  text 
+	def setText(self,textEntered):
+		self.messageBox.enterText(textEntered)
+ 
+	#clear the text
+	def clearText(self):
+		self.messageBox.enterText('')
 	# def cacher(self):
 	# 		#Est esssentiellement un code de "loading"
 
