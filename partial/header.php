@@ -15,16 +15,9 @@
 	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
 		<ul class="navbar-nav ">
 		  <li class="nav-item active"> <a class="nav-link" href="index.php">Home</a> </li>
-		  <li class="nav-item"> <a class="nav-link" href="Infos.php">Infos</a> </li>
-			<li class="nav-item"> <a class="nav-link" href="gestionPoints.php">Gestion des Attributs</a> </li>
+		  <li class="nav-item"> <a class="nav-link" href="#">Link</a> </li>
+		  <li class="nav-item"> <a class="nav-link" href="gestionPoints.php">Gestion des Attributs</a> </li>
 		  <li class="nav-item"> <a class="nav-link disabled" href="#">Disabled</a> </li>
-			<?php
-							if ($action->isLoggedIn()) {
-								?>
-								<li class ="nav-item"><a class="nav-link"href="?logout=true">Logout</a></li>
-								<?php		
-							}
-						?>
 		</ul>
 	  </div>
 	</div>

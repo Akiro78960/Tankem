@@ -6034,3 +6034,7 @@ body > * {
   background-size: cover;
   background-repeat: none;
   background-position: center; }
+
+.row div{
+  border:2px solid grey;
+}
