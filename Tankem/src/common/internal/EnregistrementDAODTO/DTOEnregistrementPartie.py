@@ -1,7 +1,6 @@
 #-*- coding: utf-8 -*-
 class DTOenregistrementPartie:
-    def __init__(self, id_partie, creation_date):
-        self.id_partie = id_partie
+    def __init__(self, creation_date):
         self.creation_date = creation_date
         self.array_joueur1 = []
         self.array_joueur2 = []
@@ -19,3 +18,18 @@ class DTOenregistrementPartie:
 
     def appendProjectile(self, DTOenregistrementProjectile):
         self.array_projectile.append(DTOenregistrementProjectile)
+
+    def getDate(self):
+        return self.creation_date
+
+    def getArrayJoueur1(self):
+        return self.array_joueur1
+
+    def getArrayJoueur2(self):
+        return self.array_joueur2
+
+    def getArrayArme(self):
+        return self.array_arme
+
+    def getArrayProjectile(self):
+        return self.array_projectile
