@@ -13,7 +13,7 @@ from panda3d.bullet import BulletDebugNode
 from map import Map
 from inputManager import InputManager
 from interface import *
-import settings
+# import settings
 import common
 #Import le DAO ORACLE
 

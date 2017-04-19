@@ -11,7 +11,7 @@ from direct.showbase.Transitions import Transitions
 
 import sys
 import common
-import settings
+#import settings
 
 DAOMap = common.internal.MapDAODTO.DAOMapOracle.DAOmaporacle()
 DTOlistmap = DAOMap.read()
