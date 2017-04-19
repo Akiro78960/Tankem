@@ -12,8 +12,7 @@ class DAOmaporacle():
 	# Connection
 	def __init__(self):
 		try:
-			self.connection = cx_Oracle.connect('e1384492', 'C',
-											'10.57.4.60/DECINFO.edu')
+			self.connection = cx_Oracle.connect('e1384492', 'C','10.57.4.60/DECINFO.edu')
 		except cx_Oracle.DatabaseError as e:
 			error, = e.args
 			print("Erreur de commande")
