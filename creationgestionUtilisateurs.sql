@@ -24,6 +24,8 @@ CREATE TABLE joueur (
 	CONSTRAINT pk_joueur PRIMARY KEY (id)
 );
 
+--INSERT INTO joueur (ingamename, name, surname, couleurTank, password, email, niveau, experience, vie, force, agilite, dexterite, partieJoue, partieGagne) VALUES ('Test4','Test4Nom','Test4Prenom','Rouge','AAAaaa111','nicolas.martin1996@yahoo.com',1,0,0,0,0,0,0,0);
+
 CREATE TABLE arme (
 	id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
 	name VARCHAR2(20),

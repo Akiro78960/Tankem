@@ -17,7 +17,7 @@ class DTOJoueur:
 		self.agilite = agilite
 		self.dexterite = dexterite
 		self.partieJoue = partieJoue
-		self.partiegagne = partiGegne
+		self.partiegagne = partieGagne
 
 	def getId(self):
 		return self.idJoueur

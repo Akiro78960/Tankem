@@ -2,6 +2,7 @@
 #Ajout des chemins vers les librarires
 from util import inclureCheminCegep
 import sys
+# from Menu import MenuPrincipal
 #TEST
 
 #Importe la configuration de notre jeu
@@ -15,16 +16,20 @@ from interface import *
 
 from gameLogic import GameLogic
 
+#Tests de Nicolas
+
+
 class Tankem(ShowBase):
 	def __init__(self):
 
 		ShowBase.__init__(self)
+		# settings.init()
 		self.demarrer()
 	
 
 	def demarrer(self):
-		# self.daoJoueur = DAOUtilisateur()
-		# self.daoJoueur.read("lol","shkret")
+		self.daoJoueur = common.internal.UtilisateursDAODTO.DAOutilisateur.DAOutilisateur()
+		self.joueur = self.daoJoueur.read("Test2","AAAaaa11")
 		self.gameLogic = GameLogic(self)
 		#Commenter/décommenter la ligne de votre choix pour démarrer le jeu
 		#Démarre dans le menu
