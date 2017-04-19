@@ -12,11 +12,15 @@
 			$statement->execute();
 
 			if ($row = $statement->fetch()) {
-				if (password_verify($password, $row["PASSWORD"])) {
-					$visibility = $row["VISIBILITY"];
+				// a changer plus tard au hashage
+				// if (password_verify($password, $row["PASSWORD"])) {
+				if ($password == $row["PASSWORD"]) {
+					
+					$visibility = 1;
 				}
 			}
-
+			echo $row["PASSWORD"];
+			echo $password;
 			return $visibility;
 		}
 
