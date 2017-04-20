@@ -359,7 +359,7 @@ class Map(DirectObject.DirectObject):
 
 
 	def creerChar(self,positionX, positionY, identifiant, couleur):
-		someTank = tank.Tank(identifiant,couleur,self.mondePhysique,self.dtoValues)
+		someTank = tank.Tank(identifiant,couleur,self.mondePhysique,self.dtoValues, DTOStats)
 		#On place le tank sur la grille
 		self.placerSurGrille(someTank.noeudPhysique,positionX,positionY)
 

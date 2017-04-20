@@ -1,6 +1,11 @@
+DROP TABLE enregistrement_projectile;
+DROP TABLE enregistrement_arme;
+DROP TABLE enregistrement_joueur;
+DROP TABLE enregistrement_partie;
+
 CREATE TABLE enregistrement_partie (
 	id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
-	creation_date VARCHAR2(10) NOT NULL
+	creation_date VARCHAR2(50) NOT NULL
 );
 
 CREATE TABLE enregistrement_joueur (
@@ -33,5 +38,4 @@ CREATE TABLE enregistrement_projectile (
 	en_mouvement NUMBER(1) NOT NULL,
 	CONSTRAINT pk_erg_projectile PRIMARY KEY (id_partie, time_sec, pos_x, pos_y, pos_z),
 	CONSTRAINT fk_erg_partie_projectile FOREIGN KEY (id_partie) REFERENCES enregistrement_partie(id)
-
 );
