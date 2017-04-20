@@ -9,6 +9,7 @@ from direct.interval.LerpInterval import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.Transitions import Transitions
 
+import random
 import sys
 import common
 import SingletonDBConnection
@@ -207,5 +208,91 @@ class MenuLogin(ShowBase):
 
 	def calculateName(self, joueur):
 		self.statsJoueur = joueur.getStats()
-		print self.statsJoueur
-			
+		#StatsJoueur: 0 = vie, 1 = force, 2 = agilite, 3 = dexterite
+		self.bestStat1 = [[0, -1]]
+		self.bestStat2 = [[0, -1]]
+		self.qualificatifA = ""
+		self.qualificatifB = ""
+
+		for idx,stat in enumerate(self.statsJoueur):
+			if(stat > self.bestStat1[0][0]):
+				self.bestStat1 = []
+				self.bestStat1.append([stat,idx])
+			elif(stat == self.bestStat1[0][0] and stat > 0):
+				self.bestStat1.append([stat,idx])
+		self.bestStat1 = random.choice(self.bestStat1)
+		print "QualificatifA : " + str(self.bestStat1)
+
+		for idx,stat in enumerate(self.statsJoueur):
+			if(idx != self.bestStat1[1]):
+				if(stat > self.bestStat2[0][0]):
+					self.bestStat2 = []
+					self.bestStat2.append([stat,idx])
+				elif(stat == self.bestStat2[0][0] and stat > 0):
+					self.bestStat2.append([stat,idx])
+		self.bestStat2 = random.choice(self.bestStat2)
+		print "QualificatifB: " + str(self.bestStat2)
+
+		if(self.bestStat1[1] == 0):
+			if(self.bestStat1[0] >= 1):
+				self.qualificatifA = "le fougeux"
+			if(self.bestStat1[0] >= 5):
+				self.qualificatifA = "le pétulant"
+			if(self.bestStat1[0] >= 10):
+				self.qualificatifA = "l'immortel"
+		elif(self.bestStat1[1] == 1):
+			if(self.bestStat1[0] >= 1):
+				self.qualificatifA = "le crossfiter"
+			if(self.bestStat1[0] >= 5):
+				self.qualificatifA = "le hulk"
+			if(self.bestStat1[0] >= 10):
+				self.qualificatifA = "le tout puissant"
+		elif(self.bestStat1[1] == 2):
+			if(self.bestStat1[0] >= 1):
+				self.qualificatifA = "le prompt"
+			if(self.bestStat1[0] >= 5):
+				self.qualificatifA = "le lynx"
+			if(self.bestStat1[0] >= 10):
+				self.qualificatifA = "le foudroyant"
+		elif(self.bestStat1[1] == 3):
+			if(self.bestStat1[0] >= 1):
+				self.qualificatifA = "le précis"
+			if(self.bestStat1[0] >= 5):
+				self.qualificatifA = "l'habile"
+			if(self.bestStat1[0] >= 10):
+				self.qualificatifA = "le chirurgien"
+		
+		if(self.bestStat2[1] == 0):
+			if(self.bestStat2[0] >= 1):
+				self.qualificatifB = "fougeux"
+			if(self.bestStat2[0] >= 5):
+				self.qualificatifB = "pétulant"
+			if(self.bestStat2[0] >= 10):
+				self.qualificatifB = "immortel"
+		elif(self.bestStat2[1] == 1):
+			if(self.bestStat2[0] >= 1):
+				self.qualificatifB = "qui fait du crossfit"
+			if(self.bestStat2[0] >= 5):
+				self.qualificatifB = "brutal"
+			if(self.bestStat2[0] >= 10):
+				self.qualificatifB = "tout puissant"
+		elif(self.bestStat2[1] == 2):
+			if(self.bestStat2[0] >= 1):
+				self.qualificatifB = "prompt"
+			if(self.bestStat2[0] >= 5):
+				self.qualificatifB = "lynx"
+			if(self.bestStat2[0] >= 10):
+				self.qualificatifB = "foudroyant"
+		elif(self.bestStat2[1] == 3):
+			if(self.bestStat2[0] >= 1):
+				self.qualificatifB = "précis"
+			if(self.bestStat2[0] >= 5):
+				self.qualificatifB = "habile"
+			if(self.bestStat2[0] >= 10):
+				self.qualificatifB = "chirurgien"
+
+		return self.qualificatifA + " " + self.qualificatifB
+
+		
+
+		

@@ -28,12 +28,6 @@ class Tankem(ShowBase):
 	
 
 	def demarrer(self):
-<<<<<<< HEAD
-=======
-		# self.daoJoueur = common.internal.UtilisateursDAODTO.DAOutilisateur.DAOutilisateur()
-		# self.joueur = self.daoJoueur.read("Test2","AAAaaa111")
-		
->>>>>>> a3b58809d5c12953ce2c075359d3e764cbf86fa2
 		self.gameLogic = GameLogic(self)
 		#Commenter/décommenter la ligne de votre choix pour démarrer le jeu
 		#Démarre dans le menu
