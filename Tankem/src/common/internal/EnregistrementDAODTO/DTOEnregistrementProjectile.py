@@ -7,18 +7,18 @@ class DTOenregistrementProjectile:
         self.pos_z = pos_z
         self.en_mouvement = en_mouvement
 
-def getTime():
-    return self.time_sec
+    def getTime(self):
+        return self.time_sec
 
-def getX():
-    return self.pos_x
+    def getX(self):
+        return self.pos_x
 
-def getY():
-    return self.pos_y
+    def getY(self):
+        return self.pos_y
 
-def getZ():
-    return self.pos_z
+    def getZ(self):
+        return self.pos_z
 
-def getEnMouvement():
-    return self.en_mouvement
+    def getEnMouvement(self):
+        return self.en_mouvement
 
