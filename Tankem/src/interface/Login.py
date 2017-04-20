@@ -256,16 +256,22 @@ class MenuLogin(ShowBase):
 	def calculateName(self, joueur):
 		self.statsJoueur = joueur.getStats()
 		#StatsJoueur: 0 = vie, 1 = force, 2 = agilite, 3 = dexterite
-		self.bestStat1 = [[0, -1]]
+		self.bestStat1 = [[0, -1]] #Un array d'arrays contenant deux infos: le nb de points et l'index number
 		self.bestStat2 = [[0, -1]]
 		self.qualificatifA = ""
 		self.qualificatifB = ""
+		self.maxStat = 30 #Le stat maximum
 
+		#Si tous les stats sont au maximum
+		if(self.statsJoueur[0] == self.maxStat and self.statsJoueur[1] == self.maxStat and self.statsJoueur[2] == self.maxStat and self.statsJoueur[3] == self.maxStat):
+			return "dominateur"
+
+		#Regarde chacun des stats du joueur et détermine ce qui est le plus grand
 		for idx,stat in enumerate(self.statsJoueur):
-			if(stat > self.bestStat1[0][0]):
+			if(stat > self.bestStat1[0][0]): #S'il y a un stat plus grand que le bestStat, on restart le bestStats avec le nouveau stat
 				self.bestStat1 = []
 				self.bestStat1.append([stat,idx])
-			elif(stat == self.bestStat1[0][0] and stat > 0):
+			elif(stat == self.bestStat1[0][0] and stat > 0): #S'il y a un stat égal au bestStat, on rajoute les infos dan's 
 				self.bestStat1.append([stat,idx])
 		self.bestStat1 = random.choice(self.bestStat1)
 		print "QualificatifA : " + str(self.bestStat1)
