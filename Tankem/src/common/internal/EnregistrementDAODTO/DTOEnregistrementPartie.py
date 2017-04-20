@@ -8,10 +8,10 @@ class DTOenregistrementPartie:
         self.array_projectile = []
 
     def appendJoueur1(self,DTOenregistrementJoueur):
-        self.array_tuiles.append(DTOenregistrementJoueur)
+        self.array_joueur1.append(DTOenregistrementJoueur)
 
     def appendJoueur2(self,DTOenregistrementJoueur):
-        self.array_tuiles.append(DTOenregistrementJoueur)
+        self.array_joueur2.append(DTOenregistrementJoueur)
 
     def appendArme(self,DTOenregistrementArme):
         self.array_arme.append(DTOenregistrementArme)

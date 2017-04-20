@@ -6,14 +6,14 @@ class DTOenregistrementArme:
         self.pos_y = pos_y
         self.type_arme = type_arme
 
-    def getTime():
+    def getTime(self):
         return self.time_sec
 
-    def getX():
+    def getX(self):
         return self.pos_x
 
-    def getY():
+    def getY(self):
         return self.pos_y
 
-    def getType():
+    def getType(self):
         return self.type_arme

@@ -5,11 +5,11 @@ class DTOenregistrementJoueur:
         self.pos_x = pos_x
         self.pos_y = pos_y
 
-    def getTime():
+    def getTime(self):
         return self.time_sec
 
-    def getX():
+    def getX(self):
         return self.pos_x
 
-    def getY():
+    def getY(self):
         return self.pos_y
