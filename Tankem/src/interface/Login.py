@@ -45,23 +45,23 @@ class MenuLogin(ShowBase):
 		self.couleurFG = (0,0,0,1)
 		#Titre du jeu
 
-		self.username1 = DirectEntry(text = "" ,scale=.05,
+		self.fieldUsername1 = DirectEntry(text = "" ,scale=.05,
 									initialText="", 
 									numLines = 1,
 									focus=1,
 									pos=(-1,0,0.82) )
-		self.username2 = DirectEntry(text = "" ,scale=.05,
+		self.fieldUsername2 = DirectEntry(text = "" ,scale=.05,
 									initialText="", 
 									numLines = 1,
 									focus=1,
 									pos=(0.4,0,0.82) )
-		self.password1 = DirectEntry(text = "" ,scale=.05,
+		self.fieldPassword1 = DirectEntry(text = "" ,scale=.05,
 									initialText="", 
 									numLines = 1,
 									focus=1,
 									pos=(-1,0,0.59),
 									obscured=1 )
-		self.password2 = DirectEntry(text = "" ,scale=.05,
+		self.fieldPassword2 = DirectEntry(text = "" ,scale=.05,
 									initialText="", 
 									numLines = 1,
 									focus=1,
@@ -111,6 +111,24 @@ class MenuLogin(ShowBase):
 									  bg = self.couleurBGLabel,
 									  shadow=self.couleurShadow,
 									  align=TextNode.ACenter)
+
+		self.labelJoueur1 = OnscreenText(text = "sfsdf",
+									  pos = (-0.05,-0.4,-1.67), 
+									  scale = 0.10,
+									  fg=self.couleurFG,
+									  bg = self.couleurBGLabel,
+									  shadow=self.couleurShadow,
+									  mayChange = True,
+									  align=TextNode.ACenter)
+		self.labelJoueur2 = OnscreenText(text = "sdfsdfsdf",
+									  pos = (-0.05,-0.6,-1.67), 
+									  scale = 0.10,
+									  fg=self.couleurFG,
+									  bg = self.couleurBGLabel,
+									  shadow=self.couleurShadow,
+									  mayChange = True,
+									  align=TextNode.ACenter)
+									  
 		
 		self.b2 = DirectButton(text = ("Login", "Login", "Login", "Login"),
 						  text_scale=btnScale,
@@ -120,8 +138,8 @@ class MenuLogin(ShowBase):
 						  relief=2,
 						  textMayChange = 1,
 						  pad = (0,0),
-						  command = self.setPlayer1Ready,
-						  extraArgs = [True],
+						  command = self.setPlayerReady,
+						  extraArgs = [True,1],
 						  pos = (-0.75,0,0.45))
 		self.b3 = DirectButton(text = ("Login", "Login", "Login", "Login"),
 						  text_scale=btnScale,
@@ -131,8 +149,8 @@ class MenuLogin(ShowBase):
 						  relief=2,
 						  textMayChange = 1,
 						  pad = (0,0),
-						  command = self.setPlayer2Ready,
-						  extraArgs = [True],
+						  command = self.setPlayerReady,
+						  extraArgs = [True,2],
 						  pos = (0.65,0,0.45))
 		self.b4 = DirectButton(text = ("Play", "Play", "Play", "Play"),
 						  text_scale=btnScale,
@@ -160,57 +178,46 @@ class MenuLogin(ShowBase):
 
 		self.sound = loader.loadSfx("../asset/Menu/shotgun.mp3")
 
-	def setPlayer1Ready(self,state):
-		self.username1 = self.username1.get()
-		self.password1 = self.password1.get()
-		self.joueur1 = self.user.read(self.username1,self.password1)
+	def setPlayerReady(self,state,num):
+		if num == 1 : 
+			self.username1 = self.fieldUsername1.get()
+			self.password1 = self.fieldPassword1.get()
+			self.joueur = self.user.read(self.username1,self.password1)
+		if num == 2 :
+			self.username2 = self.fieldUsername2.get()
+			self.password2 = self.fieldPassword2.get()
+			self.joueur = self.user.read(self.username2,self.password2)
 
-		if self.joueur1 == 1 :
+		if self.joueur == 1 :
 			self.setText("Mauvais nom d'utilisateur")
-		elif self.joueur1 == 0 : 
+		elif self.joueur == 0 : 
 			self.setText("Mauvais mot de passe")
 		else :
-			self.player1ready = state
-			self.b2['state'] = DGG.DISABLED
-			self.b2['frameColor'] = self.couleurDisabled
-			self.b2['text_bg'] = self.couleurDisabled
+			if num == 1 : 
+				self.player1ready = state
+				self.b2['state'] = DGG.DISABLED
+				self.b2['frameColor'] = self.couleurDisabled
+				self.b2['text_bg'] = self.couleurDisabled
+			if num == 2 :
+				self.player2ready = state
+				self.b3['state'] = DGG.DISABLED
+				self.b3['frameColor'] = self.couleurDisabled
+				self.b3['text_bg'] = self.couleurDisabled
 			if self.player1ready == True and self.player2ready == True :
 				self.setText("Welcome to Tank'em !")
 				self.b4['state'] = DGG.NORMAL
 				self.b4['frameColor'] = self.couleurBack
 				self.b4['text_bg'] = self.couleurBack
+				self.labelJoueur1.setText(self.username1)
+				self.labelJoueur2.setText(self.username2)
+
 			elif self.player1ready :
 				self.setText('Player 2 must also login')
 			elif self.player2ready :
-				self.settext('Player 1 must also login')
+				self.setText('Player 1 must also login')
 			else :
 				self.setText('Both players must login')
 
-	def setPlayer2Ready(self,state):
-		self.username2 = self.username1.get()
-		self.password2 = self.password1.get()
-		self.joueur2 = self.user.read(self.username2,self.password2)
-
-		if self.joueur2 == 1 :
-			self.setText("Mauvais nom d'utilisateur")
-		elif self.joueur2 == 0 : 
-			self.setText("Mauvais mot de passe")
-		else :
-			self.player2ready = state
-			self.b3['state'] = DGG.DISABLED
-			self.b3['frameColor'] = self.couleurDisabled
-			self.b3['text_bg'] = self.couleurDisabled
-			if self.player1ready == True and self.player2ready == True :
-				self.setText("Welcome to Tank'em !")
-				self.b4['state'] = DGG.NORMAL
-				self.b4['frameColor'] = self.couleurBack
-				self.b4['text_bg'] = self.couleurBack
-			elif self.player1ready :
-				self.setText('Player 2 must also login')
-			elif self.player2ready :
-				self.settext('Player 1 must also login')
-			else :
-				self.setText('Both players must login')
 	#callback function to set  text 
 	def setText(self,textEntered):
 		self.messageBox.enterText(textEntered)
@@ -227,10 +234,10 @@ class MenuLogin(ShowBase):
 			self.b2.hide()
 			self.b3.hide()
 			self.b4.hide()
-			self.username1.hide()
-			self.username2.hide()
-			self.password1.hide()
-			self.password2.hide()
+			self.fieldUsername1.hide()
+			self.fieldUsername2.hide()
+			self.fieldPassword1.hide()
+			self.fieldPassword2.hide()
 			self.messageBox.hide()
 			self.labelplayer1.hide()
 			self.labelpassword1.hide()
