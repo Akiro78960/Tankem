@@ -13,6 +13,7 @@ import random
 import common
 DAOMap = common.internal.MapDAODTO.DAOMapOracle.DAOmaporacle()
 DTOlistmap = DAOMap.read()
+DTOStats = common.internal.DTOStats.DTOStats()
 
 
 #Module qui sert à la création des maps
@@ -73,6 +74,7 @@ class Map(DirectObject.DirectObject):
 		maze.build()
 		mazeTuiles = DTOmap.getArrayTuiles()
 		mazeSpawns = DTOmap.getArraySpawns()
+		DTOStats.idNiveau = DTOmap.id_niveau
 
 		for tuile in mazeTuiles:
 			# Tuile mur

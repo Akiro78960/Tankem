@@ -4,10 +4,8 @@ from SingletonDBConnection import SingletonDBConnection
 
 class DAOStats():
 
-    def __init__(self):
+	def __init__(self):
 		self.connection = SingletonDBConnection().getConnection()
-		self.DTOStats = None
-
 
 	def create(DTOStats):
 		cur = self.connection.cursor()
