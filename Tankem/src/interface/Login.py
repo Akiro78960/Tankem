@@ -18,6 +18,8 @@ DTOlistmap = DAOMap.read()
 class MenuLogin(ShowBase):
 	def __init__(self, gameLogic):
 		self.gameLogic = gameLogic
+		self.user = common.internal.UtilisateursDAODTO.DAOutilisateur.DAOutilisateur()
+		# self.joueur = self.daoJoueur.read("Test2","AAAaaa111")
 		#Image d'arrière plan
 		self.background=OnscreenImage(parent=render2d, image="../asset/Menu/BackgroundLogin.jpg")
 
