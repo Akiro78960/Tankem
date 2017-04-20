@@ -39,62 +39,73 @@ class MenuLogin(ShowBase):
 		self.player2ready = False
 		#Titre du jeu
 
-		self.labelplayer1 = OnscreenText(text = "Player 1",
-									  pos = (-1.25,0.8,-1.67), 
-									  scale = 0.15,
-									  fg=(0,0,0,1),
-									  align=TextNode.ACenter)
 		self.username1 = DirectEntry(text = "" ,scale=.05,
 									initialText="", 
 									numLines = 1,
 									focus=1,
-									pos=(-1.50,0,0.69) )
-		self.password1 = DirectEntry(text = "" ,scale=.05,
-									initialText="", 
-									numLines = 1,
-									focus=1,
-									pos=(-1.50,0,0.39),
-									obscured=1 )
-		self.labelpassword1 = OnscreenText(text = "Password",
-									  pos = (-1.25,0.50,-1.67), 
-									  scale = 0.15,
-									  fg=(0,0,0,1),
-									  align=TextNode.ACenter)
-
-		self.Player2 = OnscreenText(text = "Player 2",
-									  pos = (0.25,0.8,-1.67), 
-									  scale = 0.15,
-									  fg=(0,0,0,1),
-									  align=TextNode.ACenter)
-		
+									pos=(-1,0,0.82) )
 		self.username2 = DirectEntry(text = "" ,scale=.05,
 									initialText="", 
 									numLines = 1,
 									focus=1,
-									pos=(0,0,0.69) )
-		self.labelpassword2 = OnscreenText(text = "Password",
-									  pos = (0.25,0.50,-1.67), 
-									  scale = 0.15,
-									  fg=(0,0,0,1),
-									  align=TextNode.ACenter)
-		self.labelpassword2 = OnscreenText(text = "Message box ",
-									  pos = (-0.3,0.2,-1.67), 
-									  scale = 0.15,
-									  fg=(0,0,0,1),
-									  align=TextNode.ACenter)
+									pos=(0.4,0,0.82) )
+		self.password1 = DirectEntry(text = "" ,scale=.05,
+									initialText="", 
+									numLines = 1,
+									focus=1,
+									pos=(-1,0,0.59),
+									obscured=1 )
 		self.password2 = DirectEntry(text = "" ,scale=.05,
 									initialText="", 
 									numLines = 1,
 									focus=1,
-									pos=(0,0,0.39),
+									pos=(0.4,0,0.59),
 									obscured=1 )
 		self.messageBox = DirectEntry(text = "" ,scale=.05,
 									width =55,
 									initialText="Veuillez vous connecter à Tank'em", 
 									numLines = 1,
 									focus=0,
-									pos=(-1.5,0,0.1),
+									pos=(-1.35,0,0.3),
 									focusInCommand=self.clearText )
+		self.labelplayer1 = OnscreenText(text = "Player 1",
+									  pos = (-0.75,0.9,-1.67), 
+									  scale = 0.10,
+									  fg=(0,0,0,1),
+									  bg = (255,255,255,0.3),
+									  shadow=(200,200,200,0.8),
+									  align=TextNode.ACenter)
+		self.labelpassword1 = OnscreenText(text = "Password",
+									  pos = (-0.75,0.70,-1.67), 
+									  scale = 0.10,
+									  fg=(0,0,0,1),
+									  bg = (255,255,255,0.3),
+									  shadow=(200,200,200,0.8),
+									  align=TextNode.ACenter)
+
+		self.labelPlayer2 = OnscreenText(text = "Player 2",
+									  pos = (0.65,0.9,-1.67), 
+									  scale = 0.10,
+									  fg=(0,0,0,1),
+									  bg = (255,255,255,0.3),
+									  shadow=(200,200,200,0.8),
+									  align=TextNode.ACenter)
+		
+		self.labelpassword2 = OnscreenText(text = "Password",
+									  pos = (0.65,0.70,-1.67), 
+									  scale = 0.10,
+									  fg=(0,0,0,1),
+									  bg = (255,255,255,0.3),
+									  shadow=(200,200,200,0.8),
+									  align=TextNode.ACenter)
+		self.labelMessageBox = OnscreenText(text = "Message box ",
+									  pos = (-0.05,0.4,-1.67), 
+									  scale = 0.10,
+									  fg=(0,0,0,1),
+									  bg = (255,255,255,0.3),
+									  shadow=(200,200,200,0.8),
+									  align=TextNode.ACenter)
+		
 		self.b2 = DirectButton(text = ("Login", "Login", "Login", "disabled"),
 						  text_scale=btnScale,
 						  borderWidth = borderW,
@@ -105,7 +116,7 @@ class MenuLogin(ShowBase):
 						  pad = (0,0),
 						  command = self.setPlayer1Ready,
 						  extraArgs = [True],
-						  pos = (-1.25,0,0.25))
+						  pos = (-0.75,0,0.45))
 		self.b3 = DirectButton(text = ("Login", "Login", "Login", "disabled"),
 						  text_scale=btnScale,
 						  borderWidth = borderW,
@@ -116,7 +127,7 @@ class MenuLogin(ShowBase):
 						  pad = (0,0),
 						  command = self.setPlayer2Ready,
 						  extraArgs = [True],
-						  pos = (0.25,0,0.25))
+						  pos = (0.65,0,0.45))
 
 		
 				
@@ -135,7 +146,7 @@ class MenuLogin(ShowBase):
 		self.username = self.username1.get()
 		self.password = self.password1.get()
 		self.joueur = self.user.read(self.username,self.password)
-		
+
 		if self.joueur == 1 :
 			self.setText("Mauvais nom d'utilisateur")
 		elif self.joueur == 0 : 
