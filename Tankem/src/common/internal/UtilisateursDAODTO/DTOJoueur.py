@@ -24,3 +24,11 @@ class DTOJoueur:
 
 	def getUsername(self):
 		return self.username
+
+	def getStats(self):
+		self.stats = []
+		self.stats.append(self.vie)
+		self.stats.append(self.force)
+		self.stats.append(self.agilite)
+		self.stats.append(self.dexterite)
+		return self.stats

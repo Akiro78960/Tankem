@@ -215,4 +215,8 @@ class MenuLogin(ShowBase):
 	# 				 Wait(0.2), #Bug étrange quand on met pas ça. L'effet de transition doit lagger
 	# 				 Func(lambda : self.transition.irisIn(0.2))
 	# 		).start()
+
+	def calculateName(self, joueur):
+		self.statsJoueur = joueur.getStats()
+		print self.statsJoueur
 			
