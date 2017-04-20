@@ -79,7 +79,7 @@ class MenuPrincipal(ShowBase):
 		for map in DTOlistmap.getArrayMaps():
 			self.name = map.getName()
 			self.i = map.getId()
-			self.l = DirectButton(text =  str(self.i) + " "+ self.name, text_scale=0.08, scale = 0.9, borderWidth = (0.005,0.005),command = self.menuLogin,extraArgs = [self.gameLogic])
+			self.l = DirectButton(text =  str(self.i) + " "+ self.name, text_scale=0.08, scale = 0.9, borderWidth = (0.005,0.005),command = self.menuLogin,extraArgs = [self.gameLogic,self.i,self.name])
 			self.scrollList.addItem(self.l)
 		
 		#Initialisation de l'effet de transition
@@ -106,9 +106,9 @@ class MenuPrincipal(ShowBase):
 	def setNiveauChoisi(self,idNiveau):
 			self.gameLogic.setIdNiveau(idNiveau)
 			self.chargeJeu()
-	def menuLogin(self,gameLogic):
+	def menuLogin(self,gameLogic,mapID,mapName):
 		self.cacher();
-		self.menuPrincipal = MenuLogin(gameLogic)
+		self.menuPrincipal = MenuLogin(gameLogic,mapID,mapName)
 	def chargeJeu(self):
 			#On démarre!
 			Sequence(Func(lambda : self.transition.irisOut(0.2)),
