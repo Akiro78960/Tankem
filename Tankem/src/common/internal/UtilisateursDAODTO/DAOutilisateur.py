@@ -25,9 +25,11 @@ class DAOutilisateur():
 												result[14])
 					return self.dtoJoueur #Retourne l'objet Joueur
 				else:
-					print "Ce n'est pas le bon password!"
+					#Return 0 si ce n'est pas le bon password
+					return 0
 			if(curRead.rowcount == 0):
-				print "L'utilisateur n'existe pas!"
+				#return 1 si ce n'est pas un bon username
+				return 1 
 
 			# self.connection.close() #Au cas ou qu'il y a trop de connection, utiliser cette fonction
 

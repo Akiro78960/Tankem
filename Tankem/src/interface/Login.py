@@ -132,22 +132,46 @@ class MenuLogin(ShowBase):
 		self.sound = loader.loadSfx("../asset/Menu/shotgun.mp3")
 
 	def setPlayer1Ready(self,state):
-		self.player1ready = state
+		self.username = self.username1.get()
+		self.password = self.password1.get()
+		self.joueur = self.user.read(self.username,self.password)
+		
+		if self.joueur == 1 :
+			self.setText("Mauvais nom d'utilisateur")
+		elif self.joueur == 0 : 
+			self.setText("Mauvais mot de passe")
+		else :
+			self.player1ready = state
+
 		if self.player1ready == True and self.player2ready == True :
 			self.setText("Welcome to Tank'em !")
 		elif self.player1ready :
 			self.setText('Player 2 must also login')
 		elif self.player2ready :
 			self.settext('Player 1 must also login')
+		else :
+			self.setText('Both players must login')
 
 	def setPlayer2Ready(self,state):
-		self.player2ready = state
-		if self.player1ready and self.player2ready :
+		self.username = self.username2.get()
+		self.password = self.password2.get()
+		self.joueur = self.user.read(self.username,self.password)
+
+		if self.joueur == 1 :
+			self.setText("Mauvais nom d'utilisateur")
+		elif self.joueur == 0 : 
+			self.setText("Mauvais mot de passe")
+		else :
+			self.player2ready = state
+
+		if self.player1ready == True and self.player2ready == True :
 			self.setText("Welcome to Tank'em !")
 		elif self.player1ready :
 			self.setText('Player 2 must also login')
 		elif self.player2ready :
-			self.setText('Player 1 must also login')
+			self.settext('Player 1 must also login')
+		else :
+			self.setText('Both players must login')
 	#callback function to set  text 
 	def setText(self,textEntered):
 		self.messageBox.enterText(textEntered)
@@ -180,4 +204,8 @@ class MenuLogin(ShowBase):
 	# 				 Wait(0.2), #Bug étrange quand on met pas ça. L'effet de transition doit lagger
 	# 				 Func(lambda : self.transition.irisIn(0.2))
 	# 		).start()
+
+	def calculateName(self, joueur):
+		self.statsJoueur = joueur.getStats()
+		print self.statsJoueur
 			
