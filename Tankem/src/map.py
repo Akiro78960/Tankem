@@ -13,6 +13,7 @@ import random
 import common
 DAOMap = common.internal.MapDAODTO.DAOMapOracle.DAOmaporacle()
 DTOlistmap = DAOMap.read()
+DTOStats = common.internal.DTOStats.DTOStats()
 
 
 #Module qui sert à la création des maps
@@ -73,6 +74,7 @@ class Map(DirectObject.DirectObject):
 		maze.build()
 		mazeTuiles = DTOmap.getArrayTuiles()
 		mazeSpawns = DTOmap.getArraySpawns()
+		DTOStats.idNiveau = DTOmap.id_niveau
 
 		for tuile in mazeTuiles:
 			# Tuile mur
@@ -357,7 +359,7 @@ class Map(DirectObject.DirectObject):
 
 
 	def creerChar(self,positionX, positionY, identifiant, couleur):
-		someTank = tank.Tank(identifiant,couleur,self.mondePhysique,self.dtoValues)
+		someTank = tank.Tank(identifiant,couleur,self.mondePhysique,self.dtoValues, DTOStats)
 		#On place le tank sur la grille
 		self.placerSurGrille(someTank.noeudPhysique,positionX,positionY)
 

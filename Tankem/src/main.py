@@ -28,7 +28,6 @@ class Tankem(ShowBase):
 	
 
 	def demarrer(self):
-		
 		self.gameLogic = GameLogic(self)
 		#Commenter/décommenter la ligne de votre choix pour démarrer le jeu
 		#Démarre dans le menu
