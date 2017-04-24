@@ -6030,14 +6030,54 @@ a.text-gray-dark:hover {
   float: left;
   margin-left: 10px; }
 
-.blocGestionPts {
-  border:3px solid;
+
+/*GESTION POINTS*/
+.rowGestionPts {
+  border:2px solid rgba(0,0,0,0.5);
+  background-color:rgba(240,240,240,1.0);
 }
 
 .blocGestionPts:nth-of-type(1) {
-    border-right:none;
+    border-right:1px solid rgba(0,0,0,0.2);
 }
 
-.rowPoints {
-  border-top:2px solid;
+.blocGestionPts .row div {
+  border:1px solid rgba(0,0,0,0.2);
+}
+
+.blocGestionPts .row div p:nth-of-type(1){
+  border-bottom:1px solid rgba(0,0,0,0.2);
+}
+
+/*HALL OF FAME*/
+.rowInfoJoueur {
+  border:2px solid rgba(0,0,0,0.5);
+  background-color:rgba(240,240,240,1.0);
+}
+
+.rowInfoJoueur h4 {
+  padding:10px;
+  border-bottom:1px solid rgba(0,0,0,0.2);
+}
+
+.rowInfoJoueur p {
+  border-bottom:1px solid rgba(0,0,0,0.2);
+}
+
+/*DERNIÈRES PARTIES*/
+.rowInfoPartie {
+  border:2px solid rgba(0,0,0,0.5);
+  background-color:rgba(240,240,240,1.0);
+}
+
+.rowInfoPartie h4 {
+  padding:10px;
+}
+
+.rowInfoPartie p{
+  border-bottom:1px solid rgba(0,0,0,0.2);
+}
+
+.blocPartieJoueur {
+  border:1px solid rgba(0,0,0,0.2);
 }
