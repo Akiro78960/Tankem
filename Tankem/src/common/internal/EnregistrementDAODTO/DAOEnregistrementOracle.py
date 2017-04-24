@@ -35,9 +35,9 @@ class DAOenregistrementOracle():
 
         # Insertion du joueur 1
         arrayJoueur1 = DTOpartie.getArrayJoueur1()
-        arrayInsert = [(1,idPartie,dtoJoueur.getTime(),dtoJoueur.getX(),dtoJoueur.getY()) for dtoJoueur in arrayJoueur1]
+        arrayInsert = [(1,idPartie,dtoJoueur.getTime(),dtoJoueur.getX(),dtoJoueur.getY(),dtoJoueur.getOrientation(), dtoJoueur.getHealth(),dtoJoueur.isBallShot()) for dtoJoueur in arrayJoueur1]
         curJoueur = self.connection.cursor()
-        statement = "INSERT INTO ENREGISTREMENT_JOUEUR(NO_JOUEUR, ID_PARTIE, TIME_SEC, POS_X, POS_Y) VALUES(:1,:2,:3,:4,:5)"
+        statement = "INSERT INTO ENREGISTREMENT_JOUEUR(NO_JOUEUR, ID_PARTIE, TIME_SEC, POS_X, POS_Y, ORIENTATION, HEALTH, BALL_SHOT) VALUES(:1,:2,:3,:4,:5, :6, :7, :8)"
         curJoueur.bindarraysize = 5
         # curJoueur.setinputsizes(int,int,int,int,int)
         curJoueur.executemany(statement, arrayInsert)
@@ -45,9 +45,9 @@ class DAOenregistrementOracle():
 
         # Insertion du joueur 2
         arrayJoueur2 = DTOpartie.getArrayJoueur2()
-        arrayInsert = [(2,idPartie,dtoJoueur.getTime(),dtoJoueur.getX(),dtoJoueur.getY()) for dtoJoueur in arrayJoueur2]
+        arrayInsert = [(2,idPartie,dtoJoueur.getTime(),dtoJoueur.getX(),dtoJoueur.getY(),dtoJoueur.getOrientation(), dtoJoueur.getHealth(),dtoJoueur.isBallShot()) for dtoJoueur in arrayJoueur2]
         curJoueur = self.connection.cursor()
-        statement = "INSERT INTO ENREGISTREMENT_JOUEUR(NO_JOUEUR, ID_PARTIE, TIME_SEC, POS_X, POS_Y) VALUES(:1,:2,:3,:4,:5)"
+        statement = "INSERT INTO ENREGISTREMENT_JOUEUR(NO_JOUEUR, ID_PARTIE, TIME_SEC, POS_X, POS_Y, ORIENTATION, HEALTH, BALL_SHOT) VALUES(:1,:2,:3,:4,:5, :6, :7, :8)"
         curJoueur.bindarraysize = 5
         curJoueur.close()
 

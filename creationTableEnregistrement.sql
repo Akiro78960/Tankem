@@ -14,6 +14,9 @@ CREATE TABLE enregistrement_joueur (
 	time_sec NUMBER NOT NULL,
 	pos_x NUMBER NOT NULL,
 	pos_y NUMBER NOT NULL,
+	orientation NUMBER NOT NULL,
+	health NUMBER NOT NULL,
+	ball_shot NUMBER(1) NOT NULL,
 	CONSTRAINT pk_erg_joueur PRIMARY KEY (no_joueur, id_partie, time_sec),
 	CONSTRAINT fk_erg_partie_joueur FOREIGN KEY (id_partie) REFERENCES enregistrement_partie(id)
 );
