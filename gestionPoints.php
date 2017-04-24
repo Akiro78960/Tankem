@@ -11,18 +11,18 @@
 <div class="container">
 	<h1>Gestion des Attributs</h1>
 	<div class="row">
-		<div class="col-md-8 col-md-push-4">
+		<div class="col-md-8 col-md-push-4 blocGestionPts">
 			<p>Points à dépenser</p>
-			<div class="row">
+			<div class="row rowPoints">
 				<div class="col-md-6 test">Vie</div>
 				<div class="col-md-6">Force</div>
 			</div>
-			<div class="row">
+			<div class="row rowPoints">
 				<div class="col-md-6">Agilité</div>
 				<div class="col-md-6">Dextérité</div>
 			</div>
 		</div>
-		<div class="col-md-4 col-md-pull-8">
+		<div class="col-md-4 col-md-pull-8 blocGestionPts">
 			Stats Tank
 		</div>
 	</div>

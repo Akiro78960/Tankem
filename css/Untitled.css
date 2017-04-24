@@ -6030,11 +6030,14 @@ a.text-gray-dark:hover {
   float: left;
   margin-left: 10px; }
 
-body > * {
-  background-size: cover;
-  background-repeat: none;
-  background-position: center; }
+.blocGestionPts {
+  border:3px solid;
+}
 
-.row div{
-  border:2px solid grey;
+.blocGestionPts:nth-of-type(1) {
+    border-right:none;
+}
+
+.rowPoints {
+  border-top:2px solid;
 }
