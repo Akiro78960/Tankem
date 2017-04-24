@@ -17,12 +17,9 @@
 		  <li class="nav-item active"> <a class="nav-link" href="index.php">Home</a> </li>
 		  <li class="nav-item"> <a class="nav-link" href="Infos.php">Infos</a> </li>
 		  <li class="nav-item"> <a class="nav-link" href="gestionPoints.php">Gestion des Attributs</a> </li>
-<<<<<<< HEAD
 			<li class="nav-item"> <a class="nav-link" href="hallOfFame.php">Hall of Fame</a> </li>
 			<li class="nav-item"> <a class="nav-link" href="dernieresParties.php">Dernières Parties</a> </li>
-=======
-  		  <li class="nav-item"> <a class="nav-link" href="search.php">Recherche</a> </li>
->>>>>>> e8586aaa91c7e8376d82597c3e83c8c734ed7b0a
+  		<li class="nav-item"> <a class="nav-link" href="search.php">Recherche</a> </li>
 		  <li class="nav-item"> <a class="nav-link" href="#">Link</a> </li>
 		  <li class="nav-item"> <a class="nav-link disabled" href="#">Disabled</a> </li>
 			<?php
