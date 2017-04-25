@@ -110,9 +110,6 @@ class MenuPrincipal(ShowBase):
 		self.cacher();
 		self.menuPrincipal = MenuLogin(gameLogic,mapID,mapName)
 	def chargeJeu(self):
-		#######################################################################################################################################################
-		player1 = self.menuPrincipal.getPlayer1()
-		print("idJoueurs: " + str(player1.idJoueur))
 		#On démarre!
 		Sequence(Func(lambda : self.transition.irisOut(0.2)),
 					SoundInterval(self.sound),

@@ -24,6 +24,7 @@ class Map(DirectObject.DirectObject):
 		self.idJoueur1 = idJoueur1
 		self.idJoueur2 = idJoueur2
 
+
 		#On prends les infos du dto
 		self.dtoValues = dtoValues
 
@@ -77,6 +78,10 @@ class Map(DirectObject.DirectObject):
 		mazeTuiles = DTOmap.getArrayTuiles()
 		mazeSpawns = DTOmap.getArraySpawns()
 		DTOStats.idNiveau = DTOmap.id_niveau
+		print("idJoueur1 : " + str(self.idJoueur1))
+		print("idJoueur2 : " + str(self.idJoueur2))
+		DTOStats.idJoueur1 = self.idJoueur1
+		DTOStats.idJoueur2 = self.idJoueur2
 
 		for tuile in mazeTuiles:
 			# Tuile mur
