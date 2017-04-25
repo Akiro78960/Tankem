@@ -1,6 +1,7 @@
 ## -*- coding: utf-8 -*-
 
 from direct.showbase.ShowBase import ShowBase
+from direct.actor.Actor import Actor
 from direct.gui.OnscreenText import OnscreenText 
 from direct.gui.DirectGui import *
 from panda3d.core import *
@@ -8,6 +9,7 @@ from pandac.PandaModules import *
 from direct.interval.LerpInterval import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.Transitions import Transitions
+
 
 import random
 import sys
@@ -116,7 +118,15 @@ class MenuLogin(ShowBase):
 									  align=TextNode.ACenter)
 
 		self.labelJoueur1 = OnscreenText(text = "",
-									  pos = (-0.05,-0.4,-1.67), 
+									  pos = (-0.05,0.1,-1.67), 
+									  scale = 0.10,
+									  fg=self.couleurFG,
+									  bg = self.couleurBGLabel,
+									  shadow=self.couleurShadow,
+									  mayChange = True,
+									  align=TextNode.ACenter)
+		self.labelVersus = OnscreenText(text = "",
+									  pos = (-0.05,-0.09,-1.67), 
 									  scale = 0.10,
 									  fg=self.couleurFG,
 									  bg = self.couleurBGLabel,
@@ -124,14 +134,30 @@ class MenuLogin(ShowBase):
 									  mayChange = True,
 									  align=TextNode.ACenter)
 		self.labelJoueur2 = OnscreenText(text = "",
-									  pos = (-0.05,-0.6,-1.67), 
+									  pos = (-0.05,-0.3,-1.67), 
 									  scale = 0.10,
 									  fg=self.couleurFG,
 									  bg = self.couleurBGLabel,
 									  shadow=self.couleurShadow,
 									  mayChange = True,
 									  align=TextNode.ACenter)
-									  
+
+		self.labelCombattre = OnscreenText(text = "",
+									  pos = (-0.05,-0.5,-1.67), 
+									  scale = 0.10,
+									  fg=self.couleurFG,
+									  bg = self.couleurBGLabel,
+									  shadow=self.couleurShadow,
+									  mayChange = True,
+									  align=TextNode.ACenter)
+		self.labelNiveau = OnscreenText(text = "",
+									  pos = (-0.05,-0.65,-1.67), 
+									  scale = 0.10,
+									  fg=self.couleurFG,
+									  bg = self.couleurBGLabel,
+									  shadow=self.couleurShadow,
+									  mayChange = True,
+									  align=TextNode.ACenter)
 		
 		self.b2 = DirectButton(text = ("Login", "Login", "Login", "Login"),
 						  text_scale=btnScale,
@@ -168,7 +194,12 @@ class MenuLogin(ShowBase):
 						  extraArgs = [self.mapID],
 						  pos = (-0.05,0.4,0.67))
 
-		
+		#Test de marde de load de models de Tank
+		# self.tank = Actor("../asset/Tank/tank")
+		# self.tank.setScale(2, 2, 2)
+		# self.tank.setPos(1, 1, 1)
+		# self.tank.setHpr(174.29,0,0)
+		# self.tank.reparentTo(render)
 				
 
 		
@@ -211,8 +242,15 @@ class MenuLogin(ShowBase):
 				self.b4['state'] = DGG.NORMAL
 				self.b4['frameColor'] = self.couleurBack
 				self.b4['text_bg'] = self.couleurBack
-				self.labelJoueur1.setText(self.username1)
-				self.labelJoueur2.setText(self.username2)
+				self.joueur1.agilite = 7
+				self.calcJoueur1 = self.calculateName(self.joueur1)
+				self.calcJoueur2 = self.calculateName(self.joueur2)
+				
+				self.labelCombattre.setText("Combattrons dans l'arène: ")
+				self.labelNiveau.setText(self.mapName)
+				self.labelVersus.setText("Versuuuuuus")
+				self.labelJoueur1.setText(self.username1 + " " + self.calcJoueur1)
+				self.labelJoueur2.setText(self.username2 + " " + self.calcJoueur2)
 
 			elif self.player1ready :
 				self.setText('Player 2 must also login')
