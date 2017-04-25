@@ -11,14 +11,20 @@ from panda3d.bullet import YUp
 from direct.interval.IntervalGlobal import *
 import random
 import common
+from common.internal.EnregistrementDAODTO.DTOEnregistrementJoueur import DTOenregistrementJoueur
+import time
 DAOMap = common.internal.MapDAODTO.DAOMapOracle.DAOmaporacle()
 DTOlistmap = DAOMap.read()
 DTOStats = common.internal.DTOStats.DTOStats()
+DAOEnregistrement = common.internal.EnregistrementDAODTO.DAOEnregistrementOracle.DAOenregistrementOracle()
+DTOPartie = common.internal.EnregistrementDAODTO.DTOEnregistrementPartie.DTOenregistrementPartie(time.strftime("%d/%m/%Y"))
 
 
 #Module qui sert à la création des maps
 class Map(DirectObject.DirectObject):
 	def __init__(self, mondePhysique, dtoValues):
+		self.tick = 0
+		self.time = 0
 		#On garde le monde physique en référence
 		self.mondePhysique = mondePhysique
 
@@ -36,6 +42,7 @@ class Map(DirectObject.DirectObject):
 		self.position_depart_y = - self.map_grosseur_carre * self.map_nb_tuile_y / 2.0
 
 		#On déclare des listes pour les tanks, les items et les balles
+		# Inkonsistanseh REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE list/liste
 		self.listTank = []
 		self.listeItem = []
 		self.listeBalle = []
@@ -424,5 +431,20 @@ class Map(DirectObject.DirectObject):
 
 	#On met à jour ce qui est nécessaire de mettre à jour
 	def update(self,tempsTot):
+		self.tick+=1
+
 		for tank in self.listTank:
 			tank.traiteMouvement(tempsTot)
+
+		if(self.tick == 6):
+			self.tick = 0
+			self.sauvegardeDTO()
+			self.time+=1
+
+	# On sauvegarde les info du temps X dans le DTOPartie
+	def sauvegardeDTO(self):
+		dtoJoueur1 = DTOenregistrementJoueur(self.time,
+											  self.listTank[0].noeudPhysique.getPos()[0],
+											  self.listTank[0].noeudPhysique.getPos()[1],1,1,1)
+		print(dtoJoueur1.getX())
+											  

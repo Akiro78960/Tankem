@@ -3,3 +3,4 @@ import MapDAODTO
 import UtilisateursDAODTO
 import DAOStats
 import DTOStats
+import EnregistrementDAODTO

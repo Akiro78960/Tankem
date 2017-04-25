@@ -2,6 +2,7 @@
 from DTOEnregistrementArme import DTOenregistrementArme
 from DTOEnregistrementJoueur import DTOenregistrementJoueur
 from DTOEnregistrementPartie import DTOenregistrementPartie 
+from DTOEnregistrementProjectile import DTOenregistrementProjectile 
 import cx_Oracle
 
 class DAOenregistrementOracle():
@@ -120,14 +121,14 @@ class DAOenregistrementOracle():
         self.connection.commit()
 
 # TEST
-testDao = DAOenregistrementOracle()
-testDTOp = DTOenregistrementPartie("4/20/2017")
-testDTOj1 = DTOenregistrementJoueur(0,10,10)
-testDTOj2 = DTOenregistrementJoueur(0,4,4)
-testDTOa = DTOenregistrementArme(0,8,8,1)
-
-testDTOp.appendJoueur1(testDTOj1)
-testDTOp.appendJoueur2(testDTOj2)
-testDTOp.appendArme(testDTOa)
-
-testDao.create(testDTOp)
+#testDao = DAOenregistrementOracle()
+#testDTOp = DTOenregistrementPartie("4/20/2017")
+#testDTOj1 = DTOenregistrementJoueur(0,10,10)
+#testDTOj2 = DTOenregistrementJoueur(0,4,4)
+#testDTOa = DTOenregistrementArme(0,8,8,1)
+#
+#testDTOp.appendJoueur1(testDTOj1)
+#testDTOp.appendJoueur2(testDTOj2)
+#testDTOp.appendArme(testDTOa)
+#
+#testDao.create(testDTOp)
