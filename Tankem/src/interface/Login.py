@@ -44,6 +44,8 @@ class MenuLogin(ShowBase):
 		self.couleurBGLabel = (255,255,255,0.3)
 		self.couleurShadow = (200,200,200,0.8)
 		self.couleurFG = (0,0,0,1)
+		self.joueur1 = ""
+		self.joueur2 = ""
 		#Titre du jeu
 
 		self.fieldUsername1 = DirectEntry(text = "" ,scale=.05,
@@ -189,9 +191,9 @@ class MenuLogin(ShowBase):
 			self.password2 = self.fieldPassword2.get()
 			self.joueur2 = self.user.read(self.username2,self.password2)
 
-		if self.joueur == 1 :
+		if self.joueur1 == 1 or self.joueur2 == 1 :
 			self.setText("Mauvais nom d'utilisateur")
-		elif self.joueur == 0 : 
+		elif self.joueur1 == 0 or self.joueur2 == 0 : 
 			self.setText("Mauvais mot de passe")
 		else :
 			if num == 1 : 
@@ -218,7 +220,7 @@ class MenuLogin(ShowBase):
 				self.setText('Player 1 must also login')
 			else :
 				self.setText('Both players must login')
-				
+
 	def getPlayer1(self):
 		return self.joueur1
 	def getPlayer2(self):
@@ -249,6 +251,8 @@ class MenuLogin(ShowBase):
 			self.labelPlayer2.hide()
 			self.labelpassword2.hide()
 			self.labelMessageBox.hide()
+			self.labelJoueur1.hide()
+			self.labelJoueur2.hide()
 
 	def setNiveauChoisi(self,idNiveau):
 			self.gameLogic.setIdNiveau(idNiveau)
