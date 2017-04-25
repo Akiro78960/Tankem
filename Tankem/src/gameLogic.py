@@ -107,7 +107,7 @@ class GameLogic(ShowBase):
 		camera.lookAt(render)
 
 	def setupMap(self):
-		self.map = Map(self.mondePhysique, self.dtoValues)
+		self.map = Map(self.mondePhysique, self.dtoValues, self.idJoueur1, self.idJoueur2)
 		#On construire la carte comme une coquille, de l'extérieur à l'intérieur
 		#Décor et ciel
 		self.map.construireDecor(camera)
