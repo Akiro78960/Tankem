@@ -11,10 +11,12 @@ import math
 #On doit faire que les particles sont dans les chemins... because reasons. Sinon elles ne marchent vraiment pas.
 
 class Tank():
-    def __init__(self, identifiant,couleur,mondePhysique,dtoValues, DTOStats):
+    def __init__(self, identifiant,couleur,mondePhysique,dtoValues, DTOStats, infosJoueurs):
         #On prends les info du dtoValues
         self.dtoValues = dtoValues
         self.DTOStats = DTOStats
+        self.infosJoueurs = infosJoueurs
+        print infosJoueurs
 
 
         #Défini les variables pour avancer et tourner

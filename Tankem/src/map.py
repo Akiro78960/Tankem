@@ -72,7 +72,7 @@ class Map(DirectObject.DirectObject):
 	def figeObjetImmobile(self):
 		self.noeudOptimisation.flattenStrong()
 
-	def construireMapChoisie(self,DTOmap):
+	def construireMapChoisie(self,DTOmap,tabJoueurs):
 		maze = mazeUtil.MazeBuilder(self.map_nb_tuile_y, self.map_nb_tuile_x)
 		maze.build()
 		mazeTuiles = DTOmap.getArrayTuiles()
@@ -104,8 +104,11 @@ class Map(DirectObject.DirectObject):
 		couleurs[1] = Vec3(0.6,0.0,0.0)
 		couleurs[2] = Vec3(0.0,0.6,0.0)
 		couleurs[3] = Vec3(0.0,0.0,0.6)
-		for spawn in mazeSpawns:
-			self.creerChar(spawn.getX(),spawn.getY(),spawn.getNoPlayer(),couleurs[spawn.getNoPlayer()-1])
+		for idx,spawn in enumerate(mazeSpawns):
+			if(idx < len(tabJoueurs)):
+				self.creerChar(spawn.getX(),spawn.getY(),spawn.getNoPlayer(),couleurs[spawn.getNoPlayer()-1],tabJoueurs[idx])
+			else: #S'il y a plus de tanks que de joueurs, la création de char ne prendra pas l'info d'un joueur
+				self.creerChar(spawn.getX(),spawn.getY(),spawn.getNoPlayer(),couleurs[spawn.getNoPlayer()-1],None)
 
 		self.genererItemParInterval(DTOmap.getItemDelayMin(),DTOmap.getItemDelayMax())
 
@@ -365,8 +368,8 @@ class Map(DirectObject.DirectObject):
 		self.dictNoeudAnimation["AnimationMurVerticaleInverse"] = noeudAnimationCourrant
 
 
-	def creerChar(self,positionX, positionY, identifiant, couleur):
-		someTank = tank.Tank(identifiant,couleur,self.mondePhysique,self.dtoValues, DTOStats)
+	def creerChar(self,positionX, positionY, identifiant, couleur, infosJoueur):
+		someTank = tank.Tank(identifiant,couleur,self.mondePhysique,self.dtoValues, DTOStats, infosJoueur)
 		#On place le tank sur la grille
 		self.placerSurGrille(someTank.noeudPhysique,positionX,positionY)
 

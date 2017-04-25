@@ -29,6 +29,7 @@ class GameLogic(ShowBase):
 		self.dtoValues = self.daoBalanceOracle.read("tankem_values")
 		self.dtoText = self.daoBalanceOracle.read("tankem_text")
 		self.idNiveau = 0
+		self.tabJoueurs = None
 		# self.dtoText = self.daoBalanceOracle.read("tankem_text")
 		# tmpDic = self.dto.getDTO()
 		# for k,v in tmpDic.items():
@@ -46,7 +47,7 @@ class GameLogic(ShowBase):
 		#self.carte.creerCarteParDefaut()
 		print(self.idNiveau)
 		if(self.idNiveau > 0):
-			self.map.construireMapChoisie(DTOlistmap.getMap(self.idNiveau))
+			self.map.construireMapChoisie(DTOlistmap.getMap(self.idNiveau),self.tabJoueurs)
 			
 		else:
 			self.map.construireMapHasard()
@@ -199,5 +200,7 @@ class GameLogic(ShowBase):
 		return task.cont
 
 	def setIdNiveau(self,newIdNiveau):
-		print("yeeep")
 		self.idNiveau = newIdNiveau
+
+	def setPlayers(self, tabJoueurs):
+		self.tabJoueurs = tabJoueurs
