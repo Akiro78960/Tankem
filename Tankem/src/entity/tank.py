@@ -14,7 +14,8 @@ class Tank():
     def __init__(self, identifiant,couleur,mondePhysique,dtoValues, DTOStats):
         #On prends les info du dtoValues
         self.dtoValues = dtoValues
-        # self.DTOStats = DTOStats
+        self.DTOStats = DTOStats
+
 
         #Défini les variables pour avancer et tourner
         self.speed = Vec3(0,0,0)
@@ -102,13 +103,13 @@ class Tank():
             return
 
         if(message == "arme-primaire"):
-            self.attaquer(self.armePrimaire)
+            self.attaquer(self.armePrimaire, self.DTOStats)
         elif(message == "arme-secondaire"):
-            self.attaquer(self.armeSecondaire)
+            self.attaquer(self.armeSecondaire, self.DTOStats)
         elif(message == "exploser-balle"):
             messenger.send("detonateur-explosion", [self.identifiant])
 
-    def attaquer(self, nomArme):
+    def attaquer(self, nomArme, DTOStats):
         #Bloque le tir des balles si on est en train de recharger
         if(self.bloquerTir):
             return

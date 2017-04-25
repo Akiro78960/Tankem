@@ -18,9 +18,11 @@ DTOStats = common.internal.DTOStats.DTOStats()
 
 #Module qui sert à la création des maps
 class Map(DirectObject.DirectObject):
-	def __init__(self, mondePhysique, dtoValues):
+	def __init__(self, mondePhysique, dtoValues, idJoueur1, idJoueur2):
 		#On garde le monde physique en référence
 		self.mondePhysique = mondePhysique
+		self.idJoueur1 = idJoueur1
+		self.idJoueur2 = idJoueur2
 
 		#On prends les infos du dto
 		self.dtoValues = dtoValues
