@@ -22,11 +22,14 @@ DTOPartie = common.internal.EnregistrementDAODTO.DTOEnregistrementPartie.DTOenre
 
 #Module qui sert à la création des maps
 class Map(DirectObject.DirectObject):
-	def __init__(self, mondePhysique, dtoValues):
+	def __init__(self, mondePhysique, dtoValues, idJoueur1, idJoueur2):
 		self.tick = 0
 		self.time = 0
 		#On garde le monde physique en référence
 		self.mondePhysique = mondePhysique
+		self.idJoueur1 = idJoueur1
+		self.idJoueur2 = idJoueur2
+
 
 		#On prends les infos du dto
 		self.dtoValues = dtoValues
@@ -76,12 +79,16 @@ class Map(DirectObject.DirectObject):
 	def figeObjetImmobile(self):
 		self.noeudOptimisation.flattenStrong()
 
-	def construireMapChoisie(self,DTOmap):
+	def construireMapChoisie(self,DTOmap,tabJoueurs):
 		maze = mazeUtil.MazeBuilder(self.map_nb_tuile_y, self.map_nb_tuile_x)
 		maze.build()
 		mazeTuiles = DTOmap.getArrayTuiles()
 		mazeSpawns = DTOmap.getArraySpawns()
 		DTOStats.idNiveau = DTOmap.id_niveau
+		print("idJoueur1 : " + str(self.idJoueur1))
+		print("idJoueur2 : " + str(self.idJoueur2))
+		DTOStats.idJoueur1 = self.idJoueur1
+		DTOStats.idJoueur2 = self.idJoueur2
 
 		for tuile in mazeTuiles:
 			# Tuile mur
@@ -104,8 +111,11 @@ class Map(DirectObject.DirectObject):
 		couleurs[1] = Vec3(0.6,0.0,0.0)
 		couleurs[2] = Vec3(0.0,0.6,0.0)
 		couleurs[3] = Vec3(0.0,0.0,0.6)
-		for spawn in mazeSpawns:
-			self.creerChar(spawn.getX(),spawn.getY(),spawn.getNoPlayer(),couleurs[spawn.getNoPlayer()-1])
+		for idx,spawn in enumerate(mazeSpawns):
+			if(idx < len(tabJoueurs)):
+				self.creerChar(spawn.getX(),spawn.getY(),spawn.getNoPlayer(),couleurs[spawn.getNoPlayer()-1],tabJoueurs[idx])
+			else: #S'il y a plus de tanks que de joueurs, la création de char ne prendra pas l'info d'un joueur
+				self.creerChar(spawn.getX(),spawn.getY(),spawn.getNoPlayer(),couleurs[spawn.getNoPlayer()-1],None)
 
 		self.genererItemParInterval(DTOmap.getItemDelayMin(),DTOmap.getItemDelayMax())
 
@@ -365,8 +375,8 @@ class Map(DirectObject.DirectObject):
 		self.dictNoeudAnimation["AnimationMurVerticaleInverse"] = noeudAnimationCourrant
 
 
-	def creerChar(self,positionX, positionY, identifiant, couleur):
-		someTank = tank.Tank(identifiant,couleur,self.mondePhysique,self.dtoValues, DTOStats)
+	def creerChar(self,positionX, positionY, identifiant, couleur, infosJoueur):
+		someTank = tank.Tank(identifiant,couleur,self.mondePhysique,self.dtoValues, DTOStats, infosJoueur)
 		#On place le tank sur la grille
 		self.placerSurGrille(someTank.noeudPhysique,positionX,positionY)
 

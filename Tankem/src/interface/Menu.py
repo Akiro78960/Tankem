@@ -103,19 +103,19 @@ class MenuPrincipal(ShowBase):
 			self.scrollList.hide()
 			self.textTitre.hide()
 
-	def setNiveauChoisi(self,idNiveau):
-			self.gameLogic.setIdNiveau(idNiveau)
-			self.chargeJeu()
+	# def setNiveauChoisi(self,idNiveau):
+	# 		self.gameLogic.setIdNiveau(idNiveau)
+	# 		self.chargeJeu()
 	def menuLogin(self,gameLogic,mapID,mapName):
 		self.cacher();
 		self.menuPrincipal = MenuLogin(gameLogic,mapID,mapName)
 	def chargeJeu(self):
-			#On démarre!
-			Sequence(Func(lambda : self.transition.irisOut(0.2)),
-					 SoundInterval(self.sound),
-					 Func(self.cacher),
-					 Func(lambda : messenger.send("DemarrerPartie")),
-					 Wait(0.2), #Bug étrange quand on met pas ça. L'effet de transition doit lagger
-					 Func(lambda : self.transition.irisIn(0.2))
-			).start()
-			
+		#On démarre!
+		Sequence(Func(lambda : self.transition.irisOut(0.2)),
+					SoundInterval(self.sound),
+					Func(self.cacher),
+					Func(lambda : messenger.send("DemarrerPartie")),
+					Wait(0.2), #Bug étrange quand on met pas ça. L'effet de transition doit lagger
+					Func(lambda : self.transition.irisIn(0.2))
+		).start()
+		

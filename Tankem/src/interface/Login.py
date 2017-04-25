@@ -1,6 +1,7 @@
 ## -*- coding: utf-8 -*-
 
 from direct.showbase.ShowBase import ShowBase
+from direct.actor.Actor import Actor
 from direct.gui.OnscreenText import OnscreenText 
 from direct.gui.DirectGui import *
 from panda3d.core import *
@@ -8,6 +9,7 @@ from pandac.PandaModules import *
 from direct.interval.LerpInterval import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.Transitions import Transitions
+
 
 import random
 import sys
@@ -40,10 +42,14 @@ class MenuLogin(ShowBase):
 		self.couleurBack = (0.243,0.325,0.321,1)
 		self.player1ready = False
 		self.player2ready = False
+		self.player1Infos = None
+		self.player2Infos = None
 		self.couleurDisabled = (0.343,0.325,0.321,1)
 		self.couleurBGLabel = (255,255,255,0.3)
 		self.couleurShadow = (200,200,200,0.8)
 		self.couleurFG = (0,0,0,1)
+		self.joueur1 = ""
+		self.joueur2 = ""
 		#Titre du jeu
 
 		self.fieldUsername1 = DirectEntry(text = "" ,scale=.05,
@@ -113,23 +119,47 @@ class MenuLogin(ShowBase):
 									  shadow=self.couleurShadow,
 									  align=TextNode.ACenter)
 
-		self.labelJoueur1 = OnscreenText(text = "sfsdf",
-									  pos = (-0.05,-0.4,-1.67), 
+		self.labelJoueur1 = OnscreenText(text = "",
+									  pos = (-0.05,0.1,-1.67), 
 									  scale = 0.10,
 									  fg=self.couleurFG,
 									  bg = self.couleurBGLabel,
 									  shadow=self.couleurShadow,
 									  mayChange = True,
 									  align=TextNode.ACenter)
-		self.labelJoueur2 = OnscreenText(text = "sdfsdfsdf",
-									  pos = (-0.05,-0.6,-1.67), 
+		self.labelVersus = OnscreenText(text = "",
+									  pos = (-0.05,-0.09,-1.67), 
 									  scale = 0.10,
 									  fg=self.couleurFG,
 									  bg = self.couleurBGLabel,
 									  shadow=self.couleurShadow,
 									  mayChange = True,
 									  align=TextNode.ACenter)
-									  
+		self.labelJoueur2 = OnscreenText(text = "",
+									  pos = (-0.05,-0.3,-1.67), 
+									  scale = 0.10,
+									  fg=self.couleurFG,
+									  bg = self.couleurBGLabel,
+									  shadow=self.couleurShadow,
+									  mayChange = True,
+									  align=TextNode.ACenter)
+
+		self.labelCombattre = OnscreenText(text = "",
+									  pos = (-0.05,-0.5,-1.67), 
+									  scale = 0.10,
+									  fg=self.couleurFG,
+									  bg = self.couleurBGLabel,
+									  shadow=self.couleurShadow,
+									  mayChange = True,
+									  align=TextNode.ACenter)
+		self.labelNiveau = OnscreenText(text = "",
+									  pos = (-0.05,-0.65,-1.67), 
+									  scale = 0.10,
+									  fg=self.couleurFG,
+									  bg = self.couleurBGLabel,
+									  shadow=self.couleurShadow,
+									  mayChange = True,
+									  align=TextNode.ACenter)
 		
 		self.b2 = DirectButton(text = ("Login", "Login", "Login", "Login"),
 						  text_scale=btnScale,
@@ -166,7 +196,12 @@ class MenuLogin(ShowBase):
 						  extraArgs = [self.mapID],
 						  pos = (-0.05,0.4,0.67))
 
-		
+		#Test de marde de load de models de Tank
+		# self.tank = Actor("../asset/Tank/tank")
+		# self.tank.setScale(2, 2, 2)
+		# self.tank.setPos(1, 1, 1)
+		# self.tank.setHpr(174.29,0,0)
+		# self.tank.reparentTo(render)
 				
 
 		
@@ -183,24 +218,28 @@ class MenuLogin(ShowBase):
 		if num == 1 : 
 			self.username1 = self.fieldUsername1.get()
 			self.password1 = self.fieldPassword1.get()
-			self.joueur = self.user.read(self.username1,self.password1)
+			self.joueur1 = self.user.read(self.username1,self.password1)
+			self.gameLogic.idJoueur1 = self.joueur1.idJoueur
 		if num == 2 :
 			self.username2 = self.fieldUsername2.get()
 			self.password2 = self.fieldPassword2.get()
-			self.joueur = self.user.read(self.username2,self.password2)
+			self.joueur2 = self.user.read(self.username2,self.password2)
+			self.gameLogic.idJoueur2 = self.joueur2.idJoueur
 
-		if self.joueur == 1 :
+		if self.joueur1 == 1 or self.joueur2 == 1 :
 			self.setText("Mauvais nom d'utilisateur")
-		elif self.joueur == 0 : 
+		elif self.joueur1 == 0 or self.joueur2 == 0 : 
 			self.setText("Mauvais mot de passe")
 		else :
 			if num == 1 : 
 				self.player1ready = state
+				self.player1Infos = self.joueur
 				self.b2['state'] = DGG.DISABLED
 				self.b2['frameColor'] = self.couleurDisabled
 				self.b2['text_bg'] = self.couleurDisabled
 			if num == 2 :
 				self.player2ready = state
+				self.player2Infos = self.joueur
 				self.b3['state'] = DGG.DISABLED
 				self.b3['frameColor'] = self.couleurDisabled
 				self.b3['text_bg'] = self.couleurDisabled
@@ -209,8 +248,15 @@ class MenuLogin(ShowBase):
 				self.b4['state'] = DGG.NORMAL
 				self.b4['frameColor'] = self.couleurBack
 				self.b4['text_bg'] = self.couleurBack
-				self.labelJoueur1.setText(self.username1)
-				self.labelJoueur2.setText(self.username2)
+				self.joueur1.agilite = 7
+				self.calcJoueur1 = self.calculateName(self.joueur1)
+				self.calcJoueur2 = self.calculateName(self.joueur2)
+				
+				self.labelCombattre.setText("Combattrons dans l'arène: ")
+				self.labelNiveau.setText(self.mapName)
+				self.labelVersus.setText("Versuuuuuus")
+				self.labelJoueur1.setText(self.username1 + " " + self.calcJoueur1)
+				self.labelJoueur2.setText(self.username2 + " " + self.calcJoueur2)
 
 			elif self.player1ready :
 				self.setText('Player 2 must also login')
@@ -219,6 +265,10 @@ class MenuLogin(ShowBase):
 			else :
 				self.setText('Both players must login')
 
+	def getPlayer1(self):
+		return self.joueur1
+	def getPlayer2(self):
+		return self.joueur2
 	#callback function to set  text 
 	def setText(self,textEntered):
 		self.messageBox.enterText(textEntered)
@@ -245,9 +295,12 @@ class MenuLogin(ShowBase):
 			self.labelPlayer2.hide()
 			self.labelpassword2.hide()
 			self.labelMessageBox.hide()
+			self.labelJoueur1.hide()
+			self.labelJoueur2.hide()
 
 	def setNiveauChoisi(self,idNiveau):
 			self.gameLogic.setIdNiveau(idNiveau)
+			self.gameLogic.setPlayers([self.player1Infos, self.player2Infos])
 			self.chargeJeu()
 
 	def chargeJeu(self):

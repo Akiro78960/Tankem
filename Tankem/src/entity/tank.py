@@ -11,10 +11,13 @@ import math
 #On doit faire que les particles sont dans les chemins... because reasons. Sinon elles ne marchent vraiment pas.
 
 class Tank():
-    def __init__(self, identifiant,couleur,mondePhysique,dtoValues, DTOStats):
+    def __init__(self, identifiant,couleur,mondePhysique,dtoValues, DTOStats, infosJoueurs):
         #On prends les info du dtoValues
         self.dtoValues = dtoValues
         self.DTOStats = DTOStats
+        self.infosJoueurs = infosJoueurs
+        print infosJoueurs
+
 
         #Défini les variables pour avancer et tourner
         self.speed = Vec3(0,0,0)
@@ -102,13 +105,13 @@ class Tank():
             return
 
         if(message == "arme-primaire"):
-            self.attaquer(self.armePrimaire)
+            self.attaquer(self.armePrimaire, self.DTOStats)
         elif(message == "arme-secondaire"):
-            self.attaquer(self.armeSecondaire)
+            self.attaquer(self.armeSecondaire, self.DTOStats)
         elif(message == "exploser-balle"):
             messenger.send("detonateur-explosion", [self.identifiant])
 
-    def attaquer(self, nomArme):
+    def attaquer(self, nomArme, DTOStats):
         #Bloque le tir des balles si on est en train de recharger
         if(self.bloquerTir):
             return
@@ -127,38 +130,38 @@ class Tank():
 
         if(nomArme == "Canon"):
             if(self.identifiant == 0):
-                self.DTOStats.DTOStatsArmeJ1[0].nbUtil+=1
+                DTOStats.DTOStatsArmeJ1[0].nbUtil+=1
             elif(self.identifiant == 1):
-                self.DTOStats.DTOStatsArmeJ2[0].nbUtil+=1
+                DTOStats.DTOStatsArmeJ2[0].nbUtil+=1
             messenger.send("tirerCanon", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon + directionQuePointeLeTank * distanceCanon, directionQuePointeLeTank])
             delaiArme = self.dtoValues.getValue("CANON_RELOAD")
         elif(nomArme == "Grenade"):
             if(self.identifiant == 0):
-                self.DTOStats.DTOStatsArmeJ1[1].nbUtil+=1
+                DTOStats.DTOStatsArmeJ1[1].nbUtil+=1
             elif(self.identifiant == 1):
-                self.DTOStats.DTOStatsArmeJ2[1].nbUtil+=1
+                DTOStats.DTOStatsArmeJ2[1].nbUtil+=1
             messenger.send("lancerGrenade", [self.identifiant,self.noeudPhysique.getPos() + hauteurGrenade, directionQuePointeLeTank])
             delaiArme = self.dtoValues.getValue("GRENADE_RELOAD")
         elif(nomArme == "Mitraillette"):
             if(self.identifiant == 0):
-                self.DTOStats.DTOStatsArmeJ1[2].nbUtil+=1
+                DTOStats.DTOStatsArmeJ1[2].nbUtil+=1
             elif(self.identifiant == 1):
-                self.DTOStats.DTOStatsArmeJ2[2].nbUtil+=1
+                DTOStats.DTOStatsArmeJ2[2].nbUtil+=1
             #Tir une balle mais moins de délai pour tirer
             messenger.send("tirerMitraillette", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon + directionQuePointeLeTank * distanceCanon, directionQuePointeLeTank])
             delaiArme = self.dtoValues.getValue("MITRAILLETTE_RELOAD")
         elif(nomArme == "Piege"):
             if(self.identifiant == 0):
-                self.DTOStats.DTOStatsArmeJ1[3].nbUtil+=1
+                DTOStats.DTOStatsArmeJ1[3].nbUtil+=1
             elif(self.identifiant == 1):
-                self.DTOStats.DTOStatsArmeJ2[3].nbUtil+=1
+                DTOStats.DTOStatsArmeJ2[3].nbUtil+=1
             messenger.send("deposerPiege", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon - directionQuePointeLeTank * distanceDerriere, - directionQuePointeLeTank])
             delaiArme = self.dtoValues.getValue("PIEGE_RELOAD")
         elif(nomArme == "Shotgun"):
             if(self.identifiant == 0):
-                self.DTOStats.DTOStatsArmeJ1[4].nbUtil+=1
+                DTOStats.DTOStatsArmeJ1[4].nbUtil+=1
             elif(self.identifiant == 1):
-                self.DTOStats.DTOStatsArmeJ2[4].nbUtil+=1
+               DTOStats.DTOStatsArmeJ2[4].nbUtil+=1
             messenger.send("tirerShotgun", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon + directionQuePointeLeTank * distanceCanon, directionQuePointeLeTank])
             ouvertureFusil = self.dtoValues.getValue("SHOTGUN_SPREAD")
             directionDroiteDiagonale = directionQuePointeLeTank + directionQuePointeLeTank + directionDroite * ouvertureFusil
@@ -170,9 +173,9 @@ class Tank():
             delaiArme = self.dtoValues.getValue("SHOTGUN_RELOAD")
         elif(nomArme == "Guide"):
             if(self.identifiant == 0):
-                self.DTOStats.DTOStatsArmeJ1[5].nbUtil+=1
+                DTOStats.DTOStatsArmeJ1[5].nbUtil+=1
             elif(self.identifiant == 1):
-                self.DTOStats.DTOStatsArmeJ2[5].nbUtil+=1
+               DTOStats.DTOStatsArmeJ2[5].nbUtil+=1
             messenger.send("lancerGuide", [self.identifiant,self.noeudPhysique.getPos() + hauteurGrenade, directionQuePointeLeTank])
             delaiArme = self.dtoValues.getValue("MISSILE_RELOAD")
         elif(nomArme == "Spring"):
