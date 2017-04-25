@@ -113,7 +113,7 @@ class MenuLogin(ShowBase):
 									  shadow=self.couleurShadow,
 									  align=TextNode.ACenter)
 
-		self.labelJoueur1 = OnscreenText(text = "sfsdf",
+		self.labelJoueur1 = OnscreenText(text = "",
 									  pos = (-0.05,-0.4,-1.67), 
 									  scale = 0.10,
 									  fg=self.couleurFG,
@@ -121,7 +121,7 @@ class MenuLogin(ShowBase):
 									  shadow=self.couleurShadow,
 									  mayChange = True,
 									  align=TextNode.ACenter)
-		self.labelJoueur2 = OnscreenText(text = "sdfsdfsdf",
+		self.labelJoueur2 = OnscreenText(text = "",
 									  pos = (-0.05,-0.6,-1.67), 
 									  scale = 0.10,
 									  fg=self.couleurFG,
@@ -183,11 +183,11 @@ class MenuLogin(ShowBase):
 		if num == 1 : 
 			self.username1 = self.fieldUsername1.get()
 			self.password1 = self.fieldPassword1.get()
-			self.joueur = self.user.read(self.username1,self.password1)
+			self.joueur1 = self.user.read(self.username1,self.password1)
 		if num == 2 :
 			self.username2 = self.fieldUsername2.get()
 			self.password2 = self.fieldPassword2.get()
-			self.joueur = self.user.read(self.username2,self.password2)
+			self.joueur2 = self.user.read(self.username2,self.password2)
 
 		if self.joueur == 1 :
 			self.setText("Mauvais nom d'utilisateur")
@@ -218,7 +218,11 @@ class MenuLogin(ShowBase):
 				self.setText('Player 1 must also login')
 			else :
 				self.setText('Both players must login')
-
+				
+	def getPlayer1(self):
+		return self.joueur1
+	def getPlayer2(self):
+		return self.joueur2
 	#callback function to set  text 
 	def setText(self,textEntered):
 		self.messageBox.enterText(textEntered)
