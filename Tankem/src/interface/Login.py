@@ -40,6 +40,8 @@ class MenuLogin(ShowBase):
 		self.couleurBack = (0.243,0.325,0.321,1)
 		self.player1ready = False
 		self.player2ready = False
+		self.player1Infos = None
+		self.player2Infos = None
 		self.couleurDisabled = (0.343,0.325,0.321,1)
 		self.couleurBGLabel = (255,255,255,0.3)
 		self.couleurShadow = (200,200,200,0.8)
@@ -196,11 +198,13 @@ class MenuLogin(ShowBase):
 		else :
 			if num == 1 : 
 				self.player1ready = state
+				self.player1Infos = self.joueur
 				self.b2['state'] = DGG.DISABLED
 				self.b2['frameColor'] = self.couleurDisabled
 				self.b2['text_bg'] = self.couleurDisabled
 			if num == 2 :
 				self.player2ready = state
+				self.player2Infos = self.joueur
 				self.b3['state'] = DGG.DISABLED
 				self.b3['frameColor'] = self.couleurDisabled
 				self.b3['text_bg'] = self.couleurDisabled
@@ -248,6 +252,7 @@ class MenuLogin(ShowBase):
 
 	def setNiveauChoisi(self,idNiveau):
 			self.gameLogic.setIdNiveau(idNiveau)
+			self.gameLogic.setPlayers([self.player1Infos, self.player2Infos])
 			self.chargeJeu()
 
 	def chargeJeu(self):
