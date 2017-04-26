@@ -470,20 +470,6 @@ class Map(DirectObject.DirectObject):
 		print(self.time)
 		dtoJoueur1 = DTOenregistrementJoueur(self.time,
 											  self.listTank[0].noeudPhysique.getPos()[0],
-<<<<<<< HEAD
-											  self.listTank[0].noeudPhysique.getPos()[1],1,1,1)
-		# print(dtoJoueur1.getX())
-											  
-
-	def analyseFinPartie(self):
-		# print (self.listTank[0].pointDeVie)
-		if (self.listTank[0].pointDeVie <= 0):
-			DTOStats.idGagnant = DTOStats.idJoueur2
-			print "Joueur 2 a gagne"
-		elif (self.listTank[1].pointDeVie <= 0):
-			DTOStats.idGagnant = DTOStats.idJoueur1
-			print "Joueur 1 a gagne"
-=======
 											  self.listTank[0].noeudPhysique.getPos()[1],
 											  self.listTank[0].noeudPhysique.getHpr()[0],
 											  self.listTank[0].pointDeVie,1)
@@ -515,14 +501,3 @@ class Map(DirectObject.DirectObject):
 												arme.noeudPhysique.getPos()[1],
 												arme.armeId)
 				self.dtoPartie.appendArme(dtoArme)
-											  
-
-	# def analyseFinPartie(self):
-	# 	print (self.listTank[0].etat)
-	# 	if (self.listTank[0].etat != "actif"):
-	# 		DTOStats.idGagnant = DTOStats.idJoueur2
-	# 		print "Joueur 2 a gagne"
-	# 	elif (self.listTank[1].etat != "actif"):
-	# 		DTOStats.idGagnant = DTOStats.idJoueur1
-	# 		print "Joueur 1 a gagne"
->>>>>>> 4507ab927a2e84db89bce5207e94aad798e0de2a
