@@ -30,6 +30,8 @@ class GameLogic(ShowBase):
 		self.dtoText = self.daoBalanceOracle.read("tankem_text")
 		self.idNiveau = 0
 		self.tabJoueurs = None
+		self.idJoueur1 = None
+		self.idJoueur2 = None
 		# self.dtoText = self.daoBalanceOracle.read("tankem_text")
 		# tmpDic = self.dto.getDTO()
 		# for k,v in tmpDic.items():

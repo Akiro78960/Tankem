@@ -11,20 +11,19 @@ from panda3d.bullet import YUp
 from direct.interval.IntervalGlobal import *
 import random
 import common
+from common.internal.EnregistrementDAODTO.DAOEnregistrementOracle import DAOenregistrementOracle
 from common.internal.EnregistrementDAODTO.DTOEnregistrementJoueur import DTOenregistrementJoueur
+from common.internal.EnregistrementDAODTO.DTOEnregistrementPartie import DTOenregistrementPartie
 import time
 DAOMap = common.internal.MapDAODTO.DAOMapOracle.DAOmaporacle()
 DTOlistmap = DAOMap.read()
 DTOStats = common.internal.DTOStats.DTOStats()
-DAOEnregistrement = common.internal.EnregistrementDAODTO.DAOEnregistrementOracle.DAOenregistrementOracle()
-DTOPartie = common.internal.EnregistrementDAODTO.DTOEnregistrementPartie.DTOenregistrementPartie(time.strftime("%d/%m/%Y"))
 
 
 #Module qui sert à la création des maps
 class Map(DirectObject.DirectObject):
 	def __init__(self, mondePhysique, dtoValues, idJoueur1, idJoueur2):
-		self.tick = 0
-		self.time = 0
+		
 		#On garde le monde physique en référence
 		self.mondePhysique = mondePhysique
 		self.idJoueur1 = idJoueur1
@@ -90,6 +89,12 @@ class Map(DirectObject.DirectObject):
 		DTOStats.idJoueur1 = self.idJoueur1
 		DTOStats.idJoueur2 = self.idJoueur2
 
+		# variables pour l'enregistrement
+		self.tick = 0
+		self.time = 0
+		self.DAOEnregistrement = DAOenregistrementOracle()
+		self.DTOPartie = DTOenregistrementPartie(time.strftime("%d/%m/%Y"))
+
 		for tuile in mazeTuiles:
 			# Tuile mur
 			if(tuile.getType() >= 2):
@@ -147,8 +152,8 @@ class Map(DirectObject.DirectObject):
 						noeudAAttacher = None if random.randint(0, 20) != 0 else Arbre(self.mondePhysique,self.treeOMatic)
 						self.creerMur(cell.row, cell.col,"AnimationMurImmobile",noeudAAttacher)
 
-		self.creerChar(6,6,0,Vec3(0.1,0.1,0.1)) #Char noir
-		self.creerChar(3,3,1,Vec3(0.6,0.6,0.5)) #Char gris-jaune
+		self.creerChar(6,6,0,Vec3(0.1,0.1,0.1),None) #Char noir
+		self.creerChar(3,3,1,Vec3(0.6,0.6,0.5),None) #Char gris-jaune
 
 		#Dans la carte par défaut, des items vont appraître constamment entre 10 et 20 secondes d'interval
 		self.genererItemParInterval(3,8)
@@ -458,6 +463,7 @@ class Map(DirectObject.DirectObject):
 	def sauvegardeDTO(self):
 		dtoJoueur1 = DTOenregistrementJoueur(self.time,
 											  self.listTank[0].noeudPhysique.getPos()[0],
+<<<<<<< HEAD
 											  self.listTank[0].noeudPhysique.getPos()[1],1,1,1)
 		# print(dtoJoueur1.getX())
 											  
@@ -470,3 +476,19 @@ class Map(DirectObject.DirectObject):
 		elif (self.listTank[1].pointDeVie <= 0):
 			DTOStats.idGagnant = DTOStats.idJoueur1
 			print "Joueur 1 a gagne"
+=======
+											  self.listTank[0].noeudPhysique.getPos()[1],
+											  self.listTank[0].speed,1,1)
+		print(dtoJoueur1.getOrientation())
+											  
+											  
+
+	# def analyseFinPartie(self):
+	# 	print (self.listTank[0].etat)
+	# 	if (self.listTank[0].etat != "actif"):
+	# 		DTOStats.idGagnant = DTOStats.idJoueur2
+	# 		print "Joueur 2 a gagne"
+	# 	elif (self.listTank[1].etat != "actif"):
+	# 		DTOStats.idGagnant = DTOStats.idJoueur1
+	# 		print "Joueur 1 a gagne"
+>>>>>>> 4507ab927a2e84db89bce5207e94aad798e0de2a
