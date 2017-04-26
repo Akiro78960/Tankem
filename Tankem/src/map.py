@@ -397,7 +397,6 @@ class Map(DirectObject.DirectObject):
 		#Pas très propre mais enfin...
 		indiceTank = int(self.traiterCollisionTankAvecObjet(node0, node1,"Balle"))
 		if(indiceTank != -1):
-			print ("indiceTank: "+ str(indiceTank))
 			tireurBalleId = int(self.trouverTag(node0, node1, "lanceurId"))
 			balleId = int(self.trouverTag(node0, node1, "balleId"))
 			#Prend 1 de dommage par défaut si la balle n'a pas été tirée par le tank
@@ -453,7 +452,10 @@ class Map(DirectObject.DirectObject):
 	#On met à jour ce qui est nécessaire de mettre à jour
 	def update(self,tempsTot):
 		self.tick+=1
-		# self.analyseFinPartie()
+		if(self.listTank[0].pointDeVie <= 0 and self.listTank[1].pointDeVie <= 0):
+			print "fin partie"
+			self.analyseFinPartie()
+		
 
 		for tank in self.listTank:
 			tank.traiteMouvement(tempsTot)
@@ -467,7 +469,6 @@ class Map(DirectObject.DirectObject):
 
 	# On sauvegarde les info du temps X dans le DTOPartie
 	def sauvegardeDTO(self):
-		print(self.time)
 		dtoJoueur1 = DTOenregistrementJoueur(self.time,
 											  self.listTank[0].noeudPhysique.getPos()[0],
 											  self.listTank[0].noeudPhysique.getPos()[1],
