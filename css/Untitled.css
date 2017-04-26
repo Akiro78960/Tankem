@@ -6004,7 +6004,16 @@ a.text-gray-dark:hover {
 
 .invisible {
   visibility: hidden !important; }
-
+.error{
+  position:absolute;
+	top:250px;
+	left:870px;
+	color:black;
+	width: auto;
+	height:30px;
+	background-color: rgba(255, 0, 0, 0.6);
+	border:2px solid red;
+}
 #signupemail {
   float: left;
   left: 50%; }
@@ -6038,7 +6047,7 @@ a.text-gray-dark:hover {
 }
 
 .blocGestionPts:nth-of-type(1) {
-    border-right:1px solid rgba(0,0,0,0.2);
+	border-right:1px solid rgba(0,0,0,0.2);
 }
 
 .blocGestionPts .row div {

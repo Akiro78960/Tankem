@@ -13,14 +13,10 @@
 
 			if ($row = $statement->fetch()) {
 				// a changer plus tard au hashage
-				// if (password_verify($password, $row["PASSWORD"])) {
-				if ($password == $row["PASSWORD"]) {
-					
+				if (password_verify($password, $row["PASSWORD"])) {
 					$visibility = 1;
 				}
 			}
-			echo $row["PASSWORD"];
-			echo $password;
 			return $visibility;
 		}
 
