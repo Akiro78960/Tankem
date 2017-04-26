@@ -1,7 +1,8 @@
 #-*- coding: utf-8 -*-
 class DTOenregistrementPartie:
-    def __init__(self, creation_date):
+    def __init__(self, creation_date, idMap):
         self.creation_date = creation_date
+        self.idMap = idMap
         self.array_joueur1 = []
         self.array_joueur2 = []
         self.array_arme = []
