@@ -219,12 +219,10 @@ class MenuLogin(ShowBase):
 			self.username1 = self.fieldUsername1.get()
 			self.password1 = self.fieldPassword1.get()
 			self.joueur1 = self.user.read(self.username1,self.password1)
-			self.gameLogic.idJoueur1 = self.joueur1.idJoueur
 		if num == 2 :
 			self.username2 = self.fieldUsername2.get()
 			self.password2 = self.fieldPassword2.get()
 			self.joueur2 = self.user.read(self.username2,self.password2)
-			self.gameLogic.idJoueur2 = self.joueur2.idJoueur
 
 		if self.joueur1 == 1 or self.joueur2 == 1 :
 			self.setText("Mauvais nom d'utilisateur")
@@ -237,12 +235,14 @@ class MenuLogin(ShowBase):
 				self.b2['state'] = DGG.DISABLED
 				self.b2['frameColor'] = self.couleurDisabled
 				self.b2['text_bg'] = self.couleurDisabled
+				self.gameLogic.idJoueur1 = self.joueur1.idJoueur
 			if num == 2 :
 				self.player2ready = state
 				self.player2Infos = self.joueur2
 				self.b3['state'] = DGG.DISABLED
 				self.b3['frameColor'] = self.couleurDisabled
 				self.b3['text_bg'] = self.couleurDisabled
+				self.gameLogic.idJoueur2 = self.joueur2.idJoueur
 			if self.player1ready == True and self.player2ready == True :
 				self.setText("Welcome to Tank'em !")
 				self.b4['state'] = DGG.NORMAL

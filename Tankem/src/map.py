@@ -14,6 +14,8 @@ import common
 from common.internal.EnregistrementDAODTO.DAOEnregistrementOracle import DAOenregistrementOracle
 from common.internal.EnregistrementDAODTO.DTOEnregistrementJoueur import DTOenregistrementJoueur
 from common.internal.EnregistrementDAODTO.DTOEnregistrementPartie import DTOenregistrementPartie
+from common.internal.EnregistrementDAODTO.DTOEnregistrementProjectile import DTOenregistrementProjectile
+from common.internal.EnregistrementDAODTO.DTOEnregistrementArme import DTOenregistrementArme
 import time
 DAOMap = common.internal.MapDAODTO.DAOMapOracle.DAOmaporacle()
 DTOlistmap = DAOMap.read()
@@ -71,6 +73,11 @@ class Map(DirectObject.DirectObject):
 		self.accept("deposerPiege",self.deposerPiege)
 		self.accept("tirerShotgun",self.tirerShotgun)
 
+		# variables pour l'enregistrement
+		self.tick = 0
+		self.time = 0
+		self.DAOEnregistrement = DAOenregistrementOracle()
+
 	def libererEndroitGrille(self,i,j,doitBloquer):
 		#print "bloque " + str(i) + " " + str(j)
 		self.endroitDisponible[i][j] = doitBloquer
@@ -89,11 +96,7 @@ class Map(DirectObject.DirectObject):
 		DTOStats.idJoueur1 = self.idJoueur1
 		DTOStats.idJoueur2 = self.idJoueur2
 
-		# variables pour l'enregistrement
-		self.tick = 0
-		self.time = 0
-		self.DAOEnregistrement = DAOenregistrementOracle()
-		self.DTOPartie = DTOenregistrementPartie(time.strftime("%d/%m/%Y"))
+		self.dtoPartie = DTOenregistrementPartie(DTOmap.id_niveau, time.strftime("%d/%m/%Y"))
 
 		for tuile in mazeTuiles:
 			# Tuile mur
@@ -126,6 +129,7 @@ class Map(DirectObject.DirectObject):
 
 
 	def construireMapHasard(self):
+		self.dtoPartie = DTOenregistrementPartie(None,time.strftime("%d/%m/%Y"))
 		#Utilisation du module de création au hasard
 		#Le module a un x et y inversé!
 		maze = mazeUtil.MazeBuilder(self.map_nb_tuile_y, self.map_nb_tuile_x)
@@ -447,24 +451,54 @@ class Map(DirectObject.DirectObject):
 	#On met à jour ce qui est nécessaire de mettre à jour
 	def update(self,tempsTot):
 		self.tick+=1
-		self.analyseFinPartie()
+		# self.analyseFinPartie()
 
 		for tank in self.listTank:
 			tank.traiteMouvement(tempsTot)
 
+		# Sauvegarde
 		if(self.tick == 6):
 			self.tick = 0
-			self.sauvegardeDTO()
-			self.time+=1
+			if(self.listTank[0].etat == "actif" and self.listTank[1].etat == "actif"):
+				self.sauvegardeDTO()
+				self.time+=1
 
 	# On sauvegarde les info du temps X dans le DTOPartie
 	def sauvegardeDTO(self):
+		print(self.time)
 		dtoJoueur1 = DTOenregistrementJoueur(self.time,
 											  self.listTank[0].noeudPhysique.getPos()[0],
 											  self.listTank[0].noeudPhysique.getPos()[1],
-											  self.listTank[0].speed,1,1)
-		print(dtoJoueur1.getOrientation())
-											  
+											  self.listTank[0].noeudPhysique.getHpr()[0],
+											  self.listTank[0].pointDeVie,1)
+		self.dtoPartie.appendJoueur1(dtoJoueur1)
+
+		dtoJoueur2 = DTOenregistrementJoueur(self.time,
+											  self.listTank[1].noeudPhysique.getPos()[0],
+											  self.listTank[1].noeudPhysique.getPos()[1],
+											  self.listTank[1].noeudPhysique.getHpr()[0],
+											  self.listTank[1].pointDeVie,1)
+		self.dtoPartie.appendJoueur2(dtoJoueur2)
+
+		for balle in self.listeBalle:
+			if(balle.etat is not "Detruit"):
+				en_mouvement = False
+				if(balle.etat is "actif"):
+					en_mouvement = True
+
+				dtoProjectile = DTOenregistrementProjectile(self.time,
+															balle.noeudPhysique.getPos()[0],
+															balle.noeudPhysique.getPos()[1],
+															en_mouvement)
+				self.dtoPartie.appendProjectile(dtoProjectile)
+
+		for arme in self.listeItem:
+			if(arme.etat is not "detruit"):
+				dtoArme = DTOenregistrementArme(self.time,
+												arme.noeudPhysique.getPos()[0],
+												arme.noeudPhysique.getPos()[1],
+												arme.armeId)
+				self.dtoPartie.appendArme(dtoArme)
 											  
 
 	# def analyseFinPartie(self):

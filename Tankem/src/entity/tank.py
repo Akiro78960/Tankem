@@ -16,8 +16,6 @@ class Tank():
         self.dtoValues = dtoValues
         self.DTOStats = DTOStats
         self.infosJoueurs = infosJoueurs
-        print infosJoueurs
-
 
         #Défini les variables pour avancer et tourner
         self.speed = Vec3(0,0,0)
@@ -115,7 +113,7 @@ class Tank():
         #Bloque le tir des balles si on est en train de recharger
         if(self.bloquerTir):
             return
-
+        
         hauteurCanon = Vec3(0,0,0.5)
         distanceCanon = 2.2
 
