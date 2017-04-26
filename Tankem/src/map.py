@@ -121,9 +121,9 @@ class Map(DirectObject.DirectObject):
 		couleurs[3] = Vec3(0.0,0.0,0.6)
 		for idx,spawn in enumerate(mazeSpawns):
 			if(idx < len(tabJoueurs)):
-				self.creerChar(spawn.getX(),spawn.getY(),spawn.getNoPlayer(),couleurs[spawn.getNoPlayer()-1],tabJoueurs[idx])
+				self.creerChar(spawn.getX(),spawn.getY(),spawn.getNoPlayer()-1,couleurs[spawn.getNoPlayer()-1],tabJoueurs[idx])
 			else: #S'il y a plus de tanks que de joueurs, la création de char ne prendra pas l'info d'un joueur
-				self.creerChar(spawn.getX(),spawn.getY(),spawn.getNoPlayer(),couleurs[spawn.getNoPlayer()-1],None)
+				self.creerChar(spawn.getX(),spawn.getY(),spawn.getNoPlayer()-1,couleurs[spawn.getNoPlayer()-1],None)
 
 		self.genererItemParInterval(DTOmap.getItemDelayMin(),DTOmap.getItemDelayMax())
 
@@ -385,6 +385,7 @@ class Map(DirectObject.DirectObject):
 
 
 	def creerChar(self,positionX, positionY, identifiant, couleur, infosJoueur):
+		###################### ajout de -1 a l'id, ca marche pas sinon i don't know why ##############################
 		someTank = tank.Tank(identifiant,couleur,self.mondePhysique,self.dtoValues, DTOStats, infosJoueur)
 		#On place le tank sur la grille
 		self.placerSurGrille(someTank.noeudPhysique,positionX,positionY)
@@ -396,6 +397,7 @@ class Map(DirectObject.DirectObject):
 		#Pas très propre mais enfin...
 		indiceTank = int(self.traiterCollisionTankAvecObjet(node0, node1,"Balle"))
 		if(indiceTank != -1):
+			print ("indiceTank: "+ str(indiceTank))
 			tireurBalleId = int(self.trouverTag(node0, node1, "lanceurId"))
 			balleId = int(self.trouverTag(node0, node1, "balleId"))
 			#Prend 1 de dommage par défaut si la balle n'a pas été tirée par le tank
@@ -468,6 +470,20 @@ class Map(DirectObject.DirectObject):
 		print(self.time)
 		dtoJoueur1 = DTOenregistrementJoueur(self.time,
 											  self.listTank[0].noeudPhysique.getPos()[0],
+<<<<<<< HEAD
+											  self.listTank[0].noeudPhysique.getPos()[1],1,1,1)
+		# print(dtoJoueur1.getX())
+											  
+
+	def analyseFinPartie(self):
+		# print (self.listTank[0].pointDeVie)
+		if (self.listTank[0].pointDeVie <= 0):
+			DTOStats.idGagnant = DTOStats.idJoueur2
+			print "Joueur 2 a gagne"
+		elif (self.listTank[1].pointDeVie <= 0):
+			DTOStats.idGagnant = DTOStats.idJoueur1
+			print "Joueur 1 a gagne"
+=======
 											  self.listTank[0].noeudPhysique.getPos()[1],
 											  self.listTank[0].noeudPhysique.getHpr()[0],
 											  self.listTank[0].pointDeVie,1)
@@ -509,3 +525,4 @@ class Map(DirectObject.DirectObject):
 	# 	elif (self.listTank[1].etat != "actif"):
 	# 		DTOStats.idGagnant = DTOStats.idJoueur1
 	# 		print "Joueur 1 a gagne"
+>>>>>>> 4507ab927a2e84db89bce5207e94aad798e0de2a

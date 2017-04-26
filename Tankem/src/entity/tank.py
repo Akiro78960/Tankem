@@ -129,8 +129,10 @@ class Tank():
         if(nomArme == "Canon"):
             if(self.identifiant == 0):
                 DTOStats.DTOStatsArmeJ1[0].nbUtil+=1
+                print ("nb de fois canon J1: " +  str(DTOStats.DTOStatsArmeJ1[0].nbUtil))
             elif(self.identifiant == 1):
                 DTOStats.DTOStatsArmeJ2[0].nbUtil+=1
+                print ("nb de fois canon J2: " +  str(DTOStats.DTOStatsArmeJ2[0].nbUtil))
             messenger.send("tirerCanon", [self.identifiant,self.noeudPhysique.getPos() + hauteurCanon + directionQuePointeLeTank * distanceCanon, directionQuePointeLeTank])
             delaiArme = self.dtoValues.getValue("CANON_RELOAD")
         elif(nomArme == "Grenade"):
