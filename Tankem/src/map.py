@@ -463,7 +463,6 @@ class Map(DirectObject.DirectObject):
 	def sauvegardeDTO(self):
 		dtoJoueur1 = DTOenregistrementJoueur(self.time,
 											  self.listTank[0].noeudPhysique.getPos()[0],
-<<<<<<< HEAD
 											  self.listTank[0].noeudPhysique.getPos()[1],1,1,1)
 		# print(dtoJoueur1.getX())
 											  
@@ -475,20 +474,5 @@ class Map(DirectObject.DirectObject):
 			print "Joueur 2 a gagne"
 		elif (self.listTank[1].pointDeVie <= 0):
 			DTOStats.idGagnant = DTOStats.idJoueur1
-			print "Joueur 1 a gagne"
-=======
-											  self.listTank[0].noeudPhysique.getPos()[1],
-											  self.listTank[0].speed,1,1)
-		print(dtoJoueur1.getOrientation())
-											  
-											  
+			print "Joueur 1 a gagne"											  
 
-	# def analyseFinPartie(self):
-	# 	print (self.listTank[0].etat)
-	# 	if (self.listTank[0].etat != "actif"):
-	# 		DTOStats.idGagnant = DTOStats.idJoueur2
-	# 		print "Joueur 2 a gagne"
-	# 	elif (self.listTank[1].etat != "actif"):
-	# 		DTOStats.idGagnant = DTOStats.idJoueur1
-	# 		print "Joueur 1 a gagne"
->>>>>>> 4507ab927a2e84db89bce5207e94aad798e0de2a
