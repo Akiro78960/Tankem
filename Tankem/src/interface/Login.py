@@ -233,13 +233,13 @@ class MenuLogin(ShowBase):
 		else :
 			if num == 1 : 
 				self.player1ready = state
-				self.player1Infos = self.joueur
+				self.player1Infos = self.joueur1
 				self.b2['state'] = DGG.DISABLED
 				self.b2['frameColor'] = self.couleurDisabled
 				self.b2['text_bg'] = self.couleurDisabled
 			if num == 2 :
 				self.player2ready = state
-				self.player2Infos = self.joueur
+				self.player2Infos = self.joueur2
 				self.b3['state'] = DGG.DISABLED
 				self.b3['frameColor'] = self.couleurDisabled
 				self.b3['text_bg'] = self.couleurDisabled

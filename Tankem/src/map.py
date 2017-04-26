@@ -442,6 +442,7 @@ class Map(DirectObject.DirectObject):
 	#On met à jour ce qui est nécessaire de mettre à jour
 	def update(self,tempsTot):
 		self.tick+=1
+		self.analyseFinPartie()
 
 		for tank in self.listTank:
 			tank.traiteMouvement(tempsTot)
@@ -458,3 +459,12 @@ class Map(DirectObject.DirectObject):
 											  self.listTank[0].noeudPhysique.getPos()[1],1,1,1)
 		print(dtoJoueur1.getX())
 											  
+
+	# def analyseFinPartie(self):
+	# 	print (self.listTank[0].etat)
+	# 	if (self.listTank[0].etat != "actif"):
+	# 		DTOStats.idGagnant = DTOStats.idJoueur2
+	# 		print "Joueur 2 a gagne"
+	# 	elif (self.listTank[1].etat != "actif"):
+	# 		DTOStats.idGagnant = DTOStats.idJoueur1
+	# 		print "Joueur 1 a gagne"
