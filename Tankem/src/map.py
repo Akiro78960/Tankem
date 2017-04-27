@@ -78,6 +78,8 @@ class Map(DirectObject.DirectObject):
 		# variables pour l'enregistrement
 		self.tick = 0
 		self.time = 0
+		self.delai = 6
+		self.saved = False
 		self.DAOEnregistrement = DAOenregistrementOracle()
 
 	def libererEndroitGrille(self,i,j,doitBloquer):
@@ -472,11 +474,21 @@ class Map(DirectObject.DirectObject):
 			tank.traiteMouvement(tempsTot)
 
 		# Sauvegarde
-		if(self.tick == 6):
-			self.tick = 0
-			if(self.listTank[0].etat == "actif" and self.listTank[1].etat == "actif"):
-				self.sauvegardeDTO()
-				self.time+=1
+		if(self.dtoPartie.getIdMap() is not None):
+			if(self.tick == self.delai):
+				self.tick = 0
+				if(self.listTank[0].etat == "actif" and self.listTank[1].etat == "actif"):
+					self.sauvegardeDTO()
+					self.time+=1
+				elif(self.listTank[0].pointDeVie <= 0 or self.listTank[1].pointDeVie <= 0):
+					if(not self.saved):
+						self.saved = True
+						self.DAOEnregistrement.create(self.dtoPartie)
+
+				if(self.time == 600):
+					self.delai = 12
+				elif(self.time == 900):
+					self.delai = 24
 
 	# On sauvegarde les info du temps X dans le DTOPartie
 	def sauvegardeDTO(self):
@@ -496,9 +508,9 @@ class Map(DirectObject.DirectObject):
 
 		for balle in self.listeBalle:
 			if(balle.etat is not "Detruit"):
-				en_mouvement = False
+				en_mouvement = 0
 				if(balle.etat is "actif"):
-					en_mouvement = True
+					en_mouvement = 1
 
 				dtoProjectile = DTOenregistrementProjectile(self.time,
 															balle.noeudPhysique.getPos()[0],

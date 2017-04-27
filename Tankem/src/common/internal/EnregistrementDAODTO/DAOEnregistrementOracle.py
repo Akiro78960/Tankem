@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from SingletonDBConnection import SingletonDBConnection
 from DTOEnregistrementArme import DTOenregistrementArme
 from DTOEnregistrementJoueur import DTOenregistrementJoueur
 from DTOEnregistrementPartie import DTOenregistrementPartie 
@@ -8,22 +9,13 @@ import cx_Oracle
 class DAOenregistrementOracle():
 
     def __init__(self):
-        # Connection
-        try:
-            self.connection = cx_Oracle.connect('e1384492', 'C','10.57.4.60/DECINFO.edu')
-
-        except cx_Oracle.DatabaseError as e:
-            error, = e.args
-            print("Erreur de commande")
-            print(error.code)
-            print(error.message)
-            print(error.context)
+		self.connection = SingletonDBConnection().getConnection()
 
     def create(self, DTOpartie):
         # Creation de la partie dans la BD
         cur = self.connection.cursor()
-        statement = "INSERT INTO ENREGISTREMENT_PARTIE(CREATION_DATE) VALUES(:creation_date)"
-        cur.execute(statement, { 'creation_date':DTOpartie.getDate() } )
+        statement = "INSERT INTO ENREGISTREMENT_PARTIE(ID_MAP, CREATION_DATE) VALUES(:id_map, :creation_date)"
+        cur.execute(statement, { 'id_map':DTOpartie.getIdMap(), 'creation_date':DTOpartie.getDate() } )
         cur.close()
         self.connection.commit()
 
@@ -50,6 +42,7 @@ class DAOenregistrementOracle():
         curJoueur = self.connection.cursor()
         statement = "INSERT INTO ENREGISTREMENT_JOUEUR(NO_JOUEUR, ID_PARTIE, TIME_SEC, POS_X, POS_Y, ORIENTATION, HEALTH, BALL_SHOT) VALUES(:1,:2,:3,:4,:5, :6, :7, :8)"
         curJoueur.bindarraysize = 5
+        curJoueur.executemany(statement, arrayInsert)
         curJoueur.close()
 
         # Insertion arme
@@ -63,9 +56,9 @@ class DAOenregistrementOracle():
 
         # Insertion projectile
         arrayProjectile = DTOpartie.getArrayProjectile()
-        arrayInsert = [(idPartie,dtoProjectile.getTime(),dtoProjectile.getX(),dtoProjectile.getY(),dtoProjectile.getZ(),dtoProjectile.getEnMouvement()) for dtoProjectile in arrayProjectile]
+        arrayInsert = [(idPartie,dtoProjectile.getTime(),dtoProjectile.getX(),dtoProjectile.getY(),dtoProjectile.getEnMouvement()) for dtoProjectile in arrayProjectile]
         curProjectile = self.connection.cursor()
-        statement = "INSERT INTO ENREGISTREMENT_PROJECTILE(ID_PARTIE, TIME_SEC, POS_X, POS_Y, POS_Z, EN_MOUVEMENT) VALUES(:1,:2,:3,:4,:5,:6)"
+        statement = "INSERT INTO ENREGISTREMENT_PROJECTILE(ID_PARTIE, TIME_SEC, POS_X, POS_Y, EN_MOUVEMENT) VALUES(:1,:2,:3,:4,:5)"
         curProjectile.bindarraysize = 6
         curProjectile.executemany(statement, arrayInsert)
         curProjectile.close()
