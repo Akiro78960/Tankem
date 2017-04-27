@@ -15,5 +15,5 @@ class DTOStats():
         self.DTOStatsArmeJ1 = []
         self.DTOStatsArmeJ2 = []
         for i in range(6):
-            self.DTOStatsArmeJ1.append(DTOStatsArme(i, 0))
-            self.DTOStatsArmeJ2.append(DTOStatsArme(i, 0))
+            self.DTOStatsArmeJ1.append(DTOStatsArme(i+1, 0))
+            self.DTOStatsArmeJ2.append(DTOStatsArme(i+1, 0))

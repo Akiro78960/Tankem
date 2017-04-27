@@ -20,7 +20,7 @@ import time
 DAOMap = common.internal.MapDAODTO.DAOMapOracle.DAOmaporacle()
 DTOlistmap = DAOMap.read()
 DTOStats = common.internal.DTOStats.DTOStats()
-
+DAOStats = common.internal.DAOStats.DAOStats()
 
 #Module qui sert à la création des maps
 class Map(DirectObject.DirectObject):
@@ -78,6 +78,7 @@ class Map(DirectObject.DirectObject):
 		self.time = 0
 		self.saved = False
 		self.DAOEnregistrement = DAOenregistrementOracle()
+		self.isDTOStatsSaved = False
 
 	def libererEndroitGrille(self,i,j,doitBloquer):
 		#print "bloque " + str(i) + " " + str(j)
@@ -453,8 +454,7 @@ class Map(DirectObject.DirectObject):
 	#On met à jour ce qui est nécessaire de mettre à jour
 	def update(self,tempsTot):
 		self.tick+=1
-		if(self.listTank[0].pointDeVie <= 0 and self.listTank[1].pointDeVie <= 0):
-			print "fin partie"
+		if(self.listTank[0].pointDeVie <= 0 or self.listTank[1].pointDeVie <= 0):
 			self.analyseFinPartie()
 		
 
@@ -471,7 +471,7 @@ class Map(DirectObject.DirectObject):
 				elif(self.listTank[0].pointDeVie <= 0 or self.listTank[0].pointDeVie <= 0):
 					if(not self.saved):
 						self.saved = True
-						self.DAOEnregistrement.create(self.dtoPartie)
+						# self.DAOEnregistrement.create(self.dtoPartie)
 
 	# On sauvegarde les info du temps X dans le DTOPartie
 	def sauvegardeDTO(self):
@@ -511,10 +511,20 @@ class Map(DirectObject.DirectObject):
 
 
 	def analyseFinPartie(self):
-		# print (self.listTank[0].pointDeVie)
-		if (self.listTank[0].pointDeVie <= 0):
-			DTOStats.idGagnant = DTOStats.idJoueur2
-			print "Joueur 2 a gagne"
-		elif (self.listTank[1].pointDeVie <= 0):
-			DTOStats.idGagnant = DTOStats.idJoueur1
-			print "Joueur 1 a gagne"		
+		if(not self.isDTOStatsSaved):
+			self.isDTOStatsSaved = True
+			if (self.listTank[0].pointDeVie <= 0):
+				DTOStats.idGagnant = DTOStats.idJoueur2
+				print "Joueur 2 a gagne"
+			elif (self.listTank[1].pointDeVie <= 0):
+				DTOStats.idGagnant = DTOStats.idJoueur1
+				print "Joueur 1 a gagne"		
+			print("idJoueur1: "+str(DTOStats.idJoueur1))
+			print("idJoueur2: "+str(DTOStats.idJoueur2))
+			print("idMap: "+str(DTOStats.idNiveau))
+			print("idGagnant: "+str(DTOStats.idGagnant))
+			for i in range(6):
+				print ("NbUtil J1 Arme N"+str(DTOStats.DTOStatsArmeJ1[i].idArme)+" : "+str(DTOStats.DTOStatsArmeJ1[i].nbUtil))
+				print ("NbUtil J2 Arme N"+str(DTOStats.DTOStatsArmeJ2[i].idArme)+" : "+str(DTOStats.DTOStatsArmeJ2[i].nbUtil))
+			DAOStats.create(DTOStats)
+			

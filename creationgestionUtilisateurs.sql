@@ -52,11 +52,11 @@ CREATE TABLE joueur_arme (
 
 --Insertion des infos
 INSERT INTO arme (name) VALUES ('Canon');
-INSERT INTO arme (name) VALUES ('Mitraillette');
 INSERT INTO arme (name) VALUES ('Grenade');
+INSERT INTO arme (name) VALUES ('Mitraillette');
+INSERT INTO arme (name) VALUES ('Piege');
 INSERT INTO arme (name) VALUES ('Shotgun');
-INSERT INTO arme (name) VALUES ('Missile');
-INSERT INTO arme (name) VALUES ('Spring');
+INSERT INTO arme (name) VALUES ('Guide');
 
 --Fin
 COMMIT;
