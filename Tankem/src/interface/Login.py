@@ -262,6 +262,9 @@ class MenuLogin(ShowBase):
 				self.b4['frameColor'] = self.couleurBack
 				self.b4['text_bg'] = self.couleurBack
 				self.joueur1.agilite = 7
+				self.joueur1.force = 10
+				self.joueur1.vie = 25
+				self.joueur1.dexterite = 15
 				self.calcJoueur1 = self.calculateName(self.joueur1)
 				self.calcJoueur2 = self.calculateName(self.joueur2)
 				self.typer = TimedAppearance(self.labelJoueur1,self.labelVersus,
