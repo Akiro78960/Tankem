@@ -13,9 +13,9 @@
 			$execute = true;
 			if(isset($_POST["fieldUsername"])){
 				
-				$statement = $connection->prepare("INSERT INTO joueur (ingamename,name,surname,couleurTank,password,email,niveau,experience,vie,force,agilite,dexterite,partieJoue,partieGagne) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+				$statement = $connection->prepare("INSERT INTO joueur (username,name,surname,couleurTank,password,email,niveau,experience,vie,force,agilite,dexterite,partieJoue,partieGagne) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 				if($_POST["fieldUsername"] != ""){
-					$statement2 = $connection->prepare("SELECT * FROM joueur WHERE ingamename = ?");
+					$statement2 = $connection->prepare("SELECT * FROM joueur WHERE username = ?");
 					$statement2->bindParam(1,$_POST["fieldUsername"]);
 					$statement2->setFetchMode(PDO::FETCH_ASSOC);
 					$statement2->execute();
