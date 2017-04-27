@@ -21,6 +21,10 @@ class Tank():
         self.speed = Vec3(0,0,0)
         self.omega = 0.0
         self.pointDeVieMax = self.dtoValues.getValue("VIE")
+        print "Vie avant : " + str(self.pointDeVieMax)
+        if(self.infosJoueurs is not None):
+                    self.pointDeVieMax = self.pointDeVieMax / 100.0 * (100 + 10 * self.infosJoueurs.vie)
+                    print "Vie apres : " + str(self.pointDeVieMax)
         self.pointDeVie = self.pointDeVieMax
 
         self.etat = "inactif"
@@ -185,6 +189,12 @@ class Tank():
             #Ne fais rien
             pass
 
+        print "Delai avant : " + str(delaiArme)
+        if(self.infosJoueurs is not None):
+            for x in range(0, self.infosJoueurs.dexterite):
+                delaiArme = delaiArme / 100.0 * (100 - 10)
+            print "Delai apres : " + str(delaiArme)
+
         #Va bloquer le tir des balles le temps de la recharge
         self.bloquerTir = True
         attendre = Wait(delaiArme)
@@ -246,6 +256,7 @@ class Tank():
 
     def prendDommage(self, dommage, mondePhysique):
         #Chaque collision détectée nous fait perdre un point de vie
+        
         self.changerPointDeVie(self.pointDeVie - dommage)
         self.modele.setColorScale(self.couleur.getX(),self.couleur.getY(),self.couleur.getZ(),1)
 
@@ -291,6 +302,10 @@ class Tank():
                 speedCopy.normalize()
 
                 vitesseAvancer = self.dtoValues.getValue("VITESSE_CHAR")
+                print "Vitesse avant : " + str(vitesseAvancer)
+                if(self.infosJoueurs is not None):
+                    vitesseAvancer = vitesseAvancer / 100.0 * (100 + 5 * self.infosJoueurs.agilite)
+                    print "Vitesse apres : " + str(vitesseAvancer)
                 vitesseMaxTourner = self.dtoValues.getValue("VITESSE_ROTATION")
                 #On bouge le joueur dans la bonne direction
                 #Renormalize le vecteur pour ne pas avoir un bug comme le Quake 3

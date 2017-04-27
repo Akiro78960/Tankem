@@ -35,6 +35,8 @@ class Map(DirectObject.DirectObject):
 		#On prends les infos du dto
 		self.dtoValues = dtoValues
 
+		self.tabJoueurs = None
+
 		#initialisation des constantes utiles
 		self.map_nb_tuile_x = 12
 		self.map_nb_tuile_y = 12
@@ -76,6 +78,7 @@ class Map(DirectObject.DirectObject):
 		# variables pour l'enregistrement
 		self.tick = 0
 		self.time = 0
+		self.delai = 6
 		self.saved = False
 		self.DAOEnregistrement = DAOenregistrementOracle()
 		self.isDTOStatsSaved = False
@@ -88,6 +91,7 @@ class Map(DirectObject.DirectObject):
 		self.noeudOptimisation.flattenStrong()
 
 	def construireMapChoisie(self,DTOmap,tabJoueurs):
+		self.tabJoueurs = tabJoueurs
 		maze = mazeUtil.MazeBuilder(self.map_nb_tuile_y, self.map_nb_tuile_x)
 		maze.build()
 		mazeTuiles = DTOmap.getArrayTuiles()
@@ -404,7 +408,15 @@ class Map(DirectObject.DirectObject):
 			#Prend 1 de dommage par défaut si la balle n'a pas été tirée par le tank
 			self.listeBalle[balleId].exploser()
 			if(tireurBalleId != indiceTank):
-				self.listTank[indiceTank].prendDommage(1,self.mondePhysique)
+				dommage = 1.0
+				tankQuiTire = 0
+				if(indiceTank == 0):
+					tankQuiTire = 1
+				if(self.tabJoueurs[tankQuiTire] is not None):
+					print "Degat avant : " + str(dommage)
+					dommage = dommage / 100.0 * (100 + 10 * self.tabJoueurs[tankQuiTire].force)
+					print "Degat modifié : " + str(dommage)
+				self.listTank[indiceTank].prendDommage(dommage,self.mondePhysique)
 			return
 		
 		indiceTank = int(self.traiterCollisionTankAvecObjet(node0, node1,"Item"))
@@ -463,15 +475,20 @@ class Map(DirectObject.DirectObject):
 
 		# Sauvegarde
 		if(self.dtoPartie.getIdMap() is not None):
-			if(self.tick == 6):
+			if(self.tick == self.delai):
 				self.tick = 0
 				if(self.listTank[0].etat == "actif" and self.listTank[1].etat == "actif"):
 					self.sauvegardeDTO()
 					self.time+=1
-				elif(self.listTank[0].pointDeVie <= 0 or self.listTank[0].pointDeVie <= 0):
+				elif(self.listTank[0].pointDeVie <= 0 or self.listTank[1].pointDeVie <= 0):
 					if(not self.saved):
 						self.saved = True
 						# self.DAOEnregistrement.create(self.dtoPartie)
+
+				if(self.time == 600):
+					self.delai = 12
+				elif(self.time == 900):
+					self.delai = 24
 
 	# On sauvegarde les info du temps X dans le DTOPartie
 	def sauvegardeDTO(self):
