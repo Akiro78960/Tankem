@@ -22,8 +22,8 @@ class DAOenregistrementOracle():
     def create(self, DTOpartie):
         # Creation de la partie dans la BD
         cur = self.connection.cursor()
-        statement = "INSERT INTO ENREGISTREMENT_PARTIE(CREATION_DATE) VALUES(:creation_date)"
-        cur.execute(statement, { 'creation_date':DTOpartie.getDate() } )
+        statement = "INSERT INTO ENREGISTREMENT_PARTIE(ID_MAP, CREATION_DATE) VALUES(:id_map, :creation_date)"
+        cur.execute(statement, { 'id_map':DTOpartie.getIdMap(), 'creation_date':DTOpartie.getDate() } )
         cur.close()
         self.connection.commit()
 
@@ -63,9 +63,9 @@ class DAOenregistrementOracle():
 
         # Insertion projectile
         arrayProjectile = DTOpartie.getArrayProjectile()
-        arrayInsert = [(idPartie,dtoProjectile.getTime(),dtoProjectile.getX(),dtoProjectile.getY(),dtoProjectile.getZ(),dtoProjectile.getEnMouvement()) for dtoProjectile in arrayProjectile]
+        arrayInsert = [(idPartie,dtoProjectile.getTime(),dtoProjectile.getX(),dtoProjectile.getY(),dtoProjectile.getEnMouvement()) for dtoProjectile in arrayProjectile]
         curProjectile = self.connection.cursor()
-        statement = "INSERT INTO ENREGISTREMENT_PROJECTILE(ID_PARTIE, TIME_SEC, POS_X, POS_Y, POS_Z, EN_MOUVEMENT) VALUES(:1,:2,:3,:4,:5,:6)"
+        statement = "INSERT INTO ENREGISTREMENT_PROJECTILE(ID_PARTIE, TIME_SEC, POS_X, POS_Y, EN_MOUVEMENT) VALUES(:1,:2,:3,:4,:5)"
         curProjectile.bindarraysize = 6
         curProjectile.executemany(statement, arrayInsert)
         curProjectile.close()

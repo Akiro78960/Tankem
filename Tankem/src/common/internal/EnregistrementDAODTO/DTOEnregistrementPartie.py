@@ -20,6 +20,10 @@ class DTOenregistrementPartie:
     def appendProjectile(self, DTOenregistrementProjectile):
         self.array_projectile.append(DTOenregistrementProjectile)
 
+
+    def getIdMap(self):
+        return self.idMap
+
     def getDate(self):
         return self.creation_date
 

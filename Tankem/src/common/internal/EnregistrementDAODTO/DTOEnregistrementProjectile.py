@@ -15,8 +15,5 @@ class DTOenregistrementProjectile:
     def getY(self):
         return self.pos_y
 
-    def getZ(self):
-        return self.pos_z
-
     def getEnMouvement(self):
         return self.en_mouvement
