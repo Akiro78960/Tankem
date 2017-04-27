@@ -9,11 +9,12 @@ from pandac.PandaModules import *
 from direct.interval.LerpInterval import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.Transitions import Transitions
-
-
+import time
+from direct.stdpy import thread
 import random
 import sys
 import common
+import threading
 import SingletonDBConnection
 DAOMap = common.internal.MapDAODTO.DAOMapOracle.DAOmaporacle()
 DTOlistmap = DAOMap.read()
@@ -24,7 +25,7 @@ class MenuLogin(ShowBase):
 		self.mapID = mapID
 		self.mapName = mapName
 		self.user = common.internal.UtilisateursDAODTO.DAOutilisateur.DAOutilisateur()
-
+		self.wait = True
 		#Image d'arrière plan
 		self.background=OnscreenImage(parent=render2d, image="../asset/Menu/BackgroundLogin.jpg")
 
@@ -121,7 +122,7 @@ class MenuLogin(ShowBase):
 
 		self.labelJoueur1 = OnscreenText(text = "",
 									  pos = (-0.05,0.1,-1.67), 
-									  scale = 0.10,
+									  scale = 0.08,
 									  fg=self.couleurFG,
 									  bg = self.couleurBGLabel,
 									  shadow=self.couleurShadow,
@@ -129,15 +130,15 @@ class MenuLogin(ShowBase):
 									  align=TextNode.ACenter)
 		self.labelVersus = OnscreenText(text = "",
 									  pos = (-0.05,-0.09,-1.67), 
-									  scale = 0.10,
+									  scale = 0.08,
 									  fg=self.couleurFG,
 									  bg = self.couleurBGLabel,
 									  shadow=self.couleurShadow,
 									  mayChange = True,
 									  align=TextNode.ACenter)
 		self.labelJoueur2 = OnscreenText(text = "",
-									  pos = (-0.05,-0.3,-1.67), 
-									  scale = 0.10,
+									  pos = (-0.05,-0.28,-1.67), 
+									  scale = 0.08,
 									  fg=self.couleurFG,
 									  bg = self.couleurBGLabel,
 									  shadow=self.couleurShadow,
@@ -146,7 +147,7 @@ class MenuLogin(ShowBase):
 
 		self.labelCombattre = OnscreenText(text = "",
 									  pos = (-0.05,-0.5,-1.67), 
-									  scale = 0.10,
+									  scale = 0.08,
 									  fg=self.couleurFG,
 									  bg = self.couleurBGLabel,
 									  shadow=self.couleurShadow,
@@ -154,7 +155,7 @@ class MenuLogin(ShowBase):
 									  align=TextNode.ACenter)
 		self.labelNiveau = OnscreenText(text = "",
 									  pos = (-0.05,-0.65,-1.67), 
-									  scale = 0.10,
+									  scale = 0.08,
 									  fg=self.couleurFG,
 									  bg = self.couleurBGLabel,
 									  shadow=self.couleurShadow,
@@ -196,15 +197,26 @@ class MenuLogin(ShowBase):
 						  extraArgs = [self.mapID],
 						  pos = (-0.05,0.4,0.67))
 
-		#Test de marde de load de models de Tank
-		# self.tank = Actor("../asset/Tank/tank")
-		# self.tank.setScale(2, 2, 2)
-		# self.tank.setPos(1, 1, 1)
-		# self.tank.setHpr(174.29,0,0)
-		# self.tank.reparentTo(render)
-				
-
+		#Tank1
+		self.tankGauche = loader.loadModel("../asset/Tank/tank")		
+		self.tankGauche.reparentTo(render)
+		self.tankGauche.setPos(-17.5,65,-10)
+		self.tankGauche.setScale(6.005,6.005,6.005)
+		self.tankGauche.setHpr(180, 0.0, 0.0)
+		interval = self.tankGauche.hprInterval(4.0, Vec3(-180, 0, 0))
+		self.sequenceTourne = Sequence(interval)
+		self.sequenceTourne.loop()
 		
+		#Tank2
+		self.tankDroite = loader.loadModel("../asset/Tank/tank")		
+		self.tankDroite.reparentTo(render)
+		self.tankDroite.setPos(17.5,65,-10)
+		self.tankDroite.setScale(6.005,6.005,6.005)
+		self.tankDroite.setHpr(180, 0.0, 0.0)
+		interval2 = self.tankDroite.hprInterval(4.0, Vec3(540, 0, 0))
+		self.sequenceTourne = Sequence(interval2)
+		self.sequenceTourne.loop()
+
 		#Initialisation de l'effet de transition
 		curtain = loader.loadTexture("../asset/Menu/load.png")
 
@@ -213,6 +225,7 @@ class MenuLogin(ShowBase):
 		self.transition.setFadeModel(curtain)
 
 		self.sound = loader.loadSfx("../asset/Menu/shotgun.mp3")
+		
 
 	def setPlayerReady(self,state,num):
 		if num == 1 : 
@@ -251,12 +264,15 @@ class MenuLogin(ShowBase):
 				self.joueur1.agilite = 7
 				self.calcJoueur1 = self.calculateName(self.joueur1)
 				self.calcJoueur2 = self.calculateName(self.joueur2)
-				
-				self.labelCombattre.setText("Combattrons dans l'arène: ")
-				self.labelNiveau.setText(self.mapName)
-				self.labelVersus.setText("Versuuuuuus")
-				self.labelJoueur1.setText(self.username1 + " " + self.calcJoueur1)
-				self.labelJoueur2.setText(self.username2 + " " + self.calcJoueur2)
+				self.typer = TimedAppearance(self.labelJoueur1,self.labelVersus,
+								self.labelJoueur2,self.labelCombattre,
+								self.labelNiveau,self.username1,
+								self.username2,self.calcJoueur1,
+								self.calcJoueur2,self.mapName)
+				# Thread.considerYield()
+				self.typer.start()
+				# Thread.considerYield()
+				self.typer.join()
 
 			elif self.player1ready :
 				self.setText('Player 2 must also login')
@@ -272,7 +288,7 @@ class MenuLogin(ShowBase):
 	#callback function to set  text 
 	def setText(self,textEntered):
 		self.messageBox.enterText(textEntered)
- 
+	
 	#clear the text
 	def clearText(self):
 		self.messageBox.enterText('')
@@ -282,6 +298,9 @@ class MenuLogin(ShowBase):
 			base.cam.node().getDisplayRegion(0).setSort(self.baseSort)
 			#On cache les menus
 			self.background.hide()
+			self.tankGauche.removeNode()
+			self.tankDroite.removeNode()
+			loader.unloadModel( "../asset/Tank/tank" )
 			self.b2.hide()
 			self.b3.hide()
 			self.b4.hide()
@@ -297,7 +316,10 @@ class MenuLogin(ShowBase):
 			self.labelMessageBox.hide()
 			self.labelJoueur1.hide()
 			self.labelJoueur2.hide()
-
+			self.labelCombattre.hide()
+			self.labelNiveau.hide()
+			self.labelVersus.hide()
+			
 	def setNiveauChoisi(self,idNiveau):
 			self.gameLogic.setIdNiveau(idNiveau)
 			self.gameLogic.setPlayers([self.player1Infos, self.player2Infos])
@@ -405,7 +427,31 @@ class MenuLogin(ShowBase):
 				self.qualificatifB = "chirurgien"
 
 		return self.qualificatifA + " " + self.qualificatifB
-
+class TimedAppearance(threading.Thread):
+	def __init__(self,label1,label2,label3,label4,label5,label6,label7,label8,label9,label10):
+		threading.Thread.__init__(self)
+		Thread.considerYield()
+		self.label1 = label1
+		self.label2 = label2
+		self.label3 = label3
+		self.label4 = label4
+		self.label5 = label5
+		self.label6 = label6
+		self.label7 = label7
+		self.label8 = label8
+		self.label9 = label9
+		self.label10 = label10
+	def run(self):
+		Thread.considerYield()
+		self.label1.setText(self.label6 + " " + self.label8)
+		Thread.sleep(1)
+		self.label2.setText("Versuuuuuus")
+		Thread.sleep(1)
+		self.label3.setText(self.label7 + " " + self.label9)
+		Thread.sleep(1)
+		self.label4.setText("Combattrons dans l'arène: ")
+		Thread.sleep(1)
+		self.label5.setText(self.label10)
 		
 
 		
