@@ -1,5 +1,4 @@
 ## -*- coding: utf-8 -*-
-
 from direct.showbase.ShowBase import ShowBase
 from direct.actor.Actor import Actor
 from direct.gui.OnscreenText import OnscreenText 
@@ -10,11 +9,9 @@ from direct.interval.LerpInterval import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.Transitions import Transitions
 import time
-from direct.stdpy import thread
 import random
 import sys
 import common
-import threading
 import SingletonDBConnection
 DAOMap = common.internal.MapDAODTO.DAOMapOracle.DAOmaporacle()
 DTOlistmap = DAOMap.read()
@@ -43,8 +40,8 @@ class MenuLogin(ShowBase):
 		self.couleurBack = (0.243,0.325,0.321,1)
 		self.player1ready = False
 		self.player2ready = False
-		self.player1Infos = None
-		self.player2Infos = None
+		self.player1Infos = ""
+		self.player2Infos = ""
 		self.couleurDisabled = (0.343,0.325,0.321,1)
 		self.couleurBGLabel = (255,255,255,0.3)
 		self.couleurShadow = (200,200,200,0.8)
@@ -52,6 +49,10 @@ class MenuLogin(ShowBase):
 		self.joueur1 = ""
 		self.joueur2 = ""
 		#Titre du jeu
+		base.disableMouse()
+
+		
+
 
 		self.fieldUsername1 = DirectEntry(text = "" ,scale=.05,
 									initialText="", 
@@ -120,47 +121,70 @@ class MenuLogin(ShowBase):
 									  shadow=self.couleurShadow,
 									  align=TextNode.ACenter)
 
-		self.labelJoueur1 = OnscreenText(text = "",
-									  pos = (-0.05,0.1,-1.67), 
-									  scale = 0.08,
-									  fg=self.couleurFG,
-									  bg = self.couleurBGLabel,
-									  shadow=self.couleurShadow,
-									  mayChange = True,
-									  align=TextNode.ACenter)
-		self.labelVersus = OnscreenText(text = "",
-									  pos = (-0.05,-0.09,-1.67), 
-									  scale = 0.08,
-									  fg=self.couleurFG,
-									  bg = self.couleurBGLabel,
-									  shadow=self.couleurShadow,
-									  mayChange = True,
-									  align=TextNode.ACenter)
-		self.labelJoueur2 = OnscreenText(text = "",
-									  pos = (-0.05,-0.28,-1.67), 
-									  scale = 0.08,
-									  fg=self.couleurFG,
-									  bg = self.couleurBGLabel,
-									  shadow=self.couleurShadow,
-									  mayChange = True,
-									  align=TextNode.ACenter)
+		self.textJoueur1 = TextNode('textJoueur1')
+		self.textJoueur1.setText("")
+		self.textJoueur1.setTextColor(0,0,0,1)
+		self.textJoueur1.setShadow(0.05,0.05)
+		self.textJoueur1.setShadowColor(self.couleurShadow)
+		self.textJoueur1.setCardColor(self.couleurBGLabel)
+		self.textJoueur1.setCardAsMargin(0, 0, 0, 0)
+		self.textJoueur1.setCardDecal(True)
+		self.textJoueur1.setAlign(TextNode.ACenter)
+		self.nodeJoueur1 = aspect2d.attachNewNode(self.textJoueur1)
+		self.nodeJoueur1.setScale(0)
+		self.nodeJoueur1.setPos(0.014,0,0.1)
 
-		self.labelCombattre = OnscreenText(text = "",
-									  pos = (-0.05,-0.5,-1.67), 
-									  scale = 0.08,
-									  fg=self.couleurFG,
-									  bg = self.couleurBGLabel,
-									  shadow=self.couleurShadow,
-									  mayChange = True,
-									  align=TextNode.ACenter)
-		self.labelNiveau = OnscreenText(text = "",
-									  pos = (-0.05,-0.65,-1.67), 
-									  scale = 0.08,
-									  fg=self.couleurFG,
-									  bg = self.couleurBGLabel,
-									  shadow=self.couleurShadow,
-									  mayChange = True,
-									  align=TextNode.ACenter)
+		self.textJoueur2 = TextNode('textJoueur2')
+		self.textJoueur2.setText("")
+		self.textJoueur2.setTextColor(0,0,0,1)
+		self.textJoueur2.setShadow(0.05,0.05)
+		self.textJoueur2.setShadowColor(self.couleurShadow)
+		self.textJoueur2.setCardColor(self.couleurBGLabel)
+		self.textJoueur2.setCardAsMargin(0, 0, 0, 0)
+		self.textJoueur2.setCardDecal(True)
+		self.textJoueur2.setAlign(TextNode.ACenter)
+		self.nodeJoueur2 = aspect2d.attachNewNode(self.textJoueur2)
+		self.nodeJoueur2.setScale(0)
+		self.nodeJoueur2.setPos(0.014,0,-0.3)
+
+		self.textVersus = TextNode('textVersus')
+		self.textVersus.setText("VERSUS")
+		self.textVersus.setTextColor(0,0,0,1)
+		self.textVersus.setShadow(0.05,0.05)
+		self.textVersus.setShadowColor(self.couleurShadow)
+		self.textVersus.setCardColor(self.couleurBGLabel)
+		self.textVersus.setCardAsMargin(0, 0, 0, 0)
+		self.textVersus.setCardDecal(True)
+		self.textVersus.setAlign(TextNode.ACenter)
+		self.nodeVersus = aspect2d.attachNewNode(self.textVersus)
+		self.nodeVersus.setScale(0)
+		self.nodeVersus.setPos(0.014,0,-0.1)
+
+		self.textCombattre = TextNode('textCombattre')
+		self.textCombattre.setText("Combattrons dans l'arène :")
+		self.textCombattre.setTextColor(0,0,0,1)
+		self.textCombattre.setShadow(0.05,0.05)
+		self.textCombattre.setShadowColor(self.couleurShadow)
+		self.textCombattre.setCardColor(self.couleurBGLabel)
+		self.textCombattre.setCardAsMargin(0, 0, 0, 0)
+		self.textCombattre.setCardDecal(True)
+		self.textCombattre.setAlign(TextNode.ACenter)
+		self.nodeCombattre = aspect2d.attachNewNode(self.textCombattre)
+		self.nodeCombattre.setScale(0)
+		self.nodeCombattre.setPos(0.014,0,-0.5)
+
+		self.textNiveau = TextNode('textNiveau')
+		self.textNiveau.setText("")
+		self.textNiveau.setTextColor(0,0,0,1)
+		self.textNiveau.setShadow(0.05,0.05)
+		self.textNiveau.setShadowColor(self.couleurShadow)
+		self.textNiveau.setCardColor(self.couleurBGLabel)
+		self.textNiveau.setCardAsMargin(0, 0, 0, 0)
+		self.textNiveau.setCardDecal(True)
+		self.textNiveau.setAlign(TextNode.ACenter)
+		self.nodeNiveau = aspect2d.attachNewNode(self.textNiveau)
+		self.nodeNiveau.setScale(0)
+		self.nodeNiveau.setPos(0.014,0,-0.7)
 		
 		self.b2 = DirectButton(text = ("Login", "Login", "Login", "Login"),
 						  text_scale=btnScale,
@@ -200,7 +224,8 @@ class MenuLogin(ShowBase):
 		#Tank1
 		self.tankGauche = loader.loadModel("../asset/Tank/tank")		
 		self.tankGauche.reparentTo(render)
-		self.tankGauche.setPos(-17.5,65,-10)
+		# self.tankGauche.setPos(-17.5,65,-10)
+		self.tankGauche.setPos(-46.5,65,-10)
 		self.tankGauche.setScale(6.005,6.005,6.005)
 		self.tankGauche.setHpr(180, 0.0, 0.0)
 		interval = self.tankGauche.hprInterval(4.0, Vec3(-180, 0, 0))
@@ -210,12 +235,15 @@ class MenuLogin(ShowBase):
 		#Tank2
 		self.tankDroite = loader.loadModel("../asset/Tank/tank")		
 		self.tankDroite.reparentTo(render)
-		self.tankDroite.setPos(17.5,65,-10)
+		# self.tankDroite.setPos(17.5,65,-10)
+		self.tankDroite.setPos(46.5,65,-10)
 		self.tankDroite.setScale(6.005,6.005,6.005)
 		self.tankDroite.setHpr(180, 0.0, 0.0)
 		interval2 = self.tankDroite.hprInterval(4.0, Vec3(540, 0, 0))
 		self.sequenceTourne = Sequence(interval2)
 		self.sequenceTourne.loop()
+
+		
 
 		#Initialisation de l'effet de transition
 		curtain = loader.loadTexture("../asset/Menu/load.png")
@@ -225,7 +253,28 @@ class MenuLogin(ShowBase):
 		self.transition.setFadeModel(curtain)
 
 		self.sound = loader.loadSfx("../asset/Menu/shotgun.mp3")
-		
+
+	def tankIntro(self):
+		self.sequence = Sequence (LerpPosInterval(self.tankGauche,2,(-17.5,65,-10)))
+		self.sequence2 = Sequence (LerpPosInterval(self.tankDroite,2,(17.5,65,-10)))
+		self.sequence2.start()	  
+		self.sequence.start()
+	def lerpText(self) :
+		self.sequence = Sequence (LerpScaleInterval(self.nodeJoueur1, 1, 0.08, 0),
+								  LerpScaleInterval(self.nodeVersus, 1, 0.08, 0),
+								  LerpScaleInterval(self.nodeJoueur2, 1, 0.08, 0),
+								  LerpScaleInterval(self.nodeCombattre, 1, 0.08, 0),
+								  LerpScaleInterval(self.nodeNiveau, 1, 0.08, 0))
+		self.sequence.start()
+	def hex_to_rgb(self,value):
+		value = value.lstrip('#')
+		lv = len(value)
+		if lv == 1:
+			v = int(value, 16)*17
+			return v, v, v
+		if lv == 3:
+			return tuple(int(value[i:i+1], 16)*17 for i in range(0, 3))
+		return tuple(int(value[i:i+lv/3], 16) for i in range(0, lv, lv/3))
 
 	def setPlayerReady(self,state,num):
 		if num == 1 : 
@@ -248,14 +297,14 @@ class MenuLogin(ShowBase):
 				self.b2['state'] = DGG.DISABLED
 				self.b2['frameColor'] = self.couleurDisabled
 				self.b2['text_bg'] = self.couleurDisabled
-				self.gameLogic.idJoueur1 = self.joueur1.idJoueur
+				# self.gameLogic.idJoueur1 = self.joueur1.idJoueur
 			if num == 2 :
 				self.player2ready = state
 				self.player2Infos = self.joueur2
 				self.b3['state'] = DGG.DISABLED
 				self.b3['frameColor'] = self.couleurDisabled
 				self.b3['text_bg'] = self.couleurDisabled
-				self.gameLogic.idJoueur2 = self.joueur2.idJoueur
+				# self.gameLogic.idJoueur2 = self.joueur2.idJoueur
 			if self.player1ready == True and self.player2ready == True :
 				self.setText("Welcome to Tank'em !")
 				self.b4['state'] = DGG.NORMAL
@@ -267,16 +316,17 @@ class MenuLogin(ShowBase):
 				self.joueur1.dexterite = 15
 				self.calcJoueur1 = self.calculateName(self.joueur1)
 				self.calcJoueur2 = self.calculateName(self.joueur2)
-				self.typer = TimedAppearance(self.labelJoueur1,self.labelVersus,
-								self.labelJoueur2,self.labelCombattre,
-								self.labelNiveau,self.username1,
-								self.username2,self.calcJoueur1,
-								self.calcJoueur2,self.mapName)
-				# Thread.considerYield()
-				self.typer.start()
-				# Thread.considerYield()
-				self.typer.join()
-
+				self.textJoueur1.setText(self.username1 + " " + self.calcJoueur1)
+				self.textJoueur2.setText(self.username2 + " " + self.calcJoueur2)
+				self.textNiveau.setText(self.mapName)
+				self.color1 = self.hex_to_rgb(self.joueur1.couleurTank)
+				self.color2 = self.hex_to_rgb(self.joueur2.couleurTank)
+				print self.color1[0]
+				self.tankGauche.setColorScale(self.color1[0]/255.0,self.color1[1]/255.0,self.color1[2]/255.0,1)
+				self.tankDroite.setColorScale(self.color2[0]/255.0,self.color2[1]/255.0,self.color2[2]/255.0,1)
+				self.lerpText()
+				self.tankIntro()
+				
 			elif self.player1ready :
 				self.setText('Player 2 must also login')
 			elif self.player2ready :
@@ -430,31 +480,3 @@ class MenuLogin(ShowBase):
 				self.qualificatifB = "chirurgien"
 
 		return self.qualificatifA + " " + self.qualificatifB
-class TimedAppearance(threading.Thread):
-	def __init__(self,label1,label2,label3,label4,label5,label6,label7,label8,label9,label10):
-		threading.Thread.__init__(self)
-		Thread.considerYield()
-		self.label1 = label1
-		self.label2 = label2
-		self.label3 = label3
-		self.label4 = label4
-		self.label5 = label5
-		self.label6 = label6
-		self.label7 = label7
-		self.label8 = label8
-		self.label9 = label9
-		self.label10 = label10
-	def run(self):
-		Thread.considerYield()
-		self.label1.setText(self.label6 + " " + self.label8)
-		Thread.sleep(1)
-		self.label2.setText("Versuuuuuus")
-		Thread.sleep(1)
-		self.label3.setText(self.label7 + " " + self.label9)
-		Thread.sleep(1)
-		self.label4.setText("Combattrons dans l'arène: ")
-		Thread.sleep(1)
-		self.label5.setText(self.label10)
-		
-
-		

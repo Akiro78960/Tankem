@@ -12,7 +12,7 @@ class DAOutilisateur():
 	def read(self, username, password):
 		try:
 			curRead = self.connection.cursor()
-			curRead.execute("SELECT * from joueur WHERE ingamename=:player_username",player_username = username)
+			curRead.execute("SELECT * from joueur WHERE username=:player_username",player_username = username)
 			for result in curRead:
 				if(result[5] == password):
 					self.dtoJoueur = DTOJoueur(result[0], result[1],

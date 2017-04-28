@@ -69,7 +69,7 @@ class MenuPrincipal(ShowBase):
 		self.scrollList = DirectScrolledList(
 							frameSize = (-0.4,0.7,-0.8,0.8),
 							frameColor=(0,0,0,0),
-							pos = (-1,0,0),
+							pos = (-1,1,0),
 							forceHeight = 0.1,
 							numItemsVisible = numItemsVisible,
 							itemFrame_frameSize = (-0.4,0.7,-0.5,0.59),
