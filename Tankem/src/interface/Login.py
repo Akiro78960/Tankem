@@ -297,23 +297,23 @@ class MenuLogin(ShowBase):
 				self.b2['state'] = DGG.DISABLED
 				self.b2['frameColor'] = self.couleurDisabled
 				self.b2['text_bg'] = self.couleurDisabled
-				# self.gameLogic.idJoueur1 = self.joueur1.idJoueur
+				self.gameLogic.idJoueur1 = self.joueur1.idJoueur
 			if num == 2 :
 				self.player2ready = state
 				self.player2Infos = self.joueur2
 				self.b3['state'] = DGG.DISABLED
 				self.b3['frameColor'] = self.couleurDisabled
 				self.b3['text_bg'] = self.couleurDisabled
-				# self.gameLogic.idJoueur2 = self.joueur2.idJoueur
+				self.gameLogic.idJoueur2 = self.joueur2.idJoueur
 			if self.player1ready == True and self.player2ready == True :
 				self.setText("Welcome to Tank'em !")
 				self.b4['state'] = DGG.NORMAL
 				self.b4['frameColor'] = self.couleurBack
 				self.b4['text_bg'] = self.couleurBack
-				self.joueur1.agilite = 7
-				self.joueur1.force = 10
-				self.joueur1.vie = 25
-				self.joueur1.dexterite = 15
+				# self.joueur1.agilite = 7
+				# self.joueur1.force = 10
+				# self.joueur1.vie = 25
+				# self.joueur1.dexterite = 15
 				self.calcJoueur1 = self.calculateName(self.joueur1)
 				self.calcJoueur2 = self.calculateName(self.joueur2)
 				self.textJoueur1.setText(self.username1 + " " + self.calcJoueur1)
@@ -367,11 +367,11 @@ class MenuLogin(ShowBase):
 			self.labelPlayer2.hide()
 			self.labelpassword2.hide()
 			self.labelMessageBox.hide()
-			self.labelJoueur1.hide()
-			self.labelJoueur2.hide()
-			self.labelCombattre.hide()
-			self.labelNiveau.hide()
-			self.labelVersus.hide()
+			self.nodeJoueur1.hide()
+			self.nodeJoueur2.hide()
+			self.nodeCombattre.hide()
+			self.nodeNiveau.hide()
+			self.nodeVersus.hide()
 			
 	def setNiveauChoisi(self,idNiveau):
 			self.gameLogic.setIdNiveau(idNiveau)

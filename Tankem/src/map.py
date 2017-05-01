@@ -544,4 +544,13 @@ class Map(DirectObject.DirectObject):
 				print ("NbUtil J1 Arme N"+str(DTOStats.DTOStatsArmeJ1[i].idArme)+" : "+str(DTOStats.DTOStatsArmeJ1[i].nbUtil))
 				print ("NbUtil J2 Arme N"+str(DTOStats.DTOStatsArmeJ2[i].idArme)+" : "+str(DTOStats.DTOStatsArmeJ2[i].nbUtil))
 			DAOStats.create(DTOStats)
+			if(DTOStats.idGagnant == DTOStats.idJoueur1):
+				addedExp1 = 100+self.listTank[0].pointDeVie*2 #TODO: ajouter si favori
+				print("Experience Joueur 1 du Match: 100 + "+str(self.listTank[0].pointDeVie*2))
+				addedExp2 = (self.listTank[0].pointDeVieMax-self.listTank[0].pointDeVie)*2
+				print("Experience Joueur 2 du Match:"+str((self.listTank[0].pointDeVieMax-self.listTank[0].pointDeVie)*2))
+			else:
+				addedExp2 = 100+self.listTank[1].pointDeVie*2
+				addedExp1 = (self.listTank[1].pointDeVieMax-self.listTank[1].pointDeVie)*2
+			DAOStats.update(DTOStats, addedExp1, addedExp2)
 			

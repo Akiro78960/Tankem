@@ -69,7 +69,7 @@ CREATE TABLE joueur_arme_partie(
 	IdJoueur Number NOT NULL, 
 	IdArme Number NOT NULL,
 	NbFoisUtilArme Number,
-	CONSTRAINT PK_Id_JAP PRIMARY KEY (IdPartie, IdJoueur),
+	CONSTRAINT PK_Id_JAP PRIMARY KEY (IdPartie, IdJoueur, IdArme),
 	CONSTRAINT FK_IdPartie FOREIGN KEY (IdPartie) REFERENCES partie(Id),
 	CONSTRAINT FK_IdJoueur FOREIGN KEY (IdJoueur) REFERENCES joueur(Id),
 	CONSTRAINT FK_IdArme FOREIGN KEY (IdArme) REFERENCES arme(Id)
@@ -83,10 +83,10 @@ INSERT INTO arme (name) VALUES ('Piege');
 INSERT INTO arme (name) VALUES ('Shotgun');
 INSERT INTO arme (name) VALUES ('Guide');
 
---INSERT INTO joueur(username, name, surname, couleurTank, password, email, niveau, experience, vie, force, agilite, dexterite, partieJoue, partieGagne) VALUES("Test1","Test1Nom","Test1Prenom","#00FF00","AAAaaa111","nicolas.martin1996@yahoo.com",1,0,0,0,0,0,0,0);
---INSERT INTO joueur(username, name, surname, couleurTank, password, email, niveau, experience, vie, force, agilite, dexterite, partieJoue, partieGagne) VALUES('Test2','Test2Nom','Test2Prenom',"#FFFF00","AAAaaa111","nicknclank@yahoo.com",1,0,0,0,0,0,0,0);
---INSERT INTO joueur(username, name, surname, couleurTank, password, email, niveau, experience, vie, force, agilite, dexterite, partieJoue, partieGagne) VALUES("Test3","Test3Nom","Test3Prenom","#FF0000","AAAaaa111","nicolas.marlololol@yahoo.com",1,0,0,0,0,0,0,0);
---INSERT INTO joueur(username, name, surname, couleurTank, password, email, niveau, experience, vie, force, agilite, dexterite, partieJoue, partieGagne) VALUES("Test4","Test4Nom","Test4Prenom","#0000FF","AAAaaa111","nicolas.marpatatesaucisse@yahoo.com",1,0,0,0,0,0,0,0);
+INSERT INTO joueur(username, name, surname, couleurTank, password, email, niveau, experience, vie, force, agilite, dexterite, partieJoue, partieGagne) VALUES('Test1','Test1Nom','Test1Prenom','#FFFF00','AAAaaa111','nicknclank@yahoo.com',1,0,0,0,0,0,0,0);
+INSERT INTO joueur(username, name, surname, couleurTank, password, email, niveau, experience, vie, force, agilite, dexterite, partieJoue, partieGagne) VALUES('Test2','Test2Nom','Test2Prenom','#FF0000','AAAaaa111','nicknclank666@yahoo.com',1,0,0,0,0,0,0,0);
+INSERT INTO joueur(username, name, surname, couleurTank, password, email, niveau, experience, vie, force, agilite, dexterite, partieJoue, partieGagne) VALUES('Patate','PatateNom','PatatePrenom','#00FF00','AAAaaa111','nicknclank420@yahoo.com',1,0,0,0,0,0,0,0);
 
---Fin
+
+--Fin;
 COMMIT;
