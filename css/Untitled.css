@@ -6062,6 +6062,7 @@ a.text-gray-dark:hover {
 .rowInfoJoueur {
   border:2px solid rgba(0,0,0,0.5);
   background-color:rgba(240,240,240,1.0);
+  margin-bottom:20px;
 }
 
 .rowInfoJoueur h4 {
