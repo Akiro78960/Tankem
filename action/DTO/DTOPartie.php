@@ -17,5 +17,6 @@
 			$this->arrayJoueur2 = [];
 			$this->arrayProjectiles = [];
 			$this->arrayArmes = [];
+			$this->map = [];
 		}
 	}

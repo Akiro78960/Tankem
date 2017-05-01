@@ -14,13 +14,16 @@
 				 	echo $partie->id . " " . $partie->id_map . " " . $partie->creation_date . "<br>";
 				 }
 
-				 echo "Lecture partie id:1" . "<br>";
+				 echo "Lecture partie id:4" . "<br>";
 
 				foreach ($ListeParties as $partie){
-					if($partie->id == 4){
+					if($partie->id == 2){
 						$DAO->readPartie($partie);
-						foreach ($partie->arrayProjectiles as $joueur1){
-							echo $joueur1->time_sec . " " . $joueur1->pos_x . " " . $joueur1->pos_y . "<br>";
+						foreach ($partie->map as $y){
+							foreach ($y as $x){
+								echo $x . " ";
+							}
+							echo "<br>";
 						}
 					}
 				 }

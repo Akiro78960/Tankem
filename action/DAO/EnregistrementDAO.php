@@ -99,5 +99,18 @@
 				$newDTO = new DTOarme($type_arme, $time_sec, $pos_x, $pos_y);
 				$DTOpartie->arrayArmes[] = $newDTO;
 			}
+
+			// Map
+			$statement = $connection->prepare("SELECT pos_x, pos_y, type_tuile FROM editor_tuile WHERE id_niveau = ?");
+			$statement->bindParam(1, $DTOpartie->id_map);
+			$statement->setFetchMode(PDO::FETCH_ASSOC);
+			$statement->execute();
+
+			foreach ($statement as $row){
+				$pos_x = array_values($row)[0];
+				$pos_y = array_values($row)[1];
+				$type_tuile = array_values($row)[2];
+				$DTOpartie->map[$pos_y][$pos_x] = $type_tuile;
+			}
 		}
 	}
