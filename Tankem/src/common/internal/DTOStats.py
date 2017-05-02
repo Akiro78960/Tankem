@@ -8,6 +8,14 @@ class DTOStats():
         self.idJoueur2 = None
         self.idGagnant = None
         self.idNiveau = None
+        self.expJ1avantPartie = None
+        self.expJ2avantPartie = None
+        self.lvlJ1avantPartie = None
+        self.lvlJ2avantPartie = None
+        self.expJ1apresPartie = None
+        self.expJ2apresPartie = None
+        self.lvlJ1apresPartie = None
+        self.lvlJ2apresPartie = None
         # self.idJoueur1 = idJoueur1
         # self.idJoueur2 = idJoueur2
         # self.idGagnant = None
