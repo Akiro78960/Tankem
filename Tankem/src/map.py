@@ -530,12 +530,15 @@ class Map(DirectObject.DirectObject):
 	def analyseFinPartie(self):
 		if(not self.isDTOStatsSaved):
 			self.isDTOStatsSaved = True
+			#set le gagnant
 			if (self.listTank[0].pointDeVie <= 0):
 				DTOStats.idGagnant = DTOStats.idJoueur2
 				print "Joueur 2 a gagne"
 			elif (self.listTank[1].pointDeVie <= 0):
 				DTOStats.idGagnant = DTOStats.idJoueur1
-				print "Joueur 1 a gagne"		
+				print "Joueur 1 a gagne"
+
+			#affiche les stats de la partie
 			print("idJoueur1: "+str(DTOStats.idJoueur1))
 			print("idJoueur2: "+str(DTOStats.idJoueur2))
 			print("idMap: "+str(DTOStats.idNiveau))
@@ -544,13 +547,34 @@ class Map(DirectObject.DirectObject):
 				print ("NbUtil J1 Arme N"+str(DTOStats.DTOStatsArmeJ1[i].idArme)+" : "+str(DTOStats.DTOStatsArmeJ1[i].nbUtil))
 				print ("NbUtil J2 Arme N"+str(DTOStats.DTOStatsArmeJ2[i].idArme)+" : "+str(DTOStats.DTOStatsArmeJ2[i].nbUtil))
 			DAOStats.create(DTOStats)
+
+			#ajoute l'exp (si non favoris, voir DAOStats)
 			if(DTOStats.idGagnant == DTOStats.idJoueur1):
-				addedExp1 = 100+self.listTank[0].pointDeVie*2 #TODO: ajouter si favori
-				print("Experience Joueur 1 du Match: 100 + "+str(self.listTank[0].pointDeVie*2))
+				addedExp1 = 100+self.listTank[0].pointDeVie*2
 				addedExp2 = (self.listTank[0].pointDeVieMax-self.listTank[0].pointDeVie)*2
-				print("Experience Joueur 2 du Match:"+str((self.listTank[0].pointDeVieMax-self.listTank[0].pointDeVie)*2))
 			else:
 				addedExp2 = 100+self.listTank[1].pointDeVie*2
 				addedExp1 = (self.listTank[1].pointDeVieMax-self.listTank[1].pointDeVie)*2
+
 			DAOStats.update(DTOStats, addedExp1, addedExp2)
+
+			#DTO complet
+			self.DTOStats = DTOStats
+			#affiche les recap de l'exp
+			if(DTOStats.idGagnant == DTOStats.idJoueur1):
+				if(DTOStats.expJ1avantPartie > DTOStats.expJ2avantPartie):
+					print("Experience J1: "+str(DTOStats.expJ1avantPartie)+"(experience avant partie) +  100xp(partie Gagnee) + "+str(self.listTank[0].pointDeVie)+"(vie restante)x2 = "+str(DTOStats.expJ1apresPartie)+"xp")
+					print("Experience J2: "+str(DTOStats.expJ2avantPartie)+"(experience avant partie) +  "+str((self.listTank[0].pointDeVieMax-self.listTank[0].pointDeVie))+"(vie enlevée)x2 = "+str(DTOStats.expJ2apresPartie)+"xp")
+				else:
+					print("Experience J1: "+str(DTOStats.expJ1avantPartie)+"(experience avant partie) +  100xp(partie Gagnee) + 100xp(non favori) + "+str(self.listTank[0].pointDeVie)+"(vie restante)x2 = "+str(DTOStats.expJ1apresPartie)+"xp")
+					print("Experience J2: "+str(DTOStats.expJ2avantPartie)+"(experience avant partie) +  "+str((self.listTank[0].pointDeVieMax-self.listTank[0].pointDeVie))+"(vie enlevée)x2 = "+str(DTOStats.expJ2apresPartie)+"xp")
+			else:
+				if(DTOStats.expJ2avantPartie > DTOStats.expJ1avantPartie):
+					print("Experience J2: "+str(DTOStats.expJ2avantPartie)+"(experience avant partie) +  100xp(partie Gagnee) + "+str(self.listTank[1].pointDeVie)+"(vie restante)x2 = "+str(DTOStats.expJ2apresPartie)+"xp")
+					print("Experience J1: "+str(DTOStats.expJ1avantPartie)+"(experience avant partie) +  "+str((self.listTank[1].pointDeVieMax-self.listTank[1].pointDeVie))+"(vie enlevée)x2 = "+str(DTOStats.expJ1apresPartie)+"xp")
+				else:
+					print("Experience J2: "+str(DTOStats.expJ2avantPartie)+"(experience avant partie) +  100xp(partie Gagnee) + 100xp(non favori) + "+str(self.listTank[1].pointDeVie)+"(vie restante)x2 = "+str(DTOStats.expJ2apresPartie)+"xp")
+					print("Experience J1: "+str(DTOStats.expJ1avantPartie)+"(experience avant partie) +  "+str((self.listTank[1].pointDeVieMax-self.listTank[1].pointDeVie))+"(vie enlevée)x2 = "+str(DTOStats.expJ1apresPartie)+"xp")
+
+
 			
