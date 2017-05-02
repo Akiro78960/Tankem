@@ -88,9 +88,11 @@ class InterfaceMessage(ShowBase):
 
         delai = Wait(0.5)
         effetFadeIn = LerpColorScaleInterval(textNodePath, 1, LVecBase4(1,1,1,1), LVecBase4(1,1,1,0), blendType = 'easeIn')
-
+        
         sequence = Sequence(delai,effetFadeIn)
         sequence.start()
+
+    # def displayInfoEndGame(self, DTOStats)
 
     def effectMessageGeneral(self, message, duration):
         text = TextNode('Message general')

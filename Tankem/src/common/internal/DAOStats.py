@@ -42,16 +42,19 @@ class DAOStats():
 
 
 	def update(self, DTOStats, addedExp1, addedExp2):
+		#recup de l'exp
 		cur = self.connection.cursor()
 		result = cur.execute("SELECT experience FROM joueur where ID=:1", (str(DTOStats.idJoueur1)))
 		for i in result:
 			exp1 = i[0]
-		# print("experience J1 = "+str(exp1))
 
 		result = cur.execute("SELECT experience FROM joueur where ID=:1", (str(DTOStats.idJoueur2)))
 		for i in result:
 			exp2 = i[0]
-		# print("experience J2 = "+str(exp2))
+
+		#ajoute l'expavantPartie dans le DTO
+		DTOStats.expJ1avantPartie = exp1
+		DTOStats.expJ2avantPartie = exp2
 
 		#ajoute 100 si gagnant pas favori
 		if(DTOStats.idGagnant == DTOStats.idJoueur1 and exp1>exp2):
@@ -59,6 +62,7 @@ class DAOStats():
 		if(DTOStats.idGagnant == DTOStats.idJoueur2 and exp2>exp1):
 			exp2 += 100
 
+		#update l'experience
 		exp1 += addedExp1
 		exp2 += addedExp2
 		result = cur.execute("UPDATE joueur SET experience = :1 WHERE ID=:2", (exp1, DTOStats.idJoueur1))
@@ -66,6 +70,11 @@ class DAOStats():
 		self.connection.commit()
 		print("experience updated")
 
+		#ajoute l'exp apres partie dans DTOStats
+		DTOStats.expJ1apresPartie = exp1
+		DTOStats.expJ2apresPartie = exp2
+
+		#recupere le niveau
 		result = cur.execute("SELECT niveau FROM joueur where ID=:1", (str(DTOStats.idJoueur1)))
 		for i in result:
 			lvlP1 = i[0]
@@ -74,7 +83,11 @@ class DAOStats():
 		for i in result:
 			lvlP2 = i[0]
 
+		#ajoute niveau dans DTOStats
+		DTOStats.lvlJ1avantPartie = lvlP1
+		DTOStats.lvlJ2avantPartie = lvlP2
 
+		#calcul le niveau
 		seuilInfLvlP1 = 0
 		seuilInfLvlP2 = 0
 		if(lvlP1 > 0):
@@ -94,8 +107,8 @@ class DAOStats():
 			exp2 = exp2 - seuilInfLvlP2
 			# print("experienceRestante2: "+str(exp2))
 
-		# print("lvlP1: "+ str(lvlP1))
-		# print("lvlP2: "+ str(lvlP2))
+		DTOStats.lvlJ1apresPartie = lvlP1
+		DTOStats.lvlJ2apresPartie = lvlP2
 
 		result = cur.execute("UPDATE joueur SET niveau = :1 WHERE ID=:2", (lvlP1, DTOStats.idJoueur1))
 		result = cur.execute("UPDATE joueur SET niveau = :1 WHERE ID=:2", (lvlP2, DTOStats.idJoueur2))
