@@ -8,7 +8,7 @@ from pandac.PandaModules import *
 from direct.interval.LerpInterval import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.Transitions import Transitions
-import time
+import webbrowser
 import random
 import sys
 import common
@@ -50,7 +50,7 @@ class MenuLogin(ShowBase):
 		self.joueur2 = ""
 		#Titre du jeu
 		base.disableMouse()
-
+		
 		
 
 
@@ -58,68 +58,96 @@ class MenuLogin(ShowBase):
 									initialText="", 
 									numLines = 1,
 									focus=1,
-									pos=(-1,0,0.82) )
+									pos=(-4,0,0.82) )
 		self.fieldUsername2 = DirectEntry(text = "" ,scale=.05,
 									initialText="", 
 									numLines = 1,
 									focus=1,
-									pos=(0.4,0,0.82) )
+									pos=(3.4,0,0.82) )
 		self.fieldPassword1 = DirectEntry(text = "" ,scale=.05,
 									initialText="", 
 									numLines = 1,
 									focus=1,
-									pos=(-1,0,0.59),
+									pos=(-4,0,0.59),
 									obscured=1 )
 		self.fieldPassword2 = DirectEntry(text = "" ,scale=.05,
 									initialText="", 
 									numLines = 1,
 									focus=1,
-									pos=(0.4,0,0.59),
+									pos=(3.4,0,0.59),
 									obscured=1 )
 		self.messageBox = DirectEntry(text = "" ,scale=.05,
 									width =55,
 									initialText="Veuillez vous connecter à Tank'em", 
 									numLines = 1,
 									focus=0,
-									pos=(-1.35,0,0.3),
+									pos=(-10.35,0,0.3),
 									focusInCommand=self.clearText )
-		self.labelplayer1 = OnscreenText(text = "Player 1",
-									  pos = (-0.75,0.9,-1.67), 
-									  scale = 0.10,
-									  fg=self.couleurFG,
-									  bg = self.couleurBGLabel,
-									  shadow=self.couleurShadow,
-									  align=TextNode.ACenter)
-		self.labelpassword1 = OnscreenText(text = "Password",
-									  pos = (-0.75,0.70,-1.67), 
-									  scale = 0.10,
-									  fg=self.couleurFG,
-									  bg = self.couleurBGLabel,
-									  shadow=self.couleurShadow,
-									  align=TextNode.ACenter)
-
-		self.labelPlayer2 = OnscreenText(text = "Player 2",
-									  pos = (0.65,0.9,-1.67), 
-									  scale = 0.10,
-									  fg=self.couleurFG,
-									  bg = self.couleurBGLabel,
-									  shadow=self.couleurShadow,
-									  align=TextNode.ACenter)
 		
-		self.labelpassword2 = OnscreenText(text = "Password",
-									  pos = (0.65,0.70,-1.67), 
-									  scale = 0.10,
-									  fg=self.couleurFG,
-									  bg = self.couleurBGLabel,
-									  shadow=self.couleurShadow,
-									  align=TextNode.ACenter)
-		self.labelMessageBox = OnscreenText(text = "Message box ",
-									  pos = (-0.05,0.4,-1.67), 
-									  scale = 0.10,
-									  fg=self.couleurFG,
-									  bg = self.couleurBGLabel,
-									  shadow=self.couleurShadow,
-									  align=TextNode.ACenter)
+		self.textLabel1 = TextNode('testLabel1')
+		self.textLabel1.setText("Player1")
+		self.textLabel1.setTextColor(0,0,0,1)
+		self.textLabel1.setShadow(0.05,0.05)
+		self.textLabel1.setShadowColor(self.couleurShadow)
+		self.textLabel1.setCardColor(self.couleurBGLabel)
+		self.textLabel1.setCardAsMargin(0, 0, 0, 0)
+		self.textLabel1.setCardDecal(True)
+		self.textLabel1.setAlign(TextNode.ACenter)
+		self.nodeLabel1 = aspect2d.attachNewNode(self.textLabel1)
+		self.nodeLabel1.setScale(0.10)
+		self.nodeLabel1.setPos(-3.75,0,0.9)
+
+		self.textLabel2 = TextNode('textLabel2')
+		self.textLabel2.setText("Player2")
+		self.textLabel2.setTextColor(0,0,0,1)
+		self.textLabel2.setShadow(0.05,0.05)
+		self.textLabel2.setShadowColor(self.couleurShadow)
+		self.textLabel2.setCardColor(self.couleurBGLabel)
+		self.textLabel2.setCardAsMargin(0, 0, 0, 0)
+		self.textLabel2.setCardDecal(True)
+		self.textLabel2.setAlign(TextNode.ACenter)
+		self.nodeLabel2 = aspect2d.attachNewNode(self.textLabel2)
+		self.nodeLabel2.setScale(0.10)
+		self.nodeLabel2.setPos(3.65,0,0.9)
+
+		self.textPassword1 = TextNode('textPassword1')
+		self.textPassword1.setText("Password")
+		self.textPassword1.setTextColor(0,0,0,1)
+		self.textPassword1.setShadow(0.05,0.05)
+		self.textPassword1.setShadowColor(self.couleurShadow)
+		self.textPassword1.setCardColor(self.couleurBGLabel)
+		self.textPassword1.setCardAsMargin(0, 0, 0, 0)
+		self.textPassword1.setCardDecal(True)
+		self.textPassword1.setAlign(TextNode.ACenter)
+		self.nodePassword1 = aspect2d.attachNewNode(self.textPassword1)
+		self.nodePassword1.setScale(0.10)
+		self.nodePassword1.setPos(-3.75,0,0.67)
+
+		self.textPassword2 = TextNode('textPassword2')
+		self.textPassword2.setText("Password")
+		self.textPassword2.setTextColor(0,0,0,1)
+		self.textPassword2.setShadow(0.05,0.05)
+		self.textPassword2.setShadowColor(self.couleurShadow)
+		self.textPassword2.setCardColor(self.couleurBGLabel)
+		self.textPassword2.setCardAsMargin(0, 0, 0, 0)
+		self.textPassword2.setCardDecal(True)
+		self.textPassword2.setAlign(TextNode.ACenter)
+		self.nodePassword2 = aspect2d.attachNewNode(self.textPassword2)
+		self.nodePassword2.setScale(0.10)
+		self.nodePassword2.setPos(3.65,0,0.67)
+
+		self.textMessagebox = TextNode('textMessagebox')
+		self.textMessagebox.setText("Message box")
+		self.textMessagebox.setTextColor(0,0,0,1)
+		self.textMessagebox.setShadow(0.05,0.05)
+		self.textMessagebox.setShadowColor(self.couleurShadow)
+		self.textMessagebox.setCardColor(self.couleurBGLabel)
+		self.textMessagebox.setCardAsMargin(0, 0, 0, 0)
+		self.textMessagebox.setCardDecal(True)
+		self.textMessagebox.setAlign(TextNode.ACenter)
+		self.nodeMessagebox = aspect2d.attachNewNode(self.textMessagebox)
+		self.nodeMessagebox.setScale(0.10)
+		self.nodeMessagebox.setPos(-3.05,0,0.4)
 
 		self.textJoueur1 = TextNode('textJoueur1')
 		self.textJoueur1.setText("")
@@ -196,7 +224,7 @@ class MenuLogin(ShowBase):
 						  pad = (0,0),
 						  command = self.setPlayerReady,
 						  extraArgs = [True,1],
-						  pos = (-0.75,0,0.45))
+						  pos = (-3.75,0,0.45))
 		self.b3 = DirectButton(text = ("Login", "Login", "Login", "Login"),
 						  text_scale=btnScale,
 						  borderWidth = borderW,
@@ -207,7 +235,7 @@ class MenuLogin(ShowBase):
 						  pad = (0,0),
 						  command = self.setPlayerReady,
 						  extraArgs = [True,2],
-						  pos = (0.65,0,0.45))
+						  pos = (3.65,0,0.45))
 		self.b4 = DirectButton(text = ("Play", "Play", "Play", "Play"),
 						  text_scale=btnScale,
 						  borderWidth = borderW,
@@ -219,8 +247,20 @@ class MenuLogin(ShowBase):
 						  state = DGG.DISABLED,
 						  command = self.setNiveauChoisi,
 						  extraArgs = [self.mapID],
-						  pos = (-0.05,0.4,0.67))
+						  pos = (-3.05,0.4,0.67))
 
+		self.b5 = DirectButton(text = ("Site internet de Tank'em", "Site internet de Tank'em", "Site internet de Tank'em", "Site internet de Tank'em"),
+						  text_scale=btnScale,
+						  borderWidth = borderW,
+						  text_bg=self.couleurBack,
+						  frameColor=self.couleurBack,
+						  relief=2,
+						  textMayChange = 1,
+						  pad = (0,0),
+						  command = self.openSite,
+						  pos = (1.25,-1.4,-0.9))
+	
+		self.loginIntro()
 		#Tank1
 		self.tankGauche = loader.loadModel("../asset/Tank/tank")		
 		self.tankGauche.reparentTo(render)
@@ -253,12 +293,67 @@ class MenuLogin(ShowBase):
 		self.transition.setFadeModel(curtain)
 
 		self.sound = loader.loadSfx("../asset/Menu/shotgun.mp3")
+	def openSite(self):
+		webbrowser.open_new("http://localhost/Tank'em%20Web/index.php")
+	def loginIntro(self):
+		self.sequence = Sequence (LerpPosInterval(self.nodeLabel1,1,(-0.75,0,0.9),blendType="easeIn"))
+		self.sequence2 = Sequence (LerpPosInterval(self.fieldUsername1,1,(-1,0,0.82),blendType="easeIn"))
+		self.sequence3 = Sequence (LerpPosInterval(self.fieldUsername2,1,(0.4,0,0.82),blendType="easeIn"))
+		self.sequence4 = Sequence (LerpPosInterval(self.nodeLabel2,1,(0.65,0,0.9),blendType="easeIn"))
+		self.sequence5 = Sequence (LerpPosInterval(self.nodePassword1,1,(-0.75,0,0.67),blendType="easeIn"))
+		self.sequence13 = Sequence (LerpPosInterval(self.nodeMessagebox,1,(-0.05,0,0.4),blendType="easeIn"))
+		self.sequence6 = Sequence (LerpPosInterval(self.nodePassword2,1,(0.65,0,0.67),blendType="easeIn"))
+		self.sequence7 = Sequence (LerpPosInterval(self.fieldPassword1,1,(-1,0,0.59),blendType="easeIn"))
+		self.sequence8 = Sequence (LerpPosInterval(self.fieldPassword2,1,(0.4,0,0.59),blendType="easeIn"))
+		self.sequence9 = Sequence (LerpPosInterval(self.messageBox,1,(-1.35,0,0.3),blendType="easeIn"))
+		self.sequence10 = Sequence (LerpPosInterval(self.b2,1,(-0.75,0,0.45),blendType="easeIn"))	
+		self.sequence11 = Sequence (LerpPosInterval(self.b3,1,(0.65,0,0.45),blendType="easeIn"))	
+		self.sequence12 = Sequence (LerpPosInterval(self.b4,1,(-0.05,0.4,0.67),blendType="easeIn"))	
+		self.sequence.start()
+		self.sequence4.start()
+		self.sequence2.start()	  
+		self.sequence3.start()	 
+		self.sequence5.start()	 
+		self.sequence6.start()	 
+		self.sequence7.start()	 
+		self.sequence8.start()	 
+		self.sequence13.start()	 
+		self.sequence9.start()
+		self.sequence10.start()	 
+		self.sequence11.start()	 
+		self.sequence12.start()	 
 
+	def loginOutro(self):
+		self.sequence = Sequence (LerpPosInterval(self.nodeLabel1,1,(-3.75,0,0.9),blendType="easeOut"))
+		self.sequence2 = Sequence (LerpPosInterval(self.fieldUsername1,1,(-4,0,0.82),blendType="easeOut"))
+		self.sequence3 = Sequence (LerpPosInterval(self.fieldUsername2,1,(3.4,0,0.82),blendType="easeOut"))
+		self.sequence4 = Sequence (LerpPosInterval(self.nodeLabel2,1,(3.65,0,0.9),blendType="easeOut"))
+		self.sequence5 = Sequence (LerpPosInterval(self.nodePassword1,1,(-3.75,0,0.67),blendType="easeOut"))
+		self.sequence13 = Sequence (LerpPosInterval(self.nodeMessagebox,1,(-3.05,0,0.4),blendType="easeOut"))
+		self.sequence6 = Sequence (LerpPosInterval(self.nodePassword2,1,(3.65,0,0.67),blendType="easeOut"))
+		self.sequence7 = Sequence (LerpPosInterval(self.fieldPassword1,1,(-4,0,0.59),blendType="easeOut"))
+		self.sequence8 = Sequence (LerpPosInterval(self.fieldPassword2,1,(3.4,0,0.59),blendType="easeOut"))
+		self.sequence9 = Sequence (LerpPosInterval(self.messageBox,1,(-5.35,0,0.3),blendType="easeOut"))
+		self.sequence10 = Sequence (LerpPosInterval(self.b2,1,(-3.75,0,0.45),blendType="easeOut"))	
+		self.sequence11 = Sequence (LerpPosInterval(self.b3,1,(3.65,0,0.45),blendType="easeOut"))	
+		self.sequence.start()
+		self.sequence4.start()
+		self.sequence2.start()	  
+		self.sequence3.start()	 
+		self.sequence5.start()	 
+		self.sequence6.start()	 
+		self.sequence7.start()	 
+		self.sequence8.start()	 
+		self.sequence13.start()	 
+		self.sequence9.start()
+		self.sequence10.start()	 
+		self.sequence11.start()
 	def tankIntro(self):
 		self.sequence = Sequence (LerpPosInterval(self.tankGauche,2,(-17.5,65,-10)))
 		self.sequence2 = Sequence (LerpPosInterval(self.tankDroite,2,(17.5,65,-10)))
 		self.sequence2.start()	  
 		self.sequence.start()
+
 	def lerpText(self) :
 		self.sequence = Sequence (LerpScaleInterval(self.nodeJoueur1, 1, 0.08, 0),
 								  LerpScaleInterval(self.nodeVersus, 1, 0.08, 0),
@@ -266,6 +361,7 @@ class MenuLogin(ShowBase):
 								  LerpScaleInterval(self.nodeCombattre, 1, 0.08, 0),
 								  LerpScaleInterval(self.nodeNiveau, 1, 0.08, 0))
 		self.sequence.start()
+
 	def hex_to_rgb(self,value):
 		value = value.lstrip('#')
 		lv = len(value)
@@ -326,7 +422,7 @@ class MenuLogin(ShowBase):
 				self.tankDroite.setColorScale(self.color2[0]/255.0,self.color2[1]/255.0,self.color2[2]/255.0,1)
 				self.lerpText()
 				self.tankIntro()
-				
+				self.loginOutro()
 			elif self.player1ready :
 				self.setText('Player 2 must also login')
 			elif self.player2ready :
@@ -346,14 +442,14 @@ class MenuLogin(ShowBase):
 	def clearText(self):
 		self.messageBox.enterText('')
 	def cacher(self):
+			self.tankGauche.removeNode()
+			self.tankDroite.removeNode()
+			loader.unloadModel( "../asset/Tank/tank" )
 			#Est esssentiellement un code de "loading"
 			#On remet la caméra comme avant
 			base.cam.node().getDisplayRegion(0).setSort(self.baseSort)
 			#On cache les menus
 			self.background.hide()
-			self.tankGauche.removeNode()
-			self.tankDroite.removeNode()
-			loader.unloadModel( "../asset/Tank/tank" )
 			self.b2.hide()
 			self.b3.hide()
 			self.b4.hide()
@@ -362,11 +458,11 @@ class MenuLogin(ShowBase):
 			self.fieldPassword1.hide()
 			self.fieldPassword2.hide()
 			self.messageBox.hide()
-			self.labelplayer1.hide()
-			self.labelpassword1.hide()
-			self.labelPlayer2.hide()
-			self.labelpassword2.hide()
-			self.labelMessageBox.hide()
+			self.nodeLabel1.hide()
+			self.nodePassword1.hide()
+			self.nodeLabel2.hide()
+			self.nodePassword2.hide()
+			self.nodeMessagebox.hide()
 			self.nodeJoueur1.hide()
 			self.nodeJoueur2.hide()
 			self.nodeCombattre.hide()
@@ -380,9 +476,9 @@ class MenuLogin(ShowBase):
 
 	def chargeJeu(self):
 			#On démarre!
-			Sequence(Func(lambda : self.transition.irisOut(0.2)),
+			Sequence(Func(self.cacher),
+					 Func(lambda : self.transition.irisOut(0.2)),
 					 SoundInterval(self.sound),
-					 Func(self.cacher),
 					 Func(lambda : messenger.send("DemarrerPartie")),
 					 Wait(0.2), #Bug étrange quand on met pas ça. L'effet de transition doit lagger
 					 Func(lambda : self.transition.irisIn(0.2))
