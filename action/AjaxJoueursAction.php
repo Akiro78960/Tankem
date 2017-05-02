@@ -9,14 +9,17 @@
 		}
 
 		protected function executeAction() {
+			$str = $_POST["idJoueur"]
 			try{
 				$this->connection = new PDO("oci:dbname=DECINFO", "e1384492", "C");
 				$this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
                 $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
 				$statement = $this->connection->prepare("SELECT * from joueur");
 				$statement->execute();
-				$this->tab = $statement->fetchall(PDO::FETCH_ASSOC);
-				$this->result = json_encode($this->tab);
+				$this->tab1 = $statement->fetchall(PDO::FETCH_ASSOC);
+				$this->result = json_encode($this->tab1);
+				$statement = $this->connection->prepare("SELECT name FROM editor_niveau INNER JOIN joueur_map ON editor_niveau.id = joueur_map.idNiveau WHERE MAX(SELECT nbFoisJouer FROM joueur_map WHERE idJoueur = ?) = joueur_map.nbFoisJouer");
+				$statement->execute(Array($str));
 			}catch(PDOException $e){
 				echo "Échec lors de la connection : " + $e->getMessage();
 			}
