@@ -116,6 +116,25 @@ class DAOStats():
 		print"levels updated"
 
 
+		#tables stats map et armes preferees:
+
+		try:
+			result = cur.execute("SELECT * FROM joueur_map WHERE idJoueur = :1 and idMap = :2", (DTOStats.idJoueur1, DTOStats.idNiveau))
+			result = cur.execute("UPDATE joueur_map SET nbFoisJouer=nbFoisJouer+1 WHERE idJoueur = :1 and idMap = :2", (DTOStats.idJoueur1, DTOStats.idNiveau))
+			print "update DONE"
+		except cx_Oracle.DatabaseError as e:
+			error, = e.args
+			print("error.code "+str(error.code))
+			print("error.message "+error.message)
+			if(error.code == 1):
+				cur.execute("INSERT INTO joueur_map(idJoueur, idMap, nbFoisJouer) VALUES(:1, :2, 1)",(DTOStats.idJoueur1, DTOStats.idNiveau))
+				print("INSERT INTO JOUEUR_MAP DONE")
+
+		print"fin DAO"
+		self.connection.commit()
+
+
+
 
 
 
