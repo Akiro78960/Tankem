@@ -21,15 +21,15 @@ class Tank():
         self.speed = Vec3(0,0,0)
         self.omega = 0.0
         self.pointDeVieMax = self.dtoValues.getValue("VIE")
-        print "Vie avant : " + str(self.pointDeVieMax)
+        #print "Vie avant : " + str(self.pointDeVieMax)
         if(self.infosJoueurs is not None):
-                    self.pointDeVieMax = self.pointDeVieMax / 100.0 * (100 + 10 * self.infosJoueurs.vie)
-                    print "Vie apres : " + str(self.pointDeVieMax)
+            self.pointDeVieMax = self.pointDeVieMax / 100.0 * (100 + 10 * self.infosJoueurs.vie)
+            #print "Vie apres : " + str(self.pointDeVieMax)
         self.pointDeVie = self.pointDeVieMax
 
         self.etat = "inactif"
         self.hackRecuperation = False
-        self.couleur = couleur
+        self.couleur = couleur      
 
         self.debloquerTir()
 
@@ -44,6 +44,9 @@ class Tank():
         self.modele.setScale(0.75,0.75,0.75)
         #On multiple la couleur de la texture du tank par ce facteur. Ça permet de modifier la couleur de la texture du tank
         self.modele.setColorScale(couleur.getX(),couleur.getY(),couleur.getZ(),1)
+        if(self.infosJoueurs is not None):
+            self.couleur = self.hex_to_rgb(self.infosJoueurs.couleurTank)
+            self.modele.setColorScale(self.couleur[0],self.couleur[1],self.couleur[2],1)
 
         #On ajoute une boite
         shape = BulletBoxShape(Vec3(0.6, 0.75, 0.3))
@@ -189,11 +192,11 @@ class Tank():
             #Ne fais rien
             pass
 
-        print "Delai avant : " + str(delaiArme)
+        #print "Delai avant : " + str(delaiArme)
         if(self.infosJoueurs is not None):
             for x in range(0, self.infosJoueurs.dexterite):
                 delaiArme = delaiArme / 100.0 * (100 - 10)
-            print "Delai apres : " + str(delaiArme)
+            #print "Delai apres : " + str(delaiArme)
 
         #Va bloquer le tir des balles le temps de la recharge
         self.bloquerTir = True
@@ -302,10 +305,10 @@ class Tank():
                 speedCopy.normalize()
 
                 vitesseAvancer = self.dtoValues.getValue("VITESSE_CHAR")
-                print "Vitesse avant : " + str(vitesseAvancer)
+                #print "Vitesse avant : " + str(vitesseAvancer)
                 if(self.infosJoueurs is not None):
                     vitesseAvancer = vitesseAvancer / 100.0 * (100 + 5 * self.infosJoueurs.agilite)
-                    print "Vitesse apres : " + str(vitesseAvancer)
+                    #print "Vitesse apres : " + str(vitesseAvancer)
                 vitesseMaxTourner = self.dtoValues.getValue("VITESSE_ROTATION")
                 #On bouge le joueur dans la bonne direction
                 #Renormalize le vecteur pour ne pas avoir un bug comme le Quake 3
@@ -349,3 +352,13 @@ class Tank():
                     #Le système de particle est attaché au modèle MAIS les particules sont attachées au mondev
                     self.ptfDustTrail.softStart()
                     self.tracePoussiereActive = True
+    
+    def hex_to_rgb(self,value):
+		value = value.lstrip('#')
+		lv = len(value)
+		if lv == 1:
+			v = int(value, 16)*17
+			return v, v, v
+		if lv == 3:
+			return tuple(int(value[i:i+1], 16)*17 for i in range(0, 3))
+		return tuple(int(value[i:i+lv/3], 16) for i in range(0, lv, lv/3))

@@ -413,9 +413,9 @@ class Map(DirectObject.DirectObject):
 				if(indiceTank == 0):
 					tankQuiTire = 1
 				if(self.tabJoueurs[tankQuiTire] is not None):
-					print "Degat avant : " + str(dommage)
+					#print "Degat avant : " + str(dommage)
 					dommage = dommage / 100.0 * (100 + 10 * self.tabJoueurs[tankQuiTire].force)
-					print "Degat modifié : " + str(dommage)
+					#print "Degat modifié : " + str(dommage)
 				self.listTank[indiceTank].prendDommage(dommage,self.mondePhysique)
 			return
 		
