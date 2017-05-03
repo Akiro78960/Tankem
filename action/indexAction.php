@@ -17,7 +17,7 @@
 			if (isset($_POST["username"])) {
 				$visibility = UserDAO::authenticate($_POST["username"], $_POST["pwd"]);
 				if ($visibility > CommonAction::$VISIBILITY_PUBLIC) {
-					$_SESSION["username"] = $_POST["username"];
+					$_SESSION["Username"] = $_POST["username"];
 					$_SESSION["visibility"] = $visibility;
 
 					header("location:Infos.php");

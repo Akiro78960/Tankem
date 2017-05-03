@@ -39,8 +39,8 @@
 		public function getUsername() {
 			$username = "Invité";
 
-			if (!empty($_SESSION["username"])) {
-				$username = $_SESSION["username"];
+			if (!empty($_SESSION["Username"])) {
+				$username = $_SESSION["Username"];
 			}
 
 			return $username;
