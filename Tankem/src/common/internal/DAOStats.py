@@ -116,6 +116,21 @@ class DAOStats():
 		print"levels updated"
 
 
+		#update des stats de la table joueur(parties gagnees/jouees):
+		if(DTOStats.idGagnant == DTOStats.idJoueur1):
+			result = cur.execute("UPDATE joueur SET partieGagne = partieGagne+1, partieJoue = partieJoue+1 WHERE ID=:1", (str(DTOStats.idJoueur1)))
+			result = cur.execute("UPDATE joueur SET partieJoue = partieJoue+1 WHERE ID=:1", (str(DTOStats.idJoueur2)))
+		else:
+			result = cur.execute("UPDATE joueur SET partieJoue = partieJoue+1 WHERE ID=:1", (str(DTOStats.idJoueur1)))
+			result = cur.execute("UPDATE joueur SET partieGagne = partieGagne+1, partieJoue = partieJoue+1 WHERE ID=:1", (str(DTOStats.idJoueur2)))
+		self.connection.commit()
+		print "stats nbParties Jouees/gagnees updated"
+
+
+
+
+
+
 		#tables stats map et armes preferees:
 
 		try:
