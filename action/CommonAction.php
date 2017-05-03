@@ -51,27 +51,4 @@
 		}
 
 		protected abstract function executeAction();
-		/**
- * data = array('key1' => 'value1', 'key2' => 'value2');
- */
-protected function callAPI($service, $data) {
-	$apiURL = "http://apps-de-cours.com/web-sirius/server/api/" . $service . ".php";
-
-	$options = array(
-		'http' => array(
-			'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-			'method'  => 'POST',
-			'content' => http_build_query($data)
-		)
-	);
-	$context  = stream_context_create($options);
-	$result = file_get_contents($apiURL, false, $context);
-
-if (strpos($result, "<br") !== false) {
-		var_dump($result);
-		exit;
-	}
-
-return json_decode($result);
-}
 	}

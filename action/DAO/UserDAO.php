@@ -6,7 +6,7 @@
 			$visibility = CommonAction::$VISIBILITY_PUBLIC;
 			$connection = Connection::getConnection();
 
-			$statement = $connection->prepare("SELECT * FROM joueur WHERE ingamename = ?");
+			$statement = $connection->prepare("SELECT * FROM joueur WHERE username = ?");
 			$statement->bindParam(1, $username);
 			$statement->setFetchMode(PDO::FETCH_ASSOC);
 			$statement->execute();
