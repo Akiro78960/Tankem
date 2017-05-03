@@ -15,7 +15,7 @@
                 $this->connection = new PDO("oci:dbname=DECINFO", "e1384492", "C");
                 $this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
                 $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-                $statement = $this->connection->prepare("SELECT * FROM joueur WHERE ingamename LIKE ?");
+                $statement = $this->connection->prepare("SELECT * FROM joueur WHERE username LIKE ?");
                 $statement->execute(Array($str));
                 $this->row = $statement->fetchall(PDO::FETCH_ASSOC);
                 // $this->result = $str;

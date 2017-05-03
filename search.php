@@ -13,7 +13,6 @@
             <input type="button", id="btnfind" value="find" onclick="search()">
         </div>
         <div id="searchResults">
-
         </div>
     </body>
 </html>
