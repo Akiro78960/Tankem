@@ -23,7 +23,9 @@
 					<p class="ratio"></p>
 					<p class="nbPartiesJoues"></p>
 				</div>
-				<div class="col-md-6 cold-md-push-6 imageTank"></div>
+				<div class="col-md-6 cold-md-push-6">
+					<img class="text-center imageTank" src="images/tankAlpha.png" width="100px" height="100px"></img>
+				</div>
 			</div>
 		</div>
 	</div>

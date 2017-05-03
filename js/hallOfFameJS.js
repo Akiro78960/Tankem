@@ -17,6 +17,7 @@ function afficherJoueurs(tabJoueur) {
 		// console.log(ajaxNiveauFavori(tabJoueur[i].ID));
 		newElement.querySelector('.ratio').innerHTML = "Ratio victoires/défaites : " + ratio(tabJoueur[i]);
 		newElement.querySelector('.nbPartiesJoues').innerHTML = "Parties jouées : " + tabJoueur[i].PARTIEJOUE;
+		newElement.querySelector('.imageTank').style="background-color:"+tabJoueur[i].COULEURTANK;
 		document.getElementById("contHallOfFame").appendChild(newElement);
 		ajaxNiveauFavori(tabJoueur[i].ID, i);
 	});

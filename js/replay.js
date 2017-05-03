@@ -1,3 +1,12 @@
+var block1 = new Image();
+block1.src = "images/block1.png";
+var block2 = new Image();
+block2.src = "images/block2.jpg";
+var block3 = new Image();
+block3.src = "images/block3.jpg";
+var block4 = new Image();
+block4.src = "images/block4.png";
+
 window.onload = function() {
 	ajaxEnregistrement();
 }
@@ -31,7 +40,7 @@ function ajaxEnregistrement() {
 				nouvellePartie.appendChild(textDate);
 
 				//Style
-				nouvellePartie.style.margin = "0.5% 0%";
+				nouvellePartie.style.marginBottom = "1%";
 				nouvellePartie.style.padding = "0.5%";
 				nouvellePartie.style.color = "#fff";
 				nouvellePartie.style.backgroundColor = "#666";
@@ -54,7 +63,7 @@ function ajaxEnregistrement() {
 			// Creation Canvas
 			var canvas = document.createElement("canvas");
 			var canvasX = window.innerWidth*60/100
-			var canvasY = window.innerHeight*60/100
+			var canvasY = window.innerHeight*80/100
 			canvas.setAttribute("id", "canvas");
 			canvas.setAttribute("width", canvasX);
 			canvas.setAttribute("height", canvasY);
@@ -75,10 +84,10 @@ function ajaxEnregistrement() {
 function drawMap(map){
 	var canvas = document.getElementById("canvas");
 	var ctx = canvas.getContext('2d');
-	ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
 
 	var scaleX = ctx.canvas.width/12;
 	var scaleY = ctx.canvas.height/12;
+
 
 	$(map).each(function(i){
 		var y = this;
@@ -87,20 +96,16 @@ function drawMap(map){
 			// console.log(i,j,this[0])
 			// case vide
 			if(valeur == 1){
-				ctx.fillStyle="#060";
-				ctx.fillRect(j*scaleX,i*scaleY,scaleX+1,scaleY+1)
+				ctx.drawImage(block1,j*scaleX,i*scaleY,scaleX,scaleY);
 			}
 			else if(valeur == 2){
-				ctx.fillStyle="#660";
-				ctx.fillRect(j*scaleX,i*scaleY,scaleX+1,scaleY+1)
+				ctx.drawImage(block2,j*scaleX,i*scaleY,scaleX,scaleY);
 			}
 			else if(valeur == 3){
-				ctx.fillStyle="#600";
-				ctx.fillRect(j*scaleX,i*scaleY,scaleX+1,scaleY+1)
+				ctx.drawImage(block3,j*scaleX,i*scaleY,scaleX,scaleY);
 			}
 			else if(valeur == 4){
-				ctx.fillStyle="#006";
-				ctx.fillRect(j*scaleX,i*scaleY,scaleX+1,scaleY+1)
+				ctx.drawImage(block4,j*scaleX,i*scaleY,scaleX,scaleY);
 			}
 
 		})
