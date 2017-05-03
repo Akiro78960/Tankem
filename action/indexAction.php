@@ -10,10 +10,7 @@
 		}
 
 		protected function executeAction() {
-			// if ($_SESSION["visibility"] > CommonAction::$VISIBILITY_PUBLIC) {
-			// 	header("location:index.php");
-			// 	exit;
-			// }
+
 
 			$this->wrongLogin = false;
 
