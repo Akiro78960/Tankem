@@ -453,6 +453,7 @@ class MenuLogin(ShowBase):
 			self.b2.hide()
 			self.b3.hide()
 			self.b4.hide()
+			self.b5.hide()
 			self.fieldUsername1.hide()
 			self.fieldUsername2.hide()
 			self.fieldPassword1.hide()
