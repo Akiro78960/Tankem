@@ -1,9 +1,46 @@
 window.onload = function(){
-	afficherJoueurs();
+	ajaxJoueurs();
 }
 
-function afficherJoueurs() {
-	ajaxJoueurs();
+function afficherJoueurs(tabJoueur) {
+	var template = document.querySelector("#mon-template").innerHTML;
+	document.getElementById("contHallOfFame").innerHTML = "";
+	$(tabJoueur).each(function(i) {
+		if(i == 10){
+			return false;
+		}
+		var newElement = document.createElement("div");
+		newElement.innerHTML = template;
+		newElement.querySelector('.numero').innerHTML = i + 1;
+		newElement.querySelector('.nomJoueur').innerHTML = tabJoueur[i].USERNAME;
+		// newElement.querySelector('.niveauFavori').innerHTML = "Niveau préféré : " + ajaxNiveauFavori(tabJoueur[i].ID);
+		// console.log(ajaxNiveauFavori(tabJoueur[i].ID));
+		newElement.querySelector('.ratio').innerHTML = "Ratio victoires/défaites : " + ratio(tabJoueur[i]);
+		newElement.querySelector('.nbPartiesJoues').innerHTML = "Parties jouées : " + tabJoueur[i].PARTIEJOUE;
+		document.getElementById("contHallOfFame").appendChild(newElement);
+		ajaxNiveauFavori(tabJoueur[i].ID, i);
+	});
+}
+
+function ajaxNiveauFavori(id, idNode) {
+	$.ajax({
+		type : "POST",
+		url : "ajaxNiveauFavori.php",
+		data : {
+			idJoueur: id
+		}
+	})
+	.done(function(data){
+		var niveauPref = JSON.parse(data);
+		console.log(niveauPref);
+		if(niveauPref.length == 0){
+			niveauPref = "Aucun niveau préféré!"
+		}
+		else{
+			niveauPref = niveauPref[0].IDMAP;
+		}
+		document.getElementById("contHallOfFame").children[idNode].querySelector('.niveauFavori').innerHTML = niveauPref;
+	})
 }
 
 function ajaxJoueurs() {
@@ -15,41 +52,14 @@ function ajaxJoueurs() {
 		}
 	})
 	.done(function(data) {
-		var template = document.querySelector("#mon-template").innerHTML;
-		document.getElementById("contHallOfFame").innerHTML = "";
 		tabJoueur = JSON.parse(data);
 		tabJoueur = quickSort(tabJoueur, 0, tabJoueur.length-1);
 		tabJoueur.reverse(); //Pour inverser l'array
-		$(tabJoueur).each(function(i) {
-			if(i == 10){
-				return false;
-			}
-			console.log(tabJoueur[i]);
-			var newElement = document.createElement("div");
-			newElement.innerHTML = template;
-			newElement.querySelector('.numero').innerHTML = i + 1;
-			newElement.querySelector('.nomJoueur').innerHTML = tabJoueur[i].USERNAME;
-			newElement.querySelector('.niveauFavori').innerHTML = "Niveau préféré : ";
-			newElement.querySelector('.ratio').innerHTML = "Ratio victoires/défaites : " + ratio(tabJoueur[i]);
-			newElement.querySelector('.nbPartiesJoues').innerHTML = "Parties jouées : " + tabJoueur[i].PARTIEJOUE;
-			document.getElementById("contHallOfFame").appendChild(newElement);
-		});
+		afficherJoueurs(tabJoueur);
 	})
 }
 
-function ajaxNiveau(idJoueur) {
-	$.ajax({
-		type : "POST",
-		url : "ajaxJouers2.php",
-		data : {
-			
-		}
-	})
-	.done(function(data) {
-		var id = JSON.parse(id);
-		return id;
-	})
-}
+
 
 function ratio(joueur){
 	if(joueur.PARTIEJOUE == 0)
