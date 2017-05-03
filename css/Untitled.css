@@ -6039,6 +6039,31 @@ a.text-gray-dark:hover {
   float: left;
   margin-left: 10px; }
 
+#labelEmail {
+  float: left;
+  left: 50%; }
+
+#labelPrenom {
+  float: left;
+  clear: right;
+  margin-left: 10px; }
+
+#labelnom {
+  float: left;
+  margin-left: 10px; }
+
+#labelPassword {
+  float: left;
+  clear: left; }
+
+#labelReEnterPassword {
+  float: left;
+  clear: left; }
+
+#labelUsername {
+  float: left;
+  margin-left: 10px; }
+
 
 /*GESTION POINTS*/
 .rowGestionPts {
