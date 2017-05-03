@@ -18,7 +18,7 @@ class DAOutilisateur():
 				# self.mdp = result[5]
 				# self.pswd = self.mdp[:2] + 'a' + self.mdp[3:]
 				# if(bcrypt.hashpw(password,self.pswd) == self.pswd):
-				if(result[5] == password)
+				if(result[5] == password):
 					self.dtoJoueur = DTOJoueur(result[0], result[1],
 												result[2], result[3],
 												result[4], result[5],
