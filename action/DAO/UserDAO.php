@@ -18,6 +18,24 @@
 					$_SESSION["Row"] = $row;
 					$_SESSION["Username"] = $row["USERNAME"];
 				}
+				elseif($row["BANNED"] == 1){
+					$visibility = -1;
+				}
+				elseif($row["LOGCOUNT"] == 4){
+					$statement = $connection->prepare("UPDATE joueur SET bannedstart = ?,bannedend = ? where username = ?");
+					$calc = $row["LOGCOUNT"] + 1;
+					$statement->bindValue(1,$calc);
+					$statement->bindValue(2,$calc);
+					$statement->bindValue(3,$username);
+					$statement->execute();
+				}
+				else{
+					$statement = $connection->prepare("UPDATE joueur SET logCount = ? where username = ?");
+					$calc = $row["LOGCOUNT"] + 1;
+					$statement->bindValue(1,$calc);
+					$statement->bindValue(2,$username);
+					$statement->execute();
+				}
 			}
 			return $visibility;
 		}

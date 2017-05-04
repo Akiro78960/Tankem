@@ -4,16 +4,15 @@
 
 	class IndexAction extends CommonAction {
 		public $wrongLogin;
-		
+		public $banned;
 		public function __construct() {
 			parent::__construct(CommonAction::$VISIBILITY_PUBLIC);
 		}
 
 		protected function executeAction() {
 
-
 			$this->wrongLogin = false;
-
+			$this->banned = false;
 			if (isset($_POST["username"])) {
 				$visibility = UserDAO::authenticate($_POST["username"], $_POST["pwd"]);
 				if ($visibility > CommonAction::$VISIBILITY_PUBLIC) {
@@ -23,7 +22,10 @@
 					header("location:Infos.php");
 					exit;
 				}
-				else {
+				elseif($visibility == -1) {
+					$this->banned = true;
+				}
+				else{
 					$this->wrongLogin = true;
 				}
 			}

@@ -13,7 +13,7 @@
 			$execute = true;
 			if(isset($_POST["fieldUsername"])){
 				
-				$statement = $connection->prepare("INSERT INTO joueur (username,name,surname,couleurTank,password,email,niveau,experience,vie,force,agilite,dexterite,partieJoue,partieGagne) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+				$statement = $connection->prepare("INSERT INTO joueur (username,name,surname,couleurTank,password,banned,bannedStart,logCounter,email,niveau,experience,vie,force,agilite,dexterite,partieJoue,partieGagne) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 				if($_POST["fieldUsername"] != ""){
 					$statement2 = $connection->prepare("SELECT * FROM joueur WHERE username = ?");
 					$statement2->bindParam(1,$_POST["fieldUsername"]);
@@ -66,7 +66,7 @@
 					$statement2->execute();
 					$count = $statement2->rowCount();
 					if($count == 0){
-						$statement->bindParam(6, $_POST["fieldEmail"]);
+						$statement->bindParam(9, $_POST["fieldEmail"]);
 					}
 					else if($execute){
 						$execute = false;
@@ -79,14 +79,18 @@
 				}
 				if($execute){
 					$tmp = 0;
-					$statement->bindParam(7, $tmp);
+					$notBanned = null;
+					$statement->bindParam(6, $tmp);
+					$statement->bindParam(7, $notBanned);
 					$statement->bindParam(8, $tmp);
-					$statement->bindParam(9, $tmp);
 					$statement->bindParam(10, $tmp);
 					$statement->bindParam(11, $tmp);
 					$statement->bindParam(12, $tmp);
 					$statement->bindParam(13, $tmp);
 					$statement->bindParam(14, $tmp);
+					$statement->bindParam(15, $tmp);
+					$statement->bindParam(16, $tmp);
+					$statement->bindParam(17, $tmp);
 
 					$statement->execute();
 
