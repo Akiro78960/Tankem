@@ -13,16 +13,10 @@
 				$this->connection = new PDO("oci:dbname=DECINFO", "e1384492", "C");
 				$this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
                 $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-				$statement = $this->connection->prepare("SELECT editor_niveau.name NomNiveau, joueur.username NomJoueur1, joueur.couleurTank CouleurTank1 FROM partie JOIN editor_niveau ON editor_niveau.id = partie.idNiveau JOIN joueur ON partie.idJoueur1 = joueur.id ORDER BY partie.id DESC");
+				$statement = $this->connection->prepare("SELECT editor_niveau.name NomNiveau, player1.username NomJoueur1, player1.couleurTank CouleurTank1, player2.username NomJoueur2, player2.couleurTank CouleurTank2, gagnant.username NomGagnant FROM partie JOIN editor_niveau ON partie.idNiveau = editor_niveau.id JOIN joueur player1 ON partie.idJoueur1 = player1.id JOIN joueur player2 ON partie.idJoueur2 = player2.id JOIN joueur gagnant ON partie.idGagnant = gagnant.id WHERE ROWNUM <= 5 ORDER BY partie.id DESC");
 				$statement->execute();
-				$this->rows1 = $statement->fetchall(PDO::FETCH_ASSOC);
-				$statement = $this->connection->prepare("SELECT joueur.username NomJoueur2, joueur.couleurTank Couleurtank2 FROM joueur JOIN partie ON joueur.id = partie.idJoueur2 ORDER BY partie.id DESC");
-				$statement->execute();
-				$this->rows2 = $statement->fetchall(PDO::FETCH_ASSOC);
-				$statement = $this->connection->prepare("SELECT joueur.username NomGagnant FROM joueur JOIN partie ON joueur.id = partie.idGagnant ORDER BY partie.id DESC");
-				$statement->execute();
-				$this->rows3 = $statement->fetchall(PDO::FETCH_ASSOC);
-				$this->result = json_encode([$this->rows1,$this->rows2,$this->rows3]);
+				$this->rows = $statement->fetchall(PDO::FETCH_ASSOC);
+				$this->result = json_encode($this->rows);
 			}catch(PDOException $e){
 				echo "Échec lors de la requête : " + $e->getMessage();
 			}
