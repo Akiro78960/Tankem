@@ -1,7 +1,7 @@
 <?php
-	require_once("action/AjaxNiveauFavori.php");
+	require_once("action/AjaxNiveauFavoriAction.php");
 
-	$action = new AjaxNiveauFavori();
+	$action = new AjaxNiveauFavoriAction();
 	$action->execute();
 
 	echo $action->result;
