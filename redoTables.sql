@@ -12,6 +12,10 @@ CREATE TABLE joueur (
 	surname VARCHAR2(30) NOT NULL,
 	couleurTank VARCHAR2(20) NOT NULL,
 	password VARCHAR2(100) NOT NULL,
+	banned NUMBER NOT NULL,
+	bannedStart DATE,
+	bannedEnd DATE,
+	logCounter NUMBER NOT NULL,
 	email VARCHAR2(70) NOT NULL UNIQUE,
 	niveau NUMBER NOT NULL,
 	experience NUMBER NOT NULL,
@@ -83,9 +87,9 @@ INSERT INTO arme (name) VALUES ('Piege');
 INSERT INTO arme (name) VALUES ('Shotgun');
 INSERT INTO arme (name) VALUES ('Guide');
 
-INSERT INTO joueur(username, name, surname, couleurTank, password, email, niveau, experience, vie, force, agilite, dexterite, partieJoue, partieGagne) VALUES('Test1','Test1Nom','Test1Prenom','#FFFF00','AAAaaa111','nicknclank@yahoo.com',1,0,0,0,0,0,0,0);
-INSERT INTO joueur(username, name, surname, couleurTank, password, email, niveau, experience, vie, force, agilite, dexterite, partieJoue, partieGagne) VALUES('Test2','Test2Nom','Test2Prenom','#FF0000','AAAaaa111','nicknclank666@yahoo.com',1,0,0,0,0,0,0,0);
-INSERT INTO joueur(username, name, surname, couleurTank, password, email, niveau, experience, vie, force, agilite, dexterite, partieJoue, partieGagne) VALUES('Patate','PatateNom','PatatePrenom','#00FF00','AAAaaa111','nicknclank420@yahoo.com',1,0,0,0,0,0,0,0);
+INSERT INTO joueur(username, name, surname, couleurTank, password, banned, bannedStart, bannedEnd, logCounter, email, niveau, experience, vie, force, agilite, dexterite, partieJoue, partieGagne) VALUES('Test1','Test1Nom','Test1Prenom','#FFFF00','AAAaaa111', 0, NULL, NULL, 0, 'nicknclank@yahoo.com',1,0,0,0,0,0,0,0);
+INSERT INTO joueur(username, name, surname, couleurTank, password, banned, bannedStart, bannedEnd, logCounter, email, niveau, experience, vie, force, agilite, dexterite, partieJoue, partieGagne) VALUES('Test2','Test2Nom','Test2Prenom','#FF0000','AAAaaa111', 0, NULL, NULL, 0, 'nicknclank666@yahoo.com',1,0,0,0,0,0,0,0);
+INSERT INTO joueur(username, name, surname, couleurTank, password, banned, bannedStart, bannedEnd, logCounter, email, niveau, experience, vie, force, agilite, dexterite, partieJoue, partieGagne) VALUES('Patate','PatateNom','PatatePrenom','#00FF00','AAAaaa111', 0, NULL, NULL, 0, 'nicknclank420@yahoo.com',1,0,0,0,0,0,0,0);
 
 
 --Fin;
