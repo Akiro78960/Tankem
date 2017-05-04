@@ -26,7 +26,8 @@ class DAOutilisateur():
 												result[8], result[9],
 												result[10], result[11],
 												result[12], result[13],
-												result[14])
+												result[14], result[15],
+												result[16], result[17])
 					return self.dtoJoueur #Retourne l'objet Joueur
 				else:
 					#Return 0 si ce n'est pas le bon password

@@ -1,7 +1,8 @@
 # -*- coding:utf-8 -*-
 class DTOJoueur:
 	def __init__(self, idJoueur, username, name, surname, couleurTank,
-				 password, email, niveau, experience, vie, force, agilite,
+				 password, email, banned, bannedStart, logCounter, 
+				 niveau, experience, vie, force, agilite,
 				 dexterite, partieJoue, partieGagne):
 		self.idJoueur = idJoueur
 		self.username = username
@@ -10,6 +11,9 @@ class DTOJoueur:
 		self.couleurTank = couleurTank
 		self.password = password
 		self.email = email
+		self.banned = banned
+		self.bannedStart = bannedStart
+		self.logCounter = logCounter
 		self.niveau = niveau
 		self.experience = experience
 		self.vie = vie

@@ -414,7 +414,7 @@ class Map(DirectObject.DirectObject):
 					tankQuiTire = 1
 				if(self.tabJoueurs[tankQuiTire] is not None):
 					#print "Degat avant : " + str(dommage)
-					dommage = dommage / 100.0 * (100 + 10 * self.tabJoueurs[tankQuiTire].force)
+					dommage = int(dommage) / 100.0 * (100 + 10 * int(self.tabJoueurs[tankQuiTire].force))
 					#print "Degat modifié : " + str(dommage)
 				self.listTank[indiceTank].prendDommage(dommage,self.mondePhysique)
 			return
@@ -575,6 +575,24 @@ class Map(DirectObject.DirectObject):
 				else:
 					print("Experience J2: "+str(DTOStats.expJ2avantPartie)+"(experience avant partie) +  100xp(partie Gagnee) + 100xp(non favori) + "+str(self.listTank[1].pointDeVie)+"(vie restante)x2 = "+str(DTOStats.expJ2apresPartie)+"xp")
 					print("Experience J1: "+str(DTOStats.expJ1avantPartie)+"(experience avant partie) +  "+str((self.listTank[1].pointDeVieMax-self.listTank[1].pointDeVie))+"(vie enlevée)x2 = "+str(DTOStats.expJ1apresPartie)+"xp")
-
+			if(DTOStats.lvlJ1apresPartie > DTOStats.lvlJ1avantPartie):
+				#animation lvlUp
+				print("LVLUP")
+				pos1Debut = self.listTank[0].modele.getPos()
+				pos1Fin = pos1Debut+Point3(0,0,30)
+				# pos2Debut = pos1Fin
+				# pos2Fin = pos2Debut+
+				duree = 0.4
+				intervalVictory = self.listTank[0].modele.posInterval(
+					duree,
+					pos1Debut,
+					pos1Fin
+				)
+				mySequence = Sequence(intervalVictory)
+				mySequence.loop()
+				
+			if(DTOStats.lvlJ2apresPartie > DTOStats.lvlJ2avantPartie):
+				#animation lvlUp
+				pass
 
 			
