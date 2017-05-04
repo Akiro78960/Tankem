@@ -19,6 +19,7 @@ function search(){
         resultSearch = JSON.parse(r)
         console.log(resultSearch);
         getFavoritMap()
+        displayInfos()
 
     })
 }
@@ -35,6 +36,7 @@ function getFavoritMap(){
         .done(function(favouritmap) {
             mapFavorites[index] = JSON.parse(favouritmap)
             getNameFavMap(index)
+            displayInfos()
         })
     })
 }
@@ -55,8 +57,7 @@ function getNameFavMap(index){
                 reponse = JSON.parse(r)
                 mapFavorites[index] = reponse[0].NAME
                 console.log(mapFavorites[index]);
-
-                    displayInfos()
+                displayInfos()
             })
         }
 }
