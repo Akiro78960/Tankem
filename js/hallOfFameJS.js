@@ -12,10 +12,14 @@ function afficherJoueurs(tabJoueur) {
 		var newElement = document.createElement("div");
 		newElement.innerHTML = template;
 		newElement.querySelector('.numero').innerHTML = i + 1;
-		newElement.querySelector('.nomJoueur').innerHTML = tabJoueur[i].USERNAME;
+		var nomCalc = calculateName(tabJoueur[i].ID);
+		console.log(nomCalc);
+		if(nomCalc != " ")
+			nomCalc = ", " + nomCalc;
+		newElement.querySelector('.nomJoueur').innerHTML = tabJoueur[i].USERNAME + nomCalc;
 		// newElement.querySelector('.niveauFavori').innerHTML = "Niveau préféré : " + ajaxNiveauFavori(tabJoueur[i].ID);
 		// console.log(ajaxNiveauFavori(tabJoueur[i].ID));
-		newElement.querySelector('.ratio').innerHTML = "Ratio victoires/défaites : " + ratio(tabJoueur[i]);
+	newElement.querySelector('.ratio').innerHTML = "Ratio victoires/défaites : " + ratio(tabJoueur[i]) * 100 + "%";
 		newElement.querySelector('.nbPartiesJoues').innerHTML = "Parties jouées : " + tabJoueur[i].PARTIEJOUE;
 		newElement.querySelector('.imageTank').style="background-color:"+tabJoueur[i].COULEURTANK;
 		document.getElementById("contHallOfFame").appendChild(newElement);
@@ -38,7 +42,7 @@ function ajaxNiveauFavori(id, idNode) {
 			niveauPref = "Aucun niveau préféré!"
 		}
 		else{
-			niveauPref = niveauPref[0].IDMAP;
+			niveauPref = niveauPref[0].NOMNIVEAU;
 		}
 		document.getElementById("contHallOfFame").children[idNode].querySelector('.niveauFavori').innerHTML = niveauPref;
 	})

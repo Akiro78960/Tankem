@@ -32,6 +32,7 @@
 </script>
 
 <script type="text/javascript" src="js/hallOfFameJS.js"></script>
+<script type="text/javascript" src="js/calculateName.js"></script>
 
 
 <div class="container">

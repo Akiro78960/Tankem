@@ -25,12 +25,15 @@ function ajaxDernParties(){
 			var newElement = document.createElement("div");
 			newElement.innerHTML = template;
 			newElement.querySelector('.nomNiveau').innerHTML = "Nom du niveau : " + tabParties[i].NOMNIVEAU;
-			newElement.querySelector('.nomJoueur1').innerHTML = tabParties[i].NOMJOUEUR1;
+			newElement.querySelector('.nomJoueur1').innerHTML = "Nom du joueur 1 : " + tabParties[i].NOMJOUEUR1;
 			newElement.querySelector('.couleurTank1').style="background-color:"+tabParties[i].COULEURTANK1;
-			newElement.querySelector('.nomJoueur2').innerHTML = tabParties[i].NOMJOUEUR2;
+			newElement.querySelector('.nomJoueur2').innerHTML = "Nom du joueur 2 : " + tabParties[i].NOMJOUEUR2;
 			newElement.querySelector('.couleurTank2').style="background-color:"+tabParties[i].COULEURTANK2;			
 			newElement.querySelector('.vainqueur').innerHTML = "Gagnant : " + tabParties[i].NOMGAGNANT;
 			document.getElementById("contDernPart").appendChild(newElement);
 		})
+		setTimeout(function(){
+			ajaxDernParties();
+		}, 10000);
 	})
 }
