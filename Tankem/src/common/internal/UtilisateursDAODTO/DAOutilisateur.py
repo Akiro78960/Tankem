@@ -3,7 +3,7 @@ from DAOorigine import DAOorigine
 from DTOJoueur import DTOJoueur
 import cx_Oracle
 from SingletonDBConnection import SingletonDBConnection
-
+import bcrypt
 class DAOutilisateur():
 
 	def __init__(self):
@@ -14,6 +14,10 @@ class DAOutilisateur():
 			curRead = self.connection.cursor()
 			curRead.execute("SELECT * from joueur WHERE username=:player_username",player_username = username)
 			for result in curRead:
+				#BONNE METHODE A ENLEVER PLUS TARD
+				# self.mdp = result[5]
+				# self.pswd = self.mdp[:2] + 'a' + self.mdp[3:]
+				# if(bcrypt.hashpw(password,self.pswd) == self.pswd):
 				if(result[5] == password):
 					self.dtoJoueur = DTOJoueur(result[0], result[1],
 												result[2], result[3],

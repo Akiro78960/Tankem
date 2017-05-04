@@ -261,7 +261,11 @@ class Tank():
         #Chaque collision détectée nous fait perdre un point de vie
         
         self.changerPointDeVie(self.pointDeVie - dommage)
-        self.modele.setColorScale(self.couleur.getX(),self.couleur.getY(),self.couleur.getZ(),1)
+        if(self.infosJoueurs is not None):
+            self.couleur = self.hex_to_rgb(self.infosJoueurs.couleurTank)
+            self.modele.setColorScale(self.couleur[0],self.couleur[1],self.couleur[2],1)
+        else:
+            self.modele.setColorScale(self.couleur.getX(),self.couleur.getY(),self.couleur.getZ(),1)
 
         #Vérifie si le tank explose
         if(self.pointDeVie <= 0):
