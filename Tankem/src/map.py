@@ -483,7 +483,7 @@ class Map(DirectObject.DirectObject):
 				elif(self.listTank[0].pointDeVie <= 0 or self.listTank[1].pointDeVie <= 0):
 					if(not self.saved):
 						self.saved = True
-						# self.DAOEnregistrement.create(self.dtoPartie)
+						self.DAOEnregistrement.create(self.dtoPartie)
 
 				if(self.time == 600):
 					self.delai = 12
