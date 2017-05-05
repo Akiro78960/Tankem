@@ -577,22 +577,54 @@ class Map(DirectObject.DirectObject):
 					print("Experience J1: "+str(DTOStats.expJ1avantPartie)+"(experience avant partie) +  "+str((self.listTank[1].pointDeVieMax-self.listTank[1].pointDeVie))+"(vie enlevée)x2 = "+str(DTOStats.expJ1apresPartie)+"xp")
 			if(DTOStats.lvlJ1apresPartie > DTOStats.lvlJ1avantPartie):
 				#animation lvlUp
-				print("LVLUP")
 				pos1Debut = self.listTank[0].modele.getPos()
-				pos1Fin = pos1Debut+Point3(0,0,30)
-				# pos2Debut = pos1Fin
-				# pos2Fin = pos2Debut+
+				pos1Fin = pos1Debut+Point3(0,0,5)
 				duree = 0.4
-				intervalVictory = self.listTank[0].modele.posInterval(
+				intervalVictory1 = self.listTank[0].modele.posInterval(
+					duree,
+					pos1Fin,
+					pos1Debut,
+					blendType="easeIn"
+				)
+
+				intervalVictoryHPR = self.listTank[0].modele.hprInterval(
+					duree,
+					self.listTank[0].modele.getHpr()+Vec3(0,360,0)
+				)
+
+				intervalVictory2 = self.listTank[0].modele.posInterval(
 					duree,
 					pos1Debut,
-					pos1Fin
+					pos1Fin,
+					blendType="easeOut"
 				)
-				mySequence = Sequence(intervalVictory)
+				mySequence = Sequence(intervalVictory1, intervalVictoryHPR, intervalVictory2)
 				mySequence.loop()
 				
 			if(DTOStats.lvlJ2apresPartie > DTOStats.lvlJ2avantPartie):
 				#animation lvlUp
-				pass
+				pos1Debut = self.listTank[1].modele.getPos()
+				pos1Fin = pos1Debut+Point3(0,0,5)
+				duree = 0.4
+				intervalVictory1 = self.listTank[1].modele.posInterval(
+					duree,
+					pos1Fin,
+					pos1Debut,
+					blendType="easeIn"
+				)
+
+				intervalVictoryHPR = self.listTank[1].modele.hprInterval(
+					duree,
+					self.listTank[1].modele.getHpr()+Vec3(0,360,0)
+				)
+
+				intervalVictory2 = self.listTank[1].modele.posInterval(
+					duree,
+					pos1Debut,
+					pos1Fin,
+					blendType="easeOut"
+				)
+				mySequence = Sequence(intervalVictory1, intervalVictoryHPR, intervalVictory2)
+				mySequence.loop()
 
 			
