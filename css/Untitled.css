@@ -6066,21 +6066,16 @@ a.text-gray-dark:hover {
 
 
 /*GESTION POINTS*/
-.rowGestionPts {
-  border:2px solid rgba(0,0,0,0.5);
+.gpStatsJoueur {
+  margin:20px auto 20px auto;
   background-color:rgba(240,240,240,1.0);
+  border:2px solid rgba(0,0,0,0.2);
 }
 
-.blocGestionPts:nth-of-type(1) {
-	border-right:1px solid rgba(0,0,0,0.2);
-}
-
-.blocGestionPts .row div {
-  border:1px solid rgba(0,0,0,0.2);
-}
-
-.blocGestionPts .row div p:nth-of-type(1){
-  border-bottom:1px solid rgba(0,0,0,0.2);
+.gpModifStats {
+  margin:auto;
+  background-color:rgba(240,240,240,1.0);
+  border:2px solid rgba(0,0,0,0.2);
 }
 
 /*HALL OF FAME*/

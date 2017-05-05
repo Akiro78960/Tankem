@@ -9,7 +9,6 @@
 		}
 
 		protected function executeAction() {
-			
 			try{
 				$this->connection = new PDO("oci:dbname=DECINFO", "e1384492", "C");
 				$this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
