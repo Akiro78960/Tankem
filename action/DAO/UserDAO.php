@@ -13,29 +13,42 @@
 
 			if ($row = $statement->fetch()) {
 				// a changer plus tard au hashage
-				if (password_verify($password, $row["PASSWORD"])) {
-					$visibility = 1;
-					$_SESSION["Row"] = $row;
-					$_SESSION["Username"] = $row["USERNAME"];
-				}
-				elseif($row["BANNED"] == 1){
+				if($row["BANNED"] == 1){
 					$visibility = -1;
 				}
-				elseif($row["LOGCOUNT"] == 4){
-					$statement = $connection->prepare("UPDATE joueur SET bannedstart = ?,bannedend = ? where username = ?");
-					$calc = $row["LOGCOUNT"] + 1;
-					$statement->bindValue(1,$calc);
-					$statement->bindValue(2,$calc);
-					$statement->bindValue(3,$username);
-					$statement->execute();
-				}
-				else{
-					$statement = $connection->prepare("UPDATE joueur SET logCount = ? where username = ?");
-					$calc = $row["LOGCOUNT"] + 1;
-					$statement->bindValue(1,$calc);
-					$statement->bindValue(2,$username);
-					$statement->execute();
-				}
+				elseif($row["LOGCOUNTER"] < 4){
+					if (password_verify($password, $row["PASSWORD"])) {
+						$visibility = 1;
+						$_SESSION["Row"] = $row;
+						$_SESSION["Username"] = $row["USERNAME"];
+
+						$statement = $connection->prepare("UPDATE joueur SET logCounter = ? where username = ?");
+						$reset = 0;
+						$statement->bindValue(1,$reset);
+						$statement->bindValue(2,$username);
+						$statement->execute();
+					}
+					elseif($row["LOGCOUNTER"] + 1 == 4){
+						$visibility = -1;
+						$statement = $connection->prepare("UPDATE joueur SET banned = ?, logCounter = ? where username = ?");
+						$calc = $row["LOGCOUNTER"] + 1;
+						$banned = 1;
+						$statement->bindValue(1,$banned);
+						$statement->bindValue(2,$calc);
+						$statement->bindValue(3,$username);
+						$statement->execute();
+					}
+					else{
+						$visibility = 0;
+						$statement = $connection->prepare("UPDATE joueur SET logCounter = ? where username = ?");
+						$calc = $row["LOGCOUNTER"] + 1;
+						$statement->bindValue(1,$calc);
+						$statement->bindValue(2,$username);
+						$statement->execute();
+					}
+				}	
+				
+				
 			}
 			return $visibility;
 		}
