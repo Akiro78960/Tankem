@@ -19,7 +19,11 @@
                 $statement->execute(Array($str));
                 $this->row = $statement->fetchall(PDO::FETCH_ASSOC);
                 // $this->result = $str;
-                $this->result = json_encode($this->row);
+				if(isset($_SESSION["Username"])){
+					$this->result = json_encode([$this->row,$_SESSION["Username"]]);
+				}else{
+					$this->result = json_encode([$this->row]);
+				}
             }catch(PDOException $e){
                 echo 'Échec lors de la connexion : ' . $e->getMessage();
             }
