@@ -1,6 +1,7 @@
 var resultSearch = null
 var mapFavorites = []
 var currentPage = 0
+var usernameLoggedIn = null
 
 
 function search(){
@@ -12,8 +13,10 @@ function search(){
     })
     .done(function(r) {
         document.getElementById("searchResults").innerHTML=""
-        resultSearch = JSON.parse(r)
+        resultSearch = JSON.parse(r)[0]
+        usernameLoggedIn = JSON.parse(r)[1]
         console.log(resultSearch);
+        console.log(usernameLoggedIn);
         getFavoritMap()
     })
 }
@@ -56,7 +59,11 @@ function displayInfos(){
                 colName.className="col-sm-12"
                 txtname = document.createElement("h4")
                 txtname.className="text-center"
-                texte = document.createTextNode(""+resultSearch[5*currentPage+i].USERNAME + " " + calculateName(resultSearch[5*currentPage+i]) + " ("+resultSearch[5*currentPage+i].SURNAME+" "+resultSearch[5*currentPage+i].NAME+")")
+                if(resultSearch[5*currentPage+i].USERNAME == usernameLoggedIn){
+                    texte = document.createTextNode(""+resultSearch[5*currentPage+i].USERNAME + " " + calculateName(resultSearch[5*currentPage+i]) + " ("+resultSearch[5*currentPage+i].SURNAME+" "+resultSearch[5*currentPage+i].NAME+")")
+                }else {
+                    texte = document.createTextNode(""+resultSearch[5*currentPage+i].USERNAME + " " + calculateName(resultSearch[5*currentPage+i]))
+                }
                 txtname.appendChild(texte)
                 colName.appendChild(txtname)
                 row1.appendChild(colName)

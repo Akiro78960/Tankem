@@ -19,7 +19,7 @@
             <input type="button", id="btnNext" style="float:right;margin-right:20%;" value="Next" onclick="goNext()">
         </div>
         <div style="clear:both;">
-        </div>
+        </div> 
 
         </div>
     </body>
