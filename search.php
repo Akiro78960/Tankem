@@ -14,5 +14,13 @@
         </div>
         <div id="searchResults">
         </div>
+        <div class="buttonDiv">
+            <input type="button", id="btnPrevious" style="float:left;margin-left:20%;" value="Previous" onclick="goPrevious()">
+            <input type="button", id="btnNext" style="float:right;margin-right:20%;" value="Next" onclick="goNext()">
+        </div>
+        <div style="clear:both;">
+        </div>
+
+        </div>
     </body>
 </html>
