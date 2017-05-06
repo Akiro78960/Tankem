@@ -3,6 +3,8 @@
 	class UserDAO {
 		
 		public static function authenticate($username, $password) {
+			$today = new DateTime('now');
+
 			$visibility = CommonAction::$VISIBILITY_PUBLIC;
 			$connection = Connection::getConnection();
 
@@ -15,7 +17,26 @@
 				// a changer plus tard au hashage
 				if($row["BANNED"] == 1){
 					$visibility = -1;
-				}
+					$bannedDate = new DateTime($row["BANNEDSTART"]);
+					$threeDays = date_add($bannedDate,date_interval_create_from_date_string('3 days'));
+				
+					if ($today >= $threeDays) {
+						if(password_verify($password, $row["PASSWORD"])){
+							$visibility = 1;
+							$_SESSION["Row"] = $row;
+							$_SESSION["Username"] = $row["USERNAME"];
+							$statement = $connection->prepare("UPDATE joueur SET banned = ?,bannedStart = ?, logCounter = ? where username = ?");
+							$banned = 0;
+							$logCounter = 0;
+							$bannedStart = NULL;
+							$statement->bindParam(1,$banned);
+							$statement->bindParam(2,$bannedStart);
+							$statement->bindParam(3,$logCounter);
+							$statement->bindParam(4,$username);
+							$statement->execute();
+							}
+						}
+					}
 				elseif($row["LOGCOUNTER"] < 4){
 					if (password_verify($password, $row["PASSWORD"])) {
 						$visibility = 1;
@@ -24,26 +45,28 @@
 
 						$statement = $connection->prepare("UPDATE joueur SET logCounter = ? where username = ?");
 						$reset = 0;
-						$statement->bindValue(1,$reset);
-						$statement->bindValue(2,$username);
+						$statement->bindParam(1,$reset);
+						$statement->bindParam(2,$username);
 						$statement->execute();
 					}
 					elseif($row["LOGCOUNTER"] + 1 == 4){
 						$visibility = -1;
-						$statement = $connection->prepare("UPDATE joueur SET banned = ?, logCounter = ? where username = ?");
+						$statement = $connection->prepare("UPDATE joueur SET banned = ?,bannedStart = ?, logCounter = ? where username = ?");
 						$calc = $row["LOGCOUNTER"] + 1;
 						$banned = 1;
-						$statement->bindValue(1,$banned);
-						$statement->bindValue(2,$calc);
-						$statement->bindValue(3,$username);
+						$todaystr = $today->format('y-m-d');
+						$statement->bindParam(1,$banned);
+						$statement->bindParam(2,$todaystr);
+						$statement->bindParam(3,$calc);
+						$statement->bindParam(4,$username);
 						$statement->execute();
 					}
 					else{
 						$visibility = 0;
 						$statement = $connection->prepare("UPDATE joueur SET logCounter = ? where username = ?");
 						$calc = $row["LOGCOUNTER"] + 1;
-						$statement->bindValue(1,$calc);
-						$statement->bindValue(2,$username);
+						$statement->bindParam(1,$calc);
+						$statement->bindParam(2,$username);
 						$statement->execute();
 					}
 				}	
@@ -64,7 +87,7 @@
 																		name = ?,
 																		couleurTank = ?,
 																		username = ? where username = ?");
-					$statement->bindValue(1,$email);
+					$statement->bindParam(1,$email);
 					$statement->bindParam(2,$firstName);
 					$statement->bindParam(3,$lastName);
 					$statement->bindParam(4,$color);
