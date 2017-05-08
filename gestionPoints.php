@@ -8,6 +8,8 @@
 	require_once("partial/header.php");
 ?>
 
+<script type="text/javascript" src="js/gestionPoints.js"></script>
+
 <div class="container">
 	<h1>Gestion des Attributs</h1>
 	<div class="row">
@@ -34,12 +36,14 @@
 		<div class="col-md-6 gpModifStats">
 			<h4 class="text-center">Modifications des Stats</h4>
 			<p class="text-center">Points disponibles : </p>
-			<div class="row">
+			<div class="row gpRowModifStat">
 				<div class="col-md-1">
 					<button class="btn btn-secondary" type="submit">-</button>
 				</div>
-				<div class="col-md-9">
-					<p class="text-center">HP : </p>
+				<div class="col-md-5">
+					<p class="text-right">HP : </p>
+				</div>
+				<div class="col-md-5 text-left statModHP">
 				</div>
 				<div class="cold-md-1">
 					<button class="btn btn-secondary" type="submit">+</button>
@@ -49,8 +53,10 @@
 				<div class="col-md-1">
 					<button class="btn btn-secondary" type="submit">-</button>
 				</div>
-				<div class="col-md-9">
-					<p class="text-center">DEGAT : </p>
+				<div class="col-md-5">
+					<p class="text-right">DEGAT : </p>
+				</div>
+				<div class="col-md-5 text-left statModDEGAT">
 				</div>
 				<div class="cold-md-1">
 					<button class="btn btn-secondary" type="submit">+</button>
@@ -60,8 +66,10 @@
 				<div class="col-md-1">
 					<button class="btn btn-secondary" type="submit">-</button>
 				</div>
-				<div class="col-md-9">
-					<p class="text-center">DEPLACEMENT : </p>
+				<div class="col-md-5">
+					<p class="text-right">DEPLACEMENT : </p>
+				</div>
+				<div class="col-md-5 text-left statModDEP">
 				</div>
 				<div class="cold-md-1">
 					<button class="btn btn-secondary" type="submit">+</button>
@@ -71,8 +79,10 @@
 				<div class="col-md-1">
 					<button class="btn btn-secondary" type="submit">-</button>
 				</div>
-				<div class="col-md-9">
-					<p class="text-center">TIR : </p>
+				<div class="col-md-5">
+					<p class="text-right">TIR : </p>
+				</div>
+				<div class="col-md-5 text-left statModTIR">
 				</div>
 				<div class="cold-md-1">
 					<button class="btn btn-secondary" type="submit">+</button>
