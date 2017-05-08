@@ -22,15 +22,20 @@
 	  <div class="row text-center">
 		<div class="col-md-3 text-center mx-auto">
 		  <form class="text-center" action ="index.php" method ="post">
-	  	<?php 
+	  		<?php 
 				if ($action->wrongLogin) {
-					?>
-		  
+				?>
 					<div class="error-div"><strong>Erreur : </strong>Connexion erronée</div>
 					<?php
-			  	}
-		  	?>
-			<div class="form-group text-center w-100" id="login-email" > <label>Email address</label> <input type="text" name = "username" class="form-control" placeholder="Enter email"> </div>
+			  }
+				if($action->banned){			
+					?>
+						<div class="error-div"><strong>Erreur : </strong>User is banned</div>
+					<?php
+					}
+					?>
+		
+			<div class="form-group text-center w-100" id="login-email" > <label>Username</label> <input type="text" name = "username" class="form-control" placeholder="Enter Username"> </div>
 			<div class="form-group text-center w-100" id="login-password" > <label class="text-center">Password</label> <input type="password" name = "pwd" class="form-control" placeholder="Password"> </div> 
 	  <button type="submit" class="btn btn-primary text-center">Login</button>
 	  </form>

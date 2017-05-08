@@ -10,13 +10,11 @@
 
 		protected function executeAction() {
 			try{
-				$this->connection = new PDO("oci:dbname=DECINFO", "e1384492", "C");
-				$this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-                $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+				$this->connection = Connection::getConnection();
 				$statement = $this->connection->prepare("SELECT * from joueur");
 				$statement->execute();
-				$this->tab = $statement->fetchall(PDO::FETCH_ASSOC);
-				$this->result = json_encode($this->tab);
+				$this->tab1 = $statement->fetchall(PDO::FETCH_ASSOC);
+				$this->result = json_encode($this->tab1);
 			}catch(PDOException $e){
 				echo "Échec lors de la connection : " + $e->getMessage();
 			}

@@ -12,14 +12,16 @@
             $this->result = $_POST["searchKey"];
             $str = $_POST["searchKey"]."%";
             try{
-                $this->connection = new PDO("oci:dbname=DECINFO", "e1384492", "C");
-                $this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-                $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-                $statement = $this->connection->prepare("SELECT * FROM joueur WHERE ingamename LIKE ?");
+                $this->connection = Connection::getConnection();
+                $statement = $this->connection->prepare("SELECT * FROM joueur WHERE username LIKE ?");
                 $statement->execute(Array($str));
                 $this->row = $statement->fetchall(PDO::FETCH_ASSOC);
                 // $this->result = $str;
-                $this->result = json_encode($this->row);
+				if(isset($_SESSION["Username"])){
+					$this->result = json_encode([$this->row,$_SESSION["Username"]]);
+				}else{
+					$this->result = json_encode([$this->row]);
+				}
             }catch(PDOException $e){
                 echo 'Échec lors de la connexion : ' . $e->getMessage();
             }
