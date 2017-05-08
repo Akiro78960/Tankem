@@ -34,6 +34,7 @@
 			<div class="form-group text-center w-100" id="login-password" > <label class="text-center">Password</label> <input type="password" name = "pwd" class="form-control" placeholder="Password"> </div> 
 	  <button type="submit" class="btn btn-primary text-center">Login</button>
 	  </form>
+			<p>Oublier votre mot de passe? Clickez <a href = "reset.php">ici!</a></p>
 		  <p class="">New to this website? Signup, it's free! There are hundreds of sexy singles near your area waiting to meet you.<br></p><a href="Signup.php" class="btn btn-primary">Signup<br></a></div>
 	  </div>
 	</div>
