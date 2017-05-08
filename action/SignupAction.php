@@ -1,5 +1,5 @@
 <?php
-	require_once("action/CommonAction.php");	
+	require_once("action/CommonAction.php");
 	class SignupAction extends CommonAction {
 		public $wrongInfo;
 		public $errorMessage = "";
@@ -12,7 +12,7 @@
 			$connection = Connection::getConnection();
 			$execute = true;
 			if(isset($_POST["fieldUsername"])){
-				
+
 				$statement = $connection->prepare("INSERT INTO joueur (username,name,surname,couleurTank,password,banned,bannedStart,logCounter,email,niveau,experience,vie,force,agilite,dexterite,partieJoue,partieGagne) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 				if($_POST["fieldUsername"] != ""){
 					$statement2 = $connection->prepare("SELECT * FROM joueur WHERE username = ?");
@@ -98,6 +98,6 @@
 					echo "<div class='error'> L'enregistrement s'est bien effectué </div>";
 				}
 			}
-			
+
 		}
 }

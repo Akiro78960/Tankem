@@ -8,7 +8,7 @@
 				Connection::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				Connection::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 			}
-			
+
 			return Connection::$connection;
 		}
 
