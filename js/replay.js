@@ -18,6 +18,26 @@ block3.src = "images/block3.jpg";
 var block4 = new Image();
 block4.src = "images/block4.png";
 
+var tank1 = new Image();
+tank1.src = "images/tank1.png";
+var tank2 = new Image();
+tank2.src = "images/tank2.png";
+var projectile = new Image();
+projectile.src = "images/projectile.png";
+
+var mitraillette = new Image();
+mitraillette.src = "images/mitraillette.png";
+var shotgun = new Image();
+shotgun.src = "images/shotgun.png";
+var piege = new Image();
+piege.src = "images/piege.png";
+var guide = new Image();
+guide.src = "images/guide.png";
+var spring = new Image();
+spring.src = "images/spring.png";
+var grenade = new Image();
+grenade.src = "images/grenade.png";
+
 window.onload = function() {
 	ajaxEnregistrement();
 }
@@ -85,13 +105,15 @@ function ajaxEnregistrement() {
 
 			containerPage.appendChild(canvas);
 
-			// Infos de la partie
-			var divInfos = document.createElement("div");
-			divInfos.style.margin = "5% 0%";
+			// Edit time
+			var divTime = document.createElement("div");
+			divTime.style.margin = "5% 0%";
 
 			var button = document.createElement("button");
+			button.setAttribute("id", "button");
 			button.onclick = function(){buttonPlay();}
 			button.innerHTML = "Play";
+			button.style.width = "25%";
 
 			var slider = document.createElement("input");
 			slider.setAttribute("id", "slider");
@@ -100,17 +122,33 @@ function ajaxEnregistrement() {
 			slider.setAttribute("max", "100");
 			slider.setAttribute("value", "0");
 			slider.style.margin = "0% 3%";
+			slider.style.width = "69%"
 
-			// slider.onchange = function() {tick = slider.value;}
 			$(document).on('input', '#slider', function() {
 				play = false;
+				$("#button").html("Play");
 				tick = this.value;
 			});
 
-			divInfos.appendChild(button);
-			divInfos.appendChild(slider);
-			containerListe.appendChild(divInfos);
+			divTime.appendChild(button);
+			divTime.appendChild(slider);
+			containerListe.appendChild(divTime);
+			
+			// Info joueur
+			var divInfos = document.createElement("ul");
+			divInfos.style.margin = "5% 0%";
 
+			var joueur1 = document.createElement("li");
+			joueur1.setAttribute("id", "joueur1");
+			joueur1.innerHTML = "Joueur 1, vie: 0/0";
+			divInfos.appendChild(joueur1);
+
+			var joueur2 = document.createElement("li");
+			joueur2.setAttribute("id", "joueur2");
+			joueur2.innerHTML = "Joueur 2, vie: 0/0";
+			divInfos.appendChild(joueur2);
+
+			containerListe.appendChild(divInfos);
 			// Clear float
 			var clear = document.createElement("p");
 			clear.style.clear = "both";
@@ -121,11 +159,15 @@ function ajaxEnregistrement() {
 
 // button function
 function buttonPlay(){
-	if(play){
-		play = false;
-	}
-	else {
-		play = true;
+	if( game != null){
+		if(play){
+			play = false;
+			$("#button").html("Play");
+		}
+		else {
+			play = true;
+			$("#button").html("Pause");
+		}
 	}
 }
 
@@ -134,8 +176,8 @@ function updateGame(partie){
 	tick = 0;
 	play = false;
 	game = partie;
-	$("#slider").attr({"min" : 0, "max" : getGameMaxTime(partie), "value" : 0});
-	console.log(getGameMaxTime(game))
+	$("#button").html("Play");
+	$("#slider").attr({"max" : getGameMaxTime(game)});
 }
 
 function drawGame(){
@@ -152,7 +194,6 @@ function drawGame(){
 			tick++;
 		}
 	}
-	console.log(tick)
 	window.requestAnimationFrame(drawGame);
 }
 
@@ -193,11 +234,21 @@ function drawPlayerOne(game, time_sec){
 
 	// afficher infos
 	if(joueur){
-		ctx.fillStyle="#5AC";
-		ctx.fillRect(positionX(joueur.pos_x, game.map[0].length)-(scaleX/2),
-					positionY(joueur.pos_y, game.map.length)-(scaleY/2),
+		var orientation = joueur.orientation.replace(",",".");
+		orientation = parseFloat(orientation);
+		ctx.save();
+		ctx.translate(positionX(joueur.pos_x, game.map[0].length),
+						 positionY(joueur.pos_y, game.map.length));
+		ctx.rotate((orientation*Math.PI/180) * 1);
+		ctx.drawImage(tank1,
+					-scaleX/2,
+					-scaleY/2,
 					scaleX,scaleY)
-
+		ctx.restore();
+		$("#joueur1").html("Joueur 1, vie: " + joueur.health + "/" + arrayJoueur1[0].health);
+	}
+	else{
+		$("#joueur1").html("Joueur 1, vie: " + "0" + "/" + arrayJoueur1[0].health);
 	}
 
 }
@@ -210,11 +261,21 @@ function drawPlayerTwo(game, time_sec){
 
 	// afficher infos
 	if(joueur){
-		ctx.fillStyle="#CA5";
-		ctx.fillRect(positionX(joueur.pos_x, game.map[0].length)-(scaleX/2),
-					positionY(joueur.pos_y, game.map.length)-(scaleY/2),
+		var orientation = joueur.orientation.replace(",",".");
+		orientation = parseFloat(orientation);
+		ctx.save();
+		ctx.translate(positionX(joueur.pos_x, game.map[0].length),
+						 positionY(joueur.pos_y, game.map.length));
+		ctx.rotate((orientation*Math.PI/180) * 1);
+		ctx.drawImage(tank2,
+					-scaleX/2,
+					-scaleY/2,
 					scaleX,scaleY)
-
+		ctx.restore();
+		$("#joueur2").html("Joueur 2, vie: " + joueur.health + "/" + arrayJoueur2[0].health);
+	}
+	else{
+		$("#joueur2").html("Joueur 2, vie: " + "0" + "/" + arrayJoueur2[0].health);
 	}
 
 }
@@ -227,10 +288,48 @@ function drawWeapon(game, time_sec){
 
 	// afficher infos
 	if(arme){
-		ctx.fillStyle="#333";
-		ctx.fillRect(positionX(arme.pos_x, game.map[0].length)-(scaleX/4),
-					positionY(arme.pos_y, game.map.length)-(scaleY/4),
-					scaleX/2,scaleY/2)
+		if(arme.type_arme == "Mitraillette"){
+			ctx.drawImage(mitraillette,
+						positionX(arme.pos_x, game.map[0].length)-(scaleX/2),
+						positionY(arme.pos_y, game.map.length)-(scaleY/2),
+						scaleX,scaleY)
+		}
+		else if(arme.type_arme == "Guide"){
+			ctx.drawImage(guide,
+						positionX(arme.pos_x, game.map[0].length)-(scaleX/2),
+						positionY(arme.pos_y, game.map.length)-(scaleY/2),
+						scaleX,scaleY)
+		}
+		else if(arme.type_arme == "Piege"){
+			ctx.drawImage(piege,
+						positionX(arme.pos_x, game.map[0].length)-(scaleX/2),
+						positionY(arme.pos_y, game.map.length)-(scaleY/2),
+						scaleX,scaleY)
+		}
+		else if(arme.type_arme == "Shotgun"){
+			ctx.drawImage(shotgun,
+						positionX(arme.pos_x, game.map[0].length)-(scaleX/2),
+						positionY(arme.pos_y, game.map.length)-(scaleY/2),
+						scaleX,scaleY)
+		}
+		else if(arme.type_arme == "Spring"){
+			ctx.drawImage(spring,
+						positionX(arme.pos_x, game.map[0].length)-(scaleX/2),
+						positionY(arme.pos_y, game.map.length)-(scaleY/2),
+						scaleX,scaleY)
+		}
+		else if(arme.type_arme == "Grenade"){
+			ctx.drawImage(grenade,
+						positionX(arme.pos_x, game.map[0].length)-(scaleX/2),
+						positionY(arme.pos_y, game.map.length)-(scaleY/2),
+						scaleX,scaleY)
+		}
+		else{
+			ctx.fillStyle="#333";
+			ctx.fillRect(positionX(arme.pos_x, game.map[0].length)-(scaleX/4),
+						positionY(arme.pos_y, game.map.length)-(scaleY/4),
+						scaleX/2,scaleY/2)
+		}
 
 	}
 
@@ -247,10 +346,10 @@ function drawWeapon(game, time_sec){
 
 	 if(projectiles.length > 0){
 		 for(var j=0; j<projectiles.length; j++){
-			ctx.fillStyle="#000";
-			ctx.fillRect(positionX(projectiles[j].pos_x, game.map[0].length)-(scaleX/10),
-						positionY(projectiles[j].pos_y, game.map.length)-(scaleY/10),
-						scaleX/5,scaleY/5)
+			ctx.drawImage(projectile,
+						positionX(projectiles[j].pos_x, game.map[0].length)-(scaleX/8),
+						positionY(projectiles[j].pos_y, game.map.length)-(scaleY/8),
+						scaleX/4,scaleY/4)
 
 		 }
 	 }
