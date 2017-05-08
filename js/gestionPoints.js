@@ -6,16 +6,15 @@ const AJOUT_TIR = 10;
 var joueur = null;
 
 window.onload = function(){
-	joueur = new Joueur();
-	initStats();
+	retrieveInfoJoueur();
 }
 
 function initStats(){
-	joueur.niveau = 5;
-	joueur.hp = 1;
-	joueur.degat = 7;
-	joueur.deplacement = 5;
-	joueur.tir = 2;
+	// joueur.niveau = 5;
+	// joueur.hp = 1;
+	// joueur.degat = 7;
+	// joueur.deplacement = 5;
+	// joueur.tir = 2;
 	retrieveHpTot(); //On peut pas retourner le hp total vu que c'est une requête Ajax
 	document.getElementById("gpDEGATTotal").innerHTML = "BONUS DÉGAT : " + calcDegatTot().toFixed(2) + "%";
 	document.getElementById("gpDEPTotal").innerHTML = "BONUS VITESSE DÉPLACEMENT : " + calcDepTot().toFixed(2) + "%";
@@ -25,6 +24,7 @@ function initStats(){
 	document.querySelector(".statModDEP").innerHTML = joueur.deplacement;
 	document.querySelector(".statModTIR").innerHTML = joueur.tir;
 	document.querySelector(".ptsDispo").innerHTML = joueur.calcPtsDepenser();
+	console.log(joueur.calcPtsDepenser());
 }
 
 function modifHP(plus){
@@ -99,19 +99,49 @@ function retrieveHpTot(){
 }
 
 function retrieveInfoJoueur(){
+	$.ajax({
+		type : "POST",
+		url : "ajaxStatsJoueur.php",
+		data : {
 
+		}
+	})
+	.done(function(data){
+		var tmpJ = JSON.parse(data);
+		joueur = new Joueur(parseInt(tmpJ[0].VIE), parseInt(tmpJ[0].FORCE), parseInt(tmpJ[0].AGILITE), parseInt(tmpJ[0].DEXTERITE), parseInt(tmpJ[0].NIVEAU));
+		initStats();
+	})
 }
+
+function enregistrerStats(){
+	$.ajax({
+		type : "POST",
+		url : "ajaxEnregistrerStats.php",
+		data : {
+			hp : joueur.hp,
+			degat : joueur.degat,
+			deplacement : joueur.deplacement,
+			tir : joueur.tir,
+			niveau : joueur.niveau
+		}
+	})
+	.done(function(data){
+		document.querySelector(".messageStats").innerHTML = "Stats Joueur - Enregistré!";
+		retrieveInfoJoueur();
+	})
+}
+
 /********************
  CLASSES
 ********************/
 
 class Joueur{
-	constructor(){
-		this.hp = 0;
-		this.degat = 0;
-		this.deplacement = 0;
-		this.tir = 0;
-		this.niveau = 0;
+	constructor(hp, degat, deplacement, tir, niveau){
+		this.hp = hp;
+		this.degat = degat;
+		this.deplacement = deplacement;
+		this.tir = tir;
+		this.niveau = niveau;
 	}
 
 	modifHP(nouvHP){
