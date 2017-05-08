@@ -7,7 +7,6 @@
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="js/search.js"></script>
 <script type="text/javascript" src="js/calculateName.js"></script>
-
         <div class="searchArea" style="text-align:center">
             <input type="text" id="searchBar"size="21" maxlength="120" placeholder="chercher un joueur">
             <input type="button", id="btnfind" value="find" onclick="search()">
@@ -19,7 +18,18 @@
             <input type="button", id="btnNext" style="float:right;margin-right:20%;" value="Next" onclick="goNext()">
         </div>
         <div style="clear:both;">
-        </div> 
+            <!-- pour mettre des args dans l'URL -->
+            <?php
+                if(isset($_GET["username"])){
+            ?>
+                <script>
+                    document.getElementById("searchBar").value = <?=$_GET["username"]; ?>;
+                    search()
+                </script>
+            <?php
+                }
+            ?>
+        </div>
 
         </div>
     </body>
