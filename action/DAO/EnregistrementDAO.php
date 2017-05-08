@@ -13,7 +13,7 @@
 			$result = [];
 
 			// Liste Parties
-			$statement = $connection->prepare("SELECT * FROM enregistrement_partie");
+			$statement = $connection->prepare("SELECT * FROM enregistrement_partie ORDER BY id");
 			$statement->setFetchMode(PDO::FETCH_ASSOC);
 			$statement->execute();
 
@@ -28,7 +28,7 @@
 
 			foreach($result as $DTOpartie){
 				// Joueur 1
-				$statement = $connection->prepare("SELECT * FROM enregistrement_joueur WHERE id_partie = ? AND no_joueur = 1");
+				$statement = $connection->prepare("SELECT * FROM enregistrement_joueur WHERE id_partie = ? AND no_joueur = 1 ORDER BY time_sec");
 				$statement->bindParam(1, $DTOpartie->id);
 				$statement->setFetchMode(PDO::FETCH_ASSOC);
 				$statement->execute();
@@ -46,7 +46,7 @@
 				}
 
 				// Joueur 2
-				$statement = $connection->prepare("SELECT * FROM enregistrement_joueur WHERE id_partie = ? AND no_joueur = 2");
+				$statement = $connection->prepare("SELECT * FROM enregistrement_joueur WHERE id_partie = ? AND no_joueur = 2 ORDER BY time_sec");
 				$statement->bindParam(1, $DTOpartie->id);
 				$statement->setFetchMode(PDO::FETCH_ASSOC);
 				$statement->execute();
@@ -64,7 +64,7 @@
 				}
 
 				// Projectiles
-				$statement = $connection->prepare("SELECT * FROM enregistrement_projectile WHERE id_partie = ?");
+				$statement = $connection->prepare("SELECT * FROM enregistrement_projectile WHERE id_partie = ? ORDER BY time_sec");
 				$statement->bindParam(1, $DTOpartie->id);
 				$statement->setFetchMode(PDO::FETCH_ASSOC);
 				$statement->execute();
@@ -80,7 +80,7 @@
 				}
 
 				// Armes
-				$statement = $connection->prepare("SELECT * FROM enregistrement_arme WHERE id_partie = ?");
+				$statement = $connection->prepare("SELECT * FROM enregistrement_arme WHERE id_partie = ? ORDER BY time_sec");
 				$statement->bindParam(1, $DTOpartie->id);
 				$statement->setFetchMode(PDO::FETCH_ASSOC);
 				$statement->execute();
