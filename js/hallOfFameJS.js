@@ -18,7 +18,7 @@ function afficherJoueurs(tabJoueur) {
 		newElement.querySelector('.nomJoueur').innerHTML = "Nom : " + tabJoueur[i].USERNAME + nomCalc;
 		// newElement.querySelector('.niveauFavori').innerHTML = "Niveau préféré : " + ajaxNiveauFavori(tabJoueur[i].ID);
 		// console.log(ajaxNiveauFavori(tabJoueur[i].ID));
-		newElement.querySelector('.ratio').innerHTML = "Ratio victoires/défaites : " + ratio(tabJoueur[i]) * 100 + "%";
+		newElement.querySelector('.ratio').innerHTML = "Ratio victoires/défaites : " + (ratio(tabJoueur[i]) * 100).toFixed(2) + "%";
 		newElement.querySelector('.nbPartiesJoues').innerHTML = "Parties jouées : " + tabJoueur[i].PARTIEJOUE;
 		newElement.querySelector('.imageTank').style="background-color:"+tabJoueur[i].COULEURTANK;
 		document.getElementById("contHallOfFame").appendChild(newElement);

@@ -24,8 +24,6 @@
 			<li class="nav-item"> <a class="nav-link" href="dernieresParties.php">Dernières Parties</a> </li>
 		  <li class="nav-item"> <a class="nav-link" href="replay.php">Replay</a> </li>
   		<li class="nav-item"> <a class="nav-link" href="search.php">Recherche</a> </li>
-		  <li class="nav-item"> <a class="nav-link" href="#">Link</a> </li>
-		  <li class="nav-item"> <a class="nav-link disabled" href="#">Disabled</a> </li>
 			<?php
 							if ($action->isLoggedIn()) {
 								?>
