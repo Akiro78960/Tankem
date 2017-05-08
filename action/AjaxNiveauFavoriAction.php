@@ -11,9 +11,7 @@
 		protected function executeAction() {
 			$id = $_POST["idJoueur"];
 			try{
-				$this->connection = new PDO("oci:dbname=DECINFO", "e1384492", "C");
-                $this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-                $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+				$this->connection = Connection::getConnection();
 				$statement = $this->connection->prepare("SELECT editor_niveau.name NomNiveau FROM editor_niveau WHERE editor_niveau.id = (SELECT idNiveau FROM partie WHERE IdJoueur1 = ? OR IdJoueur2 = ? GROUP BY idNiveau ORDER BY COUNT(idNiveau) DESC FETCH FIRST 1 ROWS ONLY)");
 				$statement->execute(Array($id, $id));
 				$this->row = $statement->fetchall(PDO::FETCH_ASSOC);
