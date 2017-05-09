@@ -102,7 +102,7 @@ class Map(DirectObject.DirectObject):
 		DTOStats.idJoueur1 = self.idJoueur1
 		DTOStats.idJoueur2 = self.idJoueur2
 
-		self.dtoPartie = DTOenregistrementPartie(DTOmap.id_niveau, time.strftime("%d/%m/%Y"))
+		self.dtoPartie = DTOenregistrementPartie(DTOmap.id_niveau, self.idJoueur1, self.idJoueur2, time.strftime("%d/%m/%Y"))
 
 		for tuile in mazeTuiles:
 			# Tuile mur

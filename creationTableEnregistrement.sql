@@ -6,6 +6,8 @@ DROP TABLE enregistrement_partie;
 CREATE TABLE enregistrement_partie (
 	id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
 	id_map NUMBER NOT NULL,
+	id_joueur1 NUMBER NOT NULL,
+	id_joueur2 NUMBER NOT NULL,
 	creation_date VARCHAR2(50) NOT NULL
 );
 
