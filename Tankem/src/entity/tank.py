@@ -46,7 +46,7 @@ class Tank():
         self.modele.setColorScale(couleur.getX(),couleur.getY(),couleur.getZ(),1)
         if(self.infosJoueurs is not None):
             self.couleur = self.hex_to_rgb(self.infosJoueurs.couleurTank)
-            self.modele.setColorScale(self.couleur[0],self.couleur[1],self.couleur[2],1)
+            self.modele.setColorScale(self.couleur[0]/255.0,self.couleur[1]/255.0,self.couleur[2]/255.0,1)
 
         #On ajoute une boite
         shape = BulletBoxShape(Vec3(0.6, 0.75, 0.3))

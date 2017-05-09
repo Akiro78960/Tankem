@@ -84,6 +84,8 @@ class DAOenregistrementOracle():
             curReadId.close()
 
             self.delete(idPartie)
+        
+        self.connection.closeConnection();
 
     def delete(self, idPartie):
         # Delete Joueurs
@@ -112,6 +114,8 @@ class DAOenregistrementOracle():
 
         # Commit
         self.connection.commit()
+
+        self.connection.closeConnection();
 
 # TEST
 #testDao = DAOenregistrementOracle()

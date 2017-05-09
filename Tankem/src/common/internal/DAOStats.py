@@ -40,7 +40,6 @@ class DAOStats():
 			print(error.context)
 
 
-
 	def update(self, DTOStats, addedExp1, addedExp2):
 		#recup de l'exp
 		cur = self.connection.cursor()
@@ -147,6 +146,8 @@ class DAOStats():
 
 		print"fin DAO"
 		self.connection.commit()
+
+		self.connection.closeConnection();
 
 
 

@@ -11,13 +11,10 @@ from direct.interval.IntervalGlobal import *
 class InterfaceTank(ShowBase):
 	def __init__(self, identificateurTank, couleurBarre):
 		self.identificateurTank = identificateurTank
-		print couleurBarre[0]
 		#On doit créer une couleur avec 4 composantes sinon ça crash... beurk
 		if(isinstance(couleurBarre[0], (int, float))):
-			print "Is array"
-			couleurBarreAlpha = Vec4(couleurBarre[0], couleurBarre[1], couleurBarre[2],1)
+			couleurBarreAlpha = Vec4(couleurBarre[0]/255.0, couleurBarre[1]/255.0, couleurBarre[2]/255.0,1)
 		else:
-			print "is not array"
 			couleurBarreAlpha = Vec4(couleurBarre.getX(),couleurBarre.getY(),couleurBarre.getZ(),1)
 
 		positionBarreVie = Vec3(-1.1,0,0.85) #tank 0

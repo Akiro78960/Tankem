@@ -44,3 +44,5 @@ class DAOutilisateur():
 			print(error.code)
 			print(error.message)
 			print(error.context)
+
+		self.connection.closeConnection();
