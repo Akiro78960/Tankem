@@ -20,8 +20,10 @@
 			foreach ($statement as $row){
 				$id = array_values($row)[0];
 				$id_map = array_values($row)[1];
-				$creation_date = array_values($row)[2];
-				$newDTO = new DTOpartie($id, $id_map, $creation_date);
+				$id_joueur1 = array_values($row)[2];
+				$id_joueur2 = array_values($row)[3];
+				$creation_date = array_values($row)[4];
+				$newDTO = new DTOpartie($id, $id_map, $id_joueur1, $id_joueur2, $creation_date);
 				$result[] = $newDTO;
 			}
 			
@@ -106,6 +108,28 @@
 					$pos_y = array_values($row)[1];
 					$type_tuile = array_values($row)[2];
 					$DTOpartie->map[$pos_y][$pos_x] = $type_tuile;
+				}
+
+				// Nom Map
+				$statement = $connection->prepare("SELECT name FROM editor_niveau WHERE id = ?");
+				$statement->bindParam(1, $DTOpartie->id_map);
+				$statement->setFetchMode(PDO::FETCH_ASSOC);
+				$statement->execute();
+
+				foreach ($statement as $row){
+					$nom_map = array_values($row)[0];
+					$DTOpartie->nom_map = $nom_map;
+				}
+
+				// Nom Joueur 1
+				$statement = $connection->prepare("SELECT name FROM joueur WHERE id = ?");
+				$statement->bindParam(1, $DTOpartie->id_map);
+				$statement->setFetchMode(PDO::FETCH_ASSOC);
+				$statement->execute();
+
+				foreach ($statement as $row){
+					$nom_map = array_values($row)[0];
+					$DTOpartie->nom_map = $nom_map;
 				}
 			}
 

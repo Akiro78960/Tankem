@@ -3415,6 +3415,7 @@ body {
   font-weight: normal;
   line-height: 1.5;
   color: #292b2c;
+  /*background-image: url("../images/background.jpg");*/
   background-color: #fff; }
 
 [tabindex="-1"]:focus {

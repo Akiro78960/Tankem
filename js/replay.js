@@ -64,7 +64,7 @@ function ajaxEnregistrement() {
 			$(listeParties).each(function(i) {
 				var partie = this;
 				var nouvellePartie = document.createElement("li");
-				var textNum = document.createTextNode("Partie #" + partie.id);
+				var textNum = document.createTextNode("Partie #" + partie.id + " Map: " + partie.nom_map );
 				var textDate = document.createTextNode("Crée le: " + partie.creation_date);
 				nouvellePartie.appendChild(textNum);
 				nouvellePartie.appendChild(document.createElement("br"));
