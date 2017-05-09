@@ -40,7 +40,6 @@ class DAOStats():
 			print(error.context)
 
 
-
 	def update(self, DTOStats, addedExp1, addedExp2):
 		cur = self.connection.cursor()
 
@@ -140,6 +139,7 @@ class DAOStats():
 		# print "stats nbParties Jouees/gagnees updated"
 
 		SingletonDBConnection().closeConnection()
+
 
 
 
