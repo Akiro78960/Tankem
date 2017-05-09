@@ -5,6 +5,8 @@ class DTOStats():
     # def __init__(self, idJoueur1, idJoueur2, idGagnant, idNiveau):
     def __init__(self):
         self.idJoueur1 = None
+        self.nonJ1 = None
+        self.nomJ2 = None
         self.idJoueur2 = None
         self.idGagnant = None
         self.idNiveau = None

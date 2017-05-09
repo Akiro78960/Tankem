@@ -16,7 +16,10 @@ from common.internal.EnregistrementDAODTO.DTOEnregistrementJoueur import DTOenre
 from common.internal.EnregistrementDAODTO.DTOEnregistrementPartie import DTOenregistrementPartie
 from common.internal.EnregistrementDAODTO.DTOEnregistrementProjectile import DTOenregistrementProjectile
 from common.internal.EnregistrementDAODTO.DTOEnregistrementArme import DTOenregistrementArme
+from direct.gui.OnscreenText import OnscreenText #pour pouvoir ecrire du texte
+from direct.gui.DirectGui import *  #pour pouvoir creer les les autres GUI
 import time
+import webbrowser
 DAOMap = common.internal.MapDAODTO.DAOMapOracle.DAOmaporacle()
 DTOlistmap = DAOMap.read()
 DTOStats = common.internal.DTOStats.DTOStats()
@@ -97,8 +100,6 @@ class Map(DirectObject.DirectObject):
 		mazeTuiles = DTOmap.getArrayTuiles()
 		mazeSpawns = DTOmap.getArraySpawns()
 		DTOStats.idNiveau = DTOmap.id_niveau
-		print("idJoueur1 : " + str(self.idJoueur1))
-		print("idJoueur2 : " + str(self.idJoueur2))
 		DTOStats.idJoueur1 = self.idJoueur1
 		DTOStats.idJoueur2 = self.idJoueur2
 
@@ -128,6 +129,7 @@ class Map(DirectObject.DirectObject):
 		for idx,spawn in enumerate(mazeSpawns):
 			if(idx < len(tabJoueurs)):
 				self.creerChar(spawn.getX(),spawn.getY(),spawn.getNoPlayer()-1,couleurs[spawn.getNoPlayer()-1],tabJoueurs[idx])
+				# print("spawn.getNoPlayer()-1: " + str(spawn.getNoPlayer()-1) + "         tabJoueurs[idx]" + str(tabJoueurs[idx].idJoueur))
 			else: #S'il y a plus de tanks que de joueurs, la création de char ne prendra pas l'info d'un joueur
 				self.creerChar(spawn.getX(),spawn.getY(),spawn.getNoPlayer()-1,couleurs[spawn.getNoPlayer()-1],None)
 
@@ -539,15 +541,14 @@ class Map(DirectObject.DirectObject):
 				print "Joueur 1 a gagne"
 
 			#affiche les stats de la partie
-			print("idJoueur1: "+str(DTOStats.idJoueur1))
-			print("idJoueur2: "+str(DTOStats.idJoueur2))
-			print("idMap: "+str(DTOStats.idNiveau))
-			print("idGagnant: "+str(DTOStats.idGagnant))
-			for i in range(6):
-				print ("NbUtil J1 Arme N"+str(DTOStats.DTOStatsArmeJ1[i].idArme)+" : "+str(DTOStats.DTOStatsArmeJ1[i].nbUtil))
-				print ("NbUtil J2 Arme N"+str(DTOStats.DTOStatsArmeJ2[i].idArme)+" : "+str(DTOStats.DTOStatsArmeJ2[i].nbUtil))
+			# print("idJoueur1: "+str(DTOStats.idJoueur1))
+			# print("idJoueur2: "+str(DTOStats.idJoueur2))
+			# print("idMap: "+str(DTOStats.idNiveau))
+			# print("idGagnant: "+str(DTOStats.idGagnant))
+			# for i in range(6):
+			# 	print ("NbUtil J1 Arme N"+str(DTOStats.DTOStatsArmeJ1[i].idArme)+" : "+str(DTOStats.DTOStatsArmeJ1[i].nbUtil))
+			# 	print ("NbUtil J2 Arme N"+str(DTOStats.DTOStatsArmeJ2[i].idArme)+" : "+str(DTOStats.DTOStatsArmeJ2[i].nbUtil))
 			DAOStats.create(DTOStats)
-
 			#ajoute l'exp (si non favoris, voir DAOStats)
 			if(DTOStats.idGagnant == DTOStats.idJoueur1):
 				addedExp1 = 100+self.listTank[0].pointDeVie*2
@@ -556,10 +557,40 @@ class Map(DirectObject.DirectObject):
 				addedExp2 = 100+self.listTank[1].pointDeVie*2
 				addedExp1 = (self.listTank[1].pointDeVieMax-self.listTank[1].pointDeVie)*2
 
-			DAOStats.update(DTOStats, addedExp1, addedExp2)
+			print("addedExp1: " + str(addedExp1))
+			print("addedExp2: " + str(addedExp2))
 
+			DAOStats.update(DTOStats, addedExp1, addedExp2)
+			# print("-------------idJoueur1: "+str(DTOStats.idJoueur1))
+			# print("-------------idJoueur2: "+str(DTOStats.idJoueur2))
 			#DTO complet
 			self.DTOStats = DTOStats
+			# print ("username1: " + DTOStats.nomJ1)
+			# print ("username2: " + DTOStats.nomJ2)
+
+			#affiche les boutons pour aller sur le site web
+			self.bP1 = DirectButton(text = ("Page Joueur1", "Page Joueur1", "Page Joueur1", "Page Joueur1"),
+						  text_scale=(0.06,0.06),
+						  borderWidth = (0.02, 0.02),
+						  text_bg=(0.243,0.325,0.321,1),
+						  frameColor=(0.243,0.325,0.321,1),
+						  relief=2,
+						  textMayChange = 1,
+						  pad = (0,0),
+						  command = self.openSiteP1,
+						  pos = (-1.25,-1.4,-0.9))
+
+			self.bP2 = DirectButton(text = ("Page Joueur2", "Page Joueur2", "Page Joueur2", "Page Joueur2"),
+						  text_scale=(0.06,0.06),
+						  borderWidth = (0.02, 0.02),
+						  text_bg=(0.243,0.325,0.321,1),
+						  frameColor=(0.243,0.325,0.321,1),
+						  relief=2,
+						  textMayChange = 1,
+						  pad = (0,0),
+						  command = self.openSiteP2,
+						  pos = (1.25,-1.4,-0.9))
+
 			#affiche les recap de l'exp
 			if(DTOStats.idGagnant == DTOStats.idJoueur1):
 				if(DTOStats.expJ1avantPartie > DTOStats.expJ2avantPartie):
@@ -575,8 +606,23 @@ class Map(DirectObject.DirectObject):
 				else:
 					print("Experience J2: "+str(DTOStats.expJ2avantPartie)+"(experience avant partie) +  100xp(partie Gagnee) + 100xp(non favori) + "+str(self.listTank[1].pointDeVie)+"(vie restante)x2 = "+str(DTOStats.expJ2apresPartie)+"xp")
 					print("Experience J1: "+str(DTOStats.expJ1avantPartie)+"(experience avant partie) +  "+str((self.listTank[1].pointDeVieMax-self.listTank[1].pointDeVie))+"(vie enlevée)x2 = "+str(DTOStats.expJ1apresPartie)+"xp")
+			
+			self.textLabel1 = TextNode('testLabel1')
+			self.textLabel1.setText("Experience J1: "+str(DTOStats.expJ1avantPartie) + " + " + str(addedExp1) + " = " + str(DTOStats.expJ1apresPartie))
+			self.textLabel1.setTextColor(0,0,0,1)
+			self.textLabel1.setShadow(0.05,0.05)
+			self.textLabel1.setShadowColor((200,200,200,0.8))
+			self.textLabel1.setCardColor((255,255,255,0.3))
+			self.textLabel1.setCardAsMargin(0, 0, 0, 0)
+			self.textLabel1.setCardDecal(True)
+			self.textLabel1.setAlign(TextNode.ACenter)
+			self.nodeLabel1 = aspect2d.attachNewNode(self.textLabel1)
+			self.nodeLabel1.setScale(0.10)
+			self.nodeLabel1.setPos(0,0,0)
+			
+			#animation lvlUp
 			if(DTOStats.lvlJ1apresPartie > DTOStats.lvlJ1avantPartie):
-				#animation lvlUp
+				print "lvlUP J1"
 				pos1Debut = self.listTank[0].modele.getPos()
 				pos1Fin = pos1Debut+Point3(0,0,5)
 				duree = 0.4
@@ -602,6 +648,7 @@ class Map(DirectObject.DirectObject):
 				mySequence.loop()
 				
 			if(DTOStats.lvlJ2apresPartie > DTOStats.lvlJ2avantPartie):
+				print "lvlUP J2"
 				#animation lvlUp
 				pos1Debut = self.listTank[1].modele.getPos()
 				pos1Fin = pos1Debut+Point3(0,0,5)
@@ -627,4 +674,8 @@ class Map(DirectObject.DirectObject):
 				mySequence = Sequence(intervalVictory1, intervalVictoryHPR, intervalVictory2)
 				mySequence.loop()
 
-			
+	def openSiteP2(self):
+		webbrowser.open_new("http://127.0.0.1/search.php?username='"+str(DTOStats.nomJ2)+"'")
+
+	def openSiteP1(self):
+		webbrowser.open_new("http://127.0.0.1/search.php?username='"+str(DTOStats.nomJ1)+"'")

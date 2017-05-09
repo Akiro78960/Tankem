@@ -15,10 +15,9 @@ class DAOutilisateur():
 			curRead.execute("SELECT * from joueur WHERE username=:player_username",player_username = username)
 			for result in curRead:
 				#BONNE METHODE A ENLEVER PLUS TARD
-				# self.mdp = result[5]
-				# self.pswd = self.mdp[:2] + 'a' + self.mdp[3:]
-				# if(bcrypt.hashpw(password,self.pswd) == self.pswd):
-				if(result[5] == password):
+				self.mdp = result[5]
+				self.pswd = self.mdp[:2] + 'a' + self.mdp[3:]
+				if(bcrypt.hashpw(password,self.pswd) == self.pswd):
 					self.dtoJoueur = DTOJoueur(result[0], result[1],
 												result[2], result[3],
 												result[4], result[5],
