@@ -18,7 +18,7 @@ function search(){
         document.getElementById("searchResults").innerHTML=""
         resultSearch = JSON.parse(r)[0]
         usernameLoggedIn = JSON.parse(r)[1]
-        console.log(resultSearch);
+        // console.log(resultSearch);
         getFavoritWeapons()
         ajaxJoueurs()
         getFavoritMap()

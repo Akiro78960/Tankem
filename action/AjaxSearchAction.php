@@ -13,7 +13,7 @@
             $str = $_POST["searchKey"]."%";
             try{
                 $this->connection = Connection::getConnection();
-                $statement = $this->connection->prepare("SELECT * FROM joueur WHERE username LIKE ?");
+                $statement = $this->connection->prepare("SELECT * FROM joueur WHERE upper(username) LIKE upper(?)");
                 $statement->execute(Array($str));
                 $this->row = $statement->fetchall(PDO::FETCH_ASSOC);
                 // $this->result = $str;

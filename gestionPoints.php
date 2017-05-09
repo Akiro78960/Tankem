@@ -14,7 +14,7 @@
 	<h1>Gestion des Attributs</h1>
 	<div class="row">
 		<div class="col-md-8 gpStatsJoueur">
-			<h4 class="text-center">Stats Joueur</h4>
+			<h4 class="text-center messageStats">Stats Joueur</h4>
 			<div class="row">
 				<div class="col-md-6 cold-md-push-6">
 					<p id="gpHPTotal">/p>
@@ -94,6 +94,7 @@
 					<button class="btn btn-secondary" type="submit" onclick="modifTIR(true)">+</button>
 				</div>
 			</div>
+			<button class="btn btn-primary col-md-10" type="submit" onclick="enregistrerStats()">Enregistrer les stats</button>
 		</div>
 	</div>
 </div>

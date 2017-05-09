@@ -6085,6 +6085,10 @@ a.text-gray-dark:hover {
   border-top:1px solid rgba(0,0,0,0.2);
 }
 
+.boutonEnr {
+  margin:auto;
+}
+
 /*HALL OF FAME*/
 .rowInfoJoueur {
   border:2px solid rgba(0,0,0,0.5);
