@@ -13,7 +13,7 @@ CREATE TABLE joueur (
 	couleurTank VARCHAR2(20) NOT NULL,
 	password VARCHAR2(100) NOT NULL,
 	banned NUMBER NOT NULL,
-	bannedStart DATE,
+	bannedStart NUMBER,
 	logCounter NUMBER NOT NULL,
 	email VARCHAR2(70) NOT NULL UNIQUE,
 	niveau NUMBER NOT NULL,

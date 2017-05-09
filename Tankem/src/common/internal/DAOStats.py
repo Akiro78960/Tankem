@@ -14,7 +14,7 @@ class DAOStats():
 		statement = "INSERT INTO partie(IdJoueur1, IdJoueur2, IdNiveau, IdGagnant) VALUES(:1, :2, :3, :4)"
 		result = cur.execute(statement, (DTOStats.idJoueur1, DTOStats.idJoueur2, DTOStats.idNiveau, DTOStats.idGagnant))
 		self.connection.commit()
-		print("insert into partie done!")
+		# print("insert into partie done!")
 
 		#recup l'id de la partie
 		result2 = cur.execute("SELECT MAX(Id) FROM partie")
@@ -31,7 +31,7 @@ class DAOStats():
 				statement = "INSERT INTO joueur_arme_partie(IdPartie, IdJoueur, IdArme, NbFoisUtilArme) VALUES(:1, :2, :3, :4)"
 				cur.execute(statement, (idPartie, DTOStats.idJoueur2, DTOStats.DTOStatsArmeJ2[i].idArme, DTOStats.DTOStatsArmeJ2[i].nbUtil))
 			self.connection.commit()
-			print"insert into joueur_arme_partie done"
+			# print"insert into joueur_arme_partie done"
 		except cx_Oracle.DatabaseError as e:
 			error, = e.args
 			print("Erreur d'insert")
@@ -40,10 +40,19 @@ class DAOStats():
 			print(error.context)
 
 
-
 	def update(self, DTOStats, addedExp1, addedExp2):
-		#recup de l'exp
 		cur = self.connection.cursor()
+
+
+		#recup des usernames
+		result = cur.execute("SELECT username FROM joueur where ID=:1", (str(DTOStats.idJoueur1)))
+		for i in result:
+			DTOStats.nomJ1 = i[0]
+		result = cur.execute("SELECT username FROM joueur where ID=:1", (str(DTOStats.idJoueur2)))
+		for i in result:
+			DTOStats.nomJ2 = i[0]
+
+		#recup de l'exp
 		result = cur.execute("SELECT experience FROM joueur where ID=:1", (str(DTOStats.idJoueur1)))
 		for i in result:
 			exp1 = i[0]
@@ -56,11 +65,14 @@ class DAOStats():
 		DTOStats.expJ1avantPartie = exp1
 		DTOStats.expJ2avantPartie = exp2
 
+
 		#ajoute 100 si gagnant pas favori
-		if(DTOStats.idGagnant == DTOStats.idJoueur1 and exp1>exp2):
+		if(DTOStats.idGagnant == DTOStats.idJoueur1 and exp1<exp2):
 			exp1 += 100
-		if(DTOStats.idGagnant == DTOStats.idJoueur2 and exp2>exp1):
+			print "J1 non favori"
+		if(DTOStats.idGagnant == DTOStats.idJoueur2 and exp2<exp1):
 			exp2 += 100
+			print "J2 non favori"
 
 		#update l'experience
 		exp1 += addedExp1
@@ -68,7 +80,7 @@ class DAOStats():
 		result = cur.execute("UPDATE joueur SET experience = :1 WHERE ID=:2", (exp1, DTOStats.idJoueur1))
 		result = cur.execute("UPDATE joueur SET experience = :1 WHERE ID=:2", (exp2, DTOStats.idJoueur2))
 		self.connection.commit()
-		print("experience updated")
+		# print("experience updated")
 
 		#ajoute l'exp apres partie dans DTOStats
 		DTOStats.expJ1apresPartie = exp1
@@ -113,7 +125,7 @@ class DAOStats():
 		result = cur.execute("UPDATE joueur SET niveau = :1 WHERE ID=:2", (lvlP1, DTOStats.idJoueur1))
 		result = cur.execute("UPDATE joueur SET niveau = :1 WHERE ID=:2", (lvlP2, DTOStats.idJoueur2))
 		self.connection.commit()
-		print"levels updated"
+		# print"levels updated"
 
 
 		#update des stats de la table joueur(parties gagnees/jouees):
@@ -124,29 +136,11 @@ class DAOStats():
 			result = cur.execute("UPDATE joueur SET partieJoue = partieJoue+1 WHERE ID=:1", (str(DTOStats.idJoueur1)))
 			result = cur.execute("UPDATE joueur SET partieGagne = partieGagne+1, partieJoue = partieJoue+1 WHERE ID=:1", (str(DTOStats.idJoueur2)))
 		self.connection.commit()
-		print "stats nbParties Jouees/gagnees updated"
+		# print "stats nbParties Jouees/gagnees updated"
+
+		SingletonDBConnection().closeConnection()
 
 
-
-
-
-
-		#tables stats map et armes preferees:
-
-		try:
-			result = cur.execute("SELECT * FROM joueur_map WHERE idJoueur = :1 and idMap = :2", (DTOStats.idJoueur1, DTOStats.idNiveau))
-			result = cur.execute("UPDATE joueur_map SET nbFoisJouer=nbFoisJouer+1 WHERE idJoueur = :1 and idMap = :2", (DTOStats.idJoueur1, DTOStats.idNiveau))
-			print "update DONE"
-		except cx_Oracle.DatabaseError as e:
-			error, = e.args
-			print("error.code "+str(error.code))
-			print("error.message "+error.message)
-			if(error.code == 1):
-				cur.execute("INSERT INTO joueur_map(idJoueur, idMap, nbFoisJouer) VALUES(:1, :2, 1)",(DTOStats.idJoueur1, DTOStats.idNiveau))
-				print("INSERT INTO JOUEUR_MAP DONE")
-
-		print"fin DAO"
-		self.connection.commit()
 
 
 

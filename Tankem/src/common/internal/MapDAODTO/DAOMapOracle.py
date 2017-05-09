@@ -60,3 +60,5 @@ class DAOmaporacle():
 				print(error.context)
 
 		return self.DTOlistmap
+
+		self.connection.closeConnection();
