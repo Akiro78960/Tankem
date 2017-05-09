@@ -40,7 +40,7 @@
 	  <button type="submit" class="btn btn-primary text-center">Login</button>
 	  </form>
 			<p>Oublier votre mot de passe? Clickez <a href = "reset.php">ici!</a></p>
-		  <p class="">New to this website? Signup, it's free! There are hundreds of sexy singles near your area waiting to meet you.<br></p><a href="Signup.php" class="btn btn-primary">Signup<br></a></div>
+		  <p class="">Êtes-vous un nouvel utilisateur? Enregistrez-vous, c'est gratuit!<br></p><a href="Signup.php" class="btn btn-primary">Signup<br></a></div>
 	  </div>
 	</div>
   </div>

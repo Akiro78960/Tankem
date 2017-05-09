@@ -24,6 +24,8 @@ var tank2 = new Image();
 tank2.src = "images/tank2.png";
 var projectile = new Image();
 projectile.src = "images/projectile.png";
+var explosion = new Image();
+explosion.src = "images/explosion.png";
 
 var mitraillette = new Image();
 mitraillette.src = "images/mitraillette.png";
@@ -76,7 +78,7 @@ function ajaxEnregistrement() {
 				nouvellePartie.style.color = "#fff";
 				nouvellePartie.style.backgroundColor = "#666";
 				nouvellePartie.onmouseover = function() {
-					this.style.backgroundColor = "#669";
+					this.style.backgroundColor = "#333";
 				}
 				nouvellePartie.onmouseleave = function() {
 					this.style.backgroundColor = "#666";
@@ -245,10 +247,10 @@ function drawPlayerOne(game, time_sec){
 					-scaleY/2,
 					scaleX,scaleY)
 		ctx.restore();
-		$("#joueur1").html("Joueur 1, vie: " + joueur.health + "/" + arrayJoueur1[0].health);
+		$("#joueur1").html("Tank rouge: " + game.nom_joueur1 + "<br/> vie: " + joueur.health + "/" + arrayJoueur1[0].health);
 	}
 	else{
-		$("#joueur1").html("Joueur 1, vie: " + "0" + "/" + arrayJoueur1[0].health);
+		$("#joueur1").html("Tank rouge: " + game.nom_joueur1 + "<br/> vie: " + "0" + "/" + arrayJoueur1[0].health);
 	}
 
 }
@@ -272,10 +274,10 @@ function drawPlayerTwo(game, time_sec){
 					-scaleY/2,
 					scaleX,scaleY)
 		ctx.restore();
-		$("#joueur2").html("Joueur 2, vie: " + joueur.health + "/" + arrayJoueur2[0].health);
+		$("#joueur2").html("Tank bleu: " + game.nom_joueur2 + "<br/> vie: " + joueur.health + "/" + arrayJoueur2[0].health);
 	}
 	else{
-		$("#joueur2").html("Joueur 2, vie: " + "0" + "/" + arrayJoueur2[0].health);
+		$("#joueur2").html("Tank bleu: " + game.nom_joueur2 + "<br/> vie: " + "0" + "/" + arrayJoueur2[0].health);
 	}
 
 }
@@ -346,11 +348,18 @@ function drawWeapon(game, time_sec){
 
 	 if(projectiles.length > 0){
 		 for(var j=0; j<projectiles.length; j++){
-			ctx.drawImage(projectile,
-						positionX(projectiles[j].pos_x, game.map[0].length)-(scaleX/8),
-						positionY(projectiles[j].pos_y, game.map.length)-(scaleY/8),
-						scaleX/4,scaleY/4)
-
+			 if(projectiles[j].en_mouvement == "1"){
+				ctx.drawImage(projectile,
+							positionX(projectiles[j].pos_x, game.map[0].length)-(scaleX/8),
+							positionY(projectiles[j].pos_y, game.map.length)-(scaleY/8),
+							scaleX/4,scaleY/4)
+			 }
+			 else{
+				ctx.drawImage(explosion,
+							positionX(projectiles[j].pos_x, game.map[0].length)-(scaleX/2),
+							positionY(projectiles[j].pos_y, game.map.length)-(scaleY/2),
+							scaleX,scaleY)
+			 }
 		 }
 	 }
  }

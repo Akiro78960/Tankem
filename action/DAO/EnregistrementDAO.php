@@ -20,9 +20,9 @@
 			foreach ($statement as $row){
 				$id = array_values($row)[0];
 				$id_map = array_values($row)[1];
-				$id_joueur1 = array_values($row)[2];
-				$id_joueur2 = array_values($row)[3];
-				$creation_date = array_values($row)[4];
+				$creation_date = array_values($row)[2];
+				$id_joueur1 = array_values($row)[3];
+				$id_joueur2 = array_values($row)[4];
 				$newDTO = new DTOpartie($id, $id_map, $id_joueur1, $id_joueur2, $creation_date);
 				$result[] = $newDTO;
 			}
@@ -122,14 +122,25 @@
 				}
 
 				// Nom Joueur 1
-				$statement = $connection->prepare("SELECT name FROM joueur WHERE id = ?");
-				$statement->bindParam(1, $DTOpartie->id_map);
+				$statement = $connection->prepare("SELECT username FROM joueur WHERE id = ?");
+				$statement->bindParam(1, $DTOpartie->id_joueur1);
 				$statement->setFetchMode(PDO::FETCH_ASSOC);
 				$statement->execute();
 
 				foreach ($statement as $row){
-					$nom_map = array_values($row)[0];
-					$DTOpartie->nom_map = $nom_map;
+					$nom_joueur = array_values($row)[0];
+					$DTOpartie->nom_joueur1 = $nom_joueur;
+				}
+
+				// Nom Joueur 2
+				$statement = $connection->prepare("SELECT username FROM joueur WHERE id = ?");
+				$statement->bindParam(1, $DTOpartie->id_joueur2);
+				$statement->setFetchMode(PDO::FETCH_ASSOC);
+				$statement->execute();
+
+				foreach ($statement as $row){
+					$nom_joueur = array_values($row)[0];
+					$DTOpartie->nom_joueur2 = $nom_joueur;
 				}
 			}
 

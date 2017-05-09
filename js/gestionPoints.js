@@ -10,11 +10,7 @@ window.onload = function(){
 }
 
 function initStats(){
-	// joueur.niveau = 5;
-	// joueur.hp = 1;
-	// joueur.degat = 7;
-	// joueur.deplacement = 5;
-	// joueur.tir = 2;
+	document.querySelector(".niveauJ").innerHTML = joueur.niveau;
 	retrieveHpTot(); //On peut pas retourner le hp total vu que c'est une requête Ajax
 	document.getElementById("gpDEGATTotal").innerHTML = "BONUS DÉGAT : " + calcDegatTot().toFixed(2) + "%";
 	document.getElementById("gpDEPTotal").innerHTML = "BONUS VITESSE DÉPLACEMENT : " + calcDepTot().toFixed(2) + "%";
@@ -128,6 +124,9 @@ function enregistrerStats(){
 	.done(function(data){
 		document.querySelector(".messageStats").innerHTML = "Stats Joueur - Enregistré!";
 		retrieveInfoJoueur();
+		setTimeout(function(){
+			document.querySelector(".messageStats").innerHTML = "Stats Joueur";
+		},2000);
 	})
 }
 

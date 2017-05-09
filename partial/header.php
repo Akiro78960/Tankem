@@ -17,9 +17,20 @@
 			   </button>
 	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
 		<ul class="navbar-nav ">
-		  <li class="nav-item"> <a class="nav-link" href="index.php">Home</a> </li>
-		  <li class="nav-item"> <a class="nav-link" href="Infos.php">Infos</a> </li>
-		  <li class="nav-item"> <a class="nav-link" href="gestionPoints.php">Gestion des Attributs</a> </li>
+			<?php
+				if($action->isLoggedIn()){
+				?>
+		  		<li class="nav-item"> <p class="nav-link"> Bienvenue, <?=$_SESSION["Username"]?>! </p> </li>
+					<li class="nav-item"> <a class="nav-link" href="Infos.php">Infos</a> </li>
+			 		<li class="nav-item"> <a class="nav-link" href="gestionPoints.php">Gestion des Attributs</a> </li>
+				<?php
+				}
+				else{
+				?>
+		  		<li class="nav-item"> <a class="nav-link" href="index.php">Home</a> </li>
+				<?php
+				}
+			?>
 			<li class="nav-item"> <a class="nav-link" href="hallOfFame.php">Hall of Fame</a> </li>
 			<li class="nav-item"> <a class="nav-link" href="dernieresParties.php">Dernières Parties</a> </li>
 		  <li class="nav-item"> <a class="nav-link" href="replay.php">Replay</a> </li>
