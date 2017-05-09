@@ -76,7 +76,7 @@ function ajaxEnregistrement() {
 				nouvellePartie.style.color = "#fff";
 				nouvellePartie.style.backgroundColor = "#666";
 				nouvellePartie.onmouseover = function() {
-					this.style.backgroundColor = "#669";
+					this.style.backgroundColor = "#333";
 				}
 				nouvellePartie.onmouseleave = function() {
 					this.style.backgroundColor = "#666";
@@ -245,10 +245,10 @@ function drawPlayerOne(game, time_sec){
 					-scaleY/2,
 					scaleX,scaleY)
 		ctx.restore();
-		$("#joueur1").html(game.nom_joueur1 + ", vie: " + joueur.health + "/" + arrayJoueur1[0].health);
+		$("#joueur1").html("Tank rouge: " + game.nom_joueur1 + "<br/> vie: " + joueur.health + "/" + arrayJoueur1[0].health);
 	}
 	else{
-		$("#joueur1").html(game.nom_joueur1 + ", vie: " + "0" + "/" + arrayJoueur1[0].health);
+		$("#joueur1").html("Tank rouge: " + game.nom_joueur1 + "<br/> vie: " + "0" + "/" + arrayJoueur1[0].health);
 	}
 
 }
@@ -272,10 +272,10 @@ function drawPlayerTwo(game, time_sec){
 					-scaleY/2,
 					scaleX,scaleY)
 		ctx.restore();
-		$("#joueur2").html(game.nom_joueur2 + ", vie: " + joueur.health + "/" + arrayJoueur2[0].health);
+		$("#joueur2").html("Tank bleu: " + game.nom_joueur2 + "<br/> vie: " + joueur.health + "/" + arrayJoueur2[0].health);
 	}
 	else{
-		$("#joueur2").html(game.nom_joueur2 + ", vie: " + "0" + "/" + arrayJoueur2[0].health);
+		$("#joueur2").html("Tank bleu: " + game.nom_joueur2 + "<br/> vie: " + "0" + "/" + arrayJoueur2[0].health);
 	}
 
 }
