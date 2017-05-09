@@ -25,12 +25,12 @@
 		  <li class="nav-item"> <a class="nav-link" href="replay.php">Replay</a> </li>
   		<li class="nav-item"> <a class="nav-link" href="search.php">Recherche</a> </li>
 			<?php
-							if ($action->isLoggedIn()) {
-								?>
-								<li class ="nav-item"><a class="nav-link"href="?logout=true">Logout</a></li>
-								<?php
-							}
-						?>
+					if ($action->isLoggedIn()) {
+			?>
+					<li class ="nav-item"><a class="nav-link"href="?logout=true">Logout</a></li>
+			<?php
+					}
+			?>
 		</ul>
 	  </div>
 	</div>

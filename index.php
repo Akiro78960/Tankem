@@ -25,12 +25,12 @@
 	  		<?php 
 				if ($action->wrongLogin) {
 				?>
-					<div class="error-div"><strong>Erreur : </strong>Connexion erronée</div>
+					<div class="error"><strong>Erreur : </strong>Connexion erronée</div>
 					<?php
 			  }
 				if($action->banned){			
 					?>
-						<div class="error-div"><strong>Erreur : </strong>User is banned</div>
+						<div class="error"><strong>Erreur : </strong>User is banned</div>
 					<?php
 					}
 					?>

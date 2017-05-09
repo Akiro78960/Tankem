@@ -6006,9 +6006,6 @@ a.text-gray-dark:hover {
 .invisible {
   visibility: hidden !important; }
 .error{
-  position:absolute;
-	top:250px;
-	left:870px;
 	color:black;
 	width: auto;
 	height:30px;

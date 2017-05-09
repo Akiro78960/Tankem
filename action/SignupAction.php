@@ -1,7 +1,7 @@
 <?php
 	require_once("action/CommonAction.php");
 	class SignupAction extends CommonAction {
-		public $wrongInfo;
+		public $wrongInfo = false;
 		public $errorMessage = "";
 		public function __construct() {
 			parent::__construct(CommonAction::$VISIBILITY_PUBLIC);
@@ -26,23 +26,30 @@
 					}
 					else{
 						$execute = false;
-						echo "<div class='error'> Ce nom d'utilisateur est déjà utilisé </div>";
+						$this->wrongInfo = true;
+						$this->errorMessage = "Ce nom d'utilisateur est déjà utilisé";
 					}
 				}
-
+				else{
+					$execute = false;
+					$this->wrongInfo = true;
+					$this->errorMessage = "Veuillez entrer un username";
+				}
 				if($_POST["fieldNom"] != ""){
 					$statement->bindParam(2, $_POST["fieldNom"]);
 				}
 				else if($execute){
 					$execute = false;
-					echo "<div class='error'> Veuillez entrer un nom </div>";
+					$this->wrongInfo = true;
+					$this->errorMessage = "Veuillez entrer un nom ";
 				}
 				if($_POST["fieldPrenom" ] != ""){
 					$statement->bindParam(3, $_POST["fieldPrenom"]);
 				}
 				else if($execute){
 					$execute = false;
-					echo "<div class='error'> Veuillez entrer un prenom </div>";
+					$this->wrongInfo = true;
+					$this->errorMessage = "Veuillez entrer un prenom ";
 				}
 				$statement->bindParam(4, $_POST["fieldColor"]);
 				if($_POST["fieldPassword"] != ""){
@@ -52,12 +59,14 @@
 					}
 					else if($execute){
 						$execute = false;
-						echo "<div class='error'> Les mots de passe ne sont pas les mêmes </div>";
+						$this->wrongInfo = true;
+						$this->errorMessage ="Les mots de passe ne sont pas les mêmes ";
 					}
 				}
 				else if($execute){
 					$execute = false;
-					echo "<div class='error'> Veuillez entrer un mot de passe </div>";
+					$this->wrongInfo = true;
+					$this->errorMessage = "Veuillez entrer un mot de passe ";
 				}
 				if($_POST["fieldEmail"] != ""){
 					$statement2 = $connection->prepare("SELECT * FROM joueur WHERE email = ?");
@@ -70,12 +79,14 @@
 					}
 					else if($execute){
 						$execute = false;
-						echo "<div class='error'> Cet email est déjà utilisé </div>";
+						$this->wrongInfo = true;
+						$this->errorMessage = "Cet email est déjà utilisé";
 					}
 				}
 				else if($execute){
 					$execute = false;
-					echo "<div class='error'> Veuillez entrer un email </div>";
+					$this->wrongInfo = true;
+					$this->errorMessage = "Veuillez entrer un email";
 				}
 				if($execute){
 					$tmp = 0;
@@ -94,8 +105,8 @@
 
 					$statement->execute();
 
-
-					echo "<div class='error'> L'enregistrement s'est bien effectué </div>";
+					$this->wrongInfo = true;
+					$this->errorMessage = "L'enregistrement s'est bien effectué";
 				}
 			}
 

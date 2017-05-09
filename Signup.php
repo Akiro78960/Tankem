@@ -5,7 +5,7 @@
 
 	$action->execute();
 
-	require_once("Partial/header.php");
+	require_once("partial/header.php");
 ?>
 
   <div class="py-5">
@@ -21,7 +21,14 @@
 	<div class="w-100 container">
 	  <div class="row text-center w-100 mx-auto" id="fixedcontainer">
 		<div class="col-md-11 text-center mx-auto">
-			<div class="error-div"> <?=$action->errorMessage?></div>
+		<?php
+				if ($action->wrongInfo) {
+		?>
+				<div class="error"><strong>Erreur : </strong>"<?=$action->errorMessage?>"</div>
+		<?php
+				}
+		?>
+			<!--<div class="error-div"> <?=$action->errorMessage?></div>-->
 		  <form class="" action ="Signup.php" method ="post">
 			<div class="form-group w-25" id="signupemail"> <label>Email address</label> <input type="email" name="fieldEmail" class="form-control" placeholder="Enter email"> </div>
 			<div class="form-group w-25" id="signupPrenom"> <label>Prenom<br></label> <input type="text" name="fieldPrenom" class="form-control" placeholder="Prenom"> </div>
