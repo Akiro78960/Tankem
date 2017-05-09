@@ -245,10 +245,10 @@ function drawPlayerOne(game, time_sec){
 					-scaleY/2,
 					scaleX,scaleY)
 		ctx.restore();
-		$("#joueur1").html("Joueur 1, vie: " + joueur.health + "/" + arrayJoueur1[0].health);
+		$("#joueur1").html(game.nom_joueur1 + ", vie: " + joueur.health + "/" + arrayJoueur1[0].health);
 	}
 	else{
-		$("#joueur1").html("Joueur 1, vie: " + "0" + "/" + arrayJoueur1[0].health);
+		$("#joueur1").html(game.nom_joueur1 + ", vie: " + "0" + "/" + arrayJoueur1[0].health);
 	}
 
 }
@@ -272,10 +272,10 @@ function drawPlayerTwo(game, time_sec){
 					-scaleY/2,
 					scaleX,scaleY)
 		ctx.restore();
-		$("#joueur2").html("Joueur 2, vie: " + joueur.health + "/" + arrayJoueur2[0].health);
+		$("#joueur2").html(game.nom_joueur2 + ", vie: " + joueur.health + "/" + arrayJoueur2[0].health);
 	}
 	else{
-		$("#joueur2").html("Joueur 2, vie: " + "0" + "/" + arrayJoueur2[0].health);
+		$("#joueur2").html(game.nom_joueur2 + ", vie: " + "0" + "/" + arrayJoueur2[0].health);
 	}
 
 }
