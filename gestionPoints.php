@@ -42,6 +42,13 @@
 				<div class="cold-md-6 text-left ptsDispo">
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-md-6 text-right">
+					<p>Niveau du joueur : </p>
+				</div>
+				<div class="cold-md-6 text-left niveauJ">
+				</div>
+			</div>
 			<div class="row gpRowModifStat">
 				<div class="col-md-1">
 					<button class="btn btn-secondary" type="submit" onclick="modifHP(false)">-</button>
@@ -86,7 +93,7 @@
 					<button class="btn btn-secondary" type="submit" onclick="modifTIR(false)">-</button>
 				</div>
 				<div class="col-md-5">
-					<p class="text-right">TIR : </p>
+					<p class="text-right">VITESSE TIR : </p>
 				</div>
 				<div class="col-md-5 text-left statModTIR">
 				</div>
