@@ -280,8 +280,8 @@ class MenuLogin(ShowBase):
 		self.tankDroite.setScale(6.005,6.005,6.005)
 		self.tankDroite.setHpr(180, 0.0, 0.0)
 		interval2 = self.tankDroite.hprInterval(4.0, Vec3(540, 0, 0))
-		self.sequenceTourne = Sequence(interval2)
-		self.sequenceTourne.loop()
+		self.sequenceTourne2 = Sequence(interval2)
+		self.sequenceTourne2.loop()
 
 		
 
@@ -348,12 +348,18 @@ class MenuLogin(ShowBase):
 		self.sequence9.start()
 		self.sequence10.start()	 
 		self.sequence11.start()
-	def tankIntro(self):
-		self.sequence = Sequence (LerpPosInterval(self.tankGauche,2,(-17.5,65,-10)))
-		self.sequence2 = Sequence (LerpPosInterval(self.tankDroite,2,(17.5,65,-10)))
-		self.sequence2.start()	  
-		self.sequence.start()
 
+	def tankIntro(self,direction):
+		if direction == "gauche" :
+			self.sequence = Sequence (LerpPosInterval(self.tankGauche,2,(-17.5,65,-10)))
+			self.color1 = self.hex_to_rgb(self.joueur1.couleurTank)
+			self.tankGauche.setColorScale(self.color1[0]/255.0,self.color1[1]/255.0,self.color1[2]/255.0,1)
+		if direction == "droite" :
+			self.sequence = Sequence (LerpPosInterval(self.tankDroite,2,(17.5,65,-10)))
+			self.color2 = self.hex_to_rgb(self.joueur2.couleurTank)
+			self.tankDroite.setColorScale(self.color2[0]/255.0,self.color2[1]/255.0,self.color2[2]/255.0,1)
+
+		self.sequence.start()
 	def lerpText(self) :
 		self.sequence = Sequence (LerpScaleInterval(self.nodeJoueur1, 1, 0.08, 0),
 								  LerpScaleInterval(self.nodeVersus, 1, 0.08, 0),
@@ -394,6 +400,7 @@ class MenuLogin(ShowBase):
 				self.b2['frameColor'] = self.couleurDisabled
 				self.b2['text_bg'] = self.couleurDisabled
 				self.gameLogic.idJoueur1 = self.joueur1.idJoueur
+				self.tankIntro("gauche")
 			if num == 2 :
 				self.player2ready = state
 				self.player2Infos = self.joueur2
@@ -401,27 +408,20 @@ class MenuLogin(ShowBase):
 				self.b3['frameColor'] = self.couleurDisabled
 				self.b3['text_bg'] = self.couleurDisabled
 				self.gameLogic.idJoueur2 = self.joueur2.idJoueur
+				self.tankIntro("droite")
 			if self.player1ready == True and self.player2ready == True :
 				self.setText("Welcome to Tank'em !")
 				self.b4['state'] = DGG.NORMAL
 				self.b4['frameColor'] = self.couleurBack
 				self.b4['text_bg'] = self.couleurBack
-				# self.joueur1.agilite = 7
-				# self.joueur1.force = 10
-				# self.joueur1.vie = 25
-				# self.joueur1.dexterite = 15
+
 				self.calcJoueur1 = self.calculateName(self.joueur1)
 				self.calcJoueur2 = self.calculateName(self.joueur2)
 				self.textJoueur1.setText(self.username1 + " " + self.calcJoueur1)
 				self.textJoueur2.setText(self.username2 + " " + self.calcJoueur2)
 				self.textNiveau.setText(self.mapName)
-				self.color1 = self.hex_to_rgb(self.joueur1.couleurTank)
-				self.color2 = self.hex_to_rgb(self.joueur2.couleurTank)
-				print self.color1[0]
-				self.tankGauche.setColorScale(self.color1[0]/255.0,self.color1[1]/255.0,self.color1[2]/255.0,1)
-				self.tankDroite.setColorScale(self.color2[0]/255.0,self.color2[1]/255.0,self.color2[2]/255.0,1)
+			
 				self.lerpText()
-				self.tankIntro()
 				self.loginOutro()
 			elif self.player1ready :
 				self.setText('Player 2 must also login')
@@ -473,7 +473,25 @@ class MenuLogin(ShowBase):
 	def setNiveauChoisi(self,idNiveau):
 			self.gameLogic.setIdNiveau(idNiveau)
 			self.gameLogic.setPlayers([self.player1Infos, self.player2Infos])
-			self.chargeJeu()
+			self.startGame()
+	def startGame(self):
+		#Tank1
+		self.sequenceTourne.finish()
+
+		self.intervalPos = Sequence (self.tankGauche.hprInterval(1, Vec3(-270, 0, 0)),
+									 LerpPosInterval(self.tankGauche,0.25,(-5,65,-10)),
+									 LerpPosInterval(self.tankGauche,0.25,(-50,65,20)))
+		self.intervalPos.start()
+		#Tank2
+		self.sequenceTourne2.finish()
+
+		self.intervalPos2 = Sequence (self.tankDroite.hprInterval(1,Vec3(270,0,0)),
+									  LerpPosInterval(self.tankDroite,0.25,(5,65,-10)),
+									  LerpPosInterval(self.tankDroite,0.25,(50,65,20)),
+									  Func(self.chargeJeu))
+		self.intervalPos2.start()
+		
+		
 
 	def chargeJeu(self):
 			#On démarre!
