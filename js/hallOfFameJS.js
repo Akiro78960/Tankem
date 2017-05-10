@@ -70,7 +70,7 @@ function ratio(joueur){
 	if(joueur.PARTIEJOUE == 0)
 		return 0;
 	else
-		return joueur.PARTIEGAGNE / (joueur.PARTIEJOUE / joueur.PARTIEGAGNE);
+		return joueur.PARTIEGAGNE / joueur.PARTIEJOUE;
 }
 
 //Quicksort (yaaaay)

@@ -143,7 +143,7 @@
 					$DTOpartie->nom_joueur2 = $nom_joueur;
 				}
 			}
-
+			Connection::closeConnection();
 			return $result;
 		}
 	}
