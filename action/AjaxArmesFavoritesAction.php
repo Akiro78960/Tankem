@@ -17,8 +17,8 @@
 				$statement->execute(Array($id));
 				$this->row = $statement->fetchall(PDO::FETCH_ASSOC);
 				$this->idMostUsed = json_encode($this->row);
-				// $this->idMostUsed = $this->row;
 				$this->result = $this->idMostUsed;
+				Connection::closeConnection();
 			}catch(PDOException $e){
 				echo 'Échec lors de la connection : ' + $e->getMessage();
 			}
