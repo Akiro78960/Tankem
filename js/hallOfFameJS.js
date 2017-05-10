@@ -1,4 +1,5 @@
 window.onload = function(){
+	//Commence par cherche les infos nécessaires des joueurs
 	ajaxJoueurs();
 }
 
@@ -12,17 +13,15 @@ function afficherJoueurs(tabJoueur) {
 		var newElement = document.createElement("div");
 		newElement.innerHTML = template;
 		newElement.querySelector('.numero').innerHTML = i + 1;
-		var nomCalc = calculateName(tabJoueur[i].ID);
-		if(nomCalc != " ")
+		var nomCalc = calculateName(tabJoueur[i]);
+		if(nomCalc != " ") //Si le calculateName ne renvoit pas un vide, rajoute une virgule
 			nomCalc = ", " + nomCalc;
 		newElement.querySelector('.nomJoueur').innerHTML = "Nom : " + tabJoueur[i].USERNAME + nomCalc;
-		// newElement.querySelector('.niveauFavori').innerHTML = "Niveau préféré : " + ajaxNiveauFavori(tabJoueur[i].ID);
-		// console.log(ajaxNiveauFavori(tabJoueur[i].ID));
 		newElement.querySelector('.ratio').innerHTML = "Ratio victoires/défaites : " + (ratio(tabJoueur[i]) * 100).toFixed(2) + "%";
 		newElement.querySelector('.nbPartiesJoues').innerHTML = "Parties jouées : " + tabJoueur[i].PARTIEJOUE;
 		newElement.querySelector('.imageTank').style="background-color:"+tabJoueur[i].COULEURTANK;
 		document.getElementById("contHallOfFame").appendChild(newElement);
-		ajaxNiveauFavori(tabJoueur[i].ID, i);
+		ajaxNiveauFavori(tabJoueur[i].ID, i); //Fait un autre appel pour le niveau favori de joueur
 	});
 }
 
@@ -48,6 +47,7 @@ function ajaxNiveauFavori(id, idNode) {
 }
 
 function ajaxJoueurs() {
+	//Affiche tous les infos des joueurs
 	$.ajax({
 		type : "POST",
 		url : "ajaxJoueurs.php",
@@ -56,15 +56,16 @@ function ajaxJoueurs() {
 		}
 	})
 	.done(function(data) {
+		//Quicksort pour voir quel joueur à le meilleur ratio
 		tabJoueur = JSON.parse(data);
 		tabJoueur = quickSort(tabJoueur, 0, tabJoueur.length-1);
 		tabJoueur.reverse(); //Pour inverser l'array
-		afficherJoueurs(tabJoueur);
+		afficherJoueurs(tabJoueur); //Afficher sur la page les joueurs
 	})
 }
 
 
-
+//SImple fonction pour retourner le ratio victoires/parties sans diviser par zéro :)
 function ratio(joueur){
 	if(joueur.PARTIEJOUE == 0)
 		return 0;

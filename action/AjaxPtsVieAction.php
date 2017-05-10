@@ -16,6 +16,7 @@
 				$this->row = $statement->fetchall(PDO::FETCH_ASSOC);
 				$this->row = json_encode($this->row);
 				$this->result = $this->row;
+				Connection::closeConnection();
 			}catch(PDOException $e){
 				echo 'Échec lors de la connection : ' + $e->getMessage();
 			}

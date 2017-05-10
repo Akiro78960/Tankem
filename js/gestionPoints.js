@@ -1,3 +1,4 @@
+const MAX_POINTS = 30;
 const AJOUT_HP = 10;
 const AJOUT_DEGAT = 10;
 const AJOUT_DEP = 5;
@@ -6,12 +7,13 @@ const AJOUT_TIR = 10;
 var joueur = null;
 
 window.onload = function(){
+	//Commence par loader les infos de joueur
 	retrieveInfoJoueur();
 }
 
 function initStats(){
 	document.querySelector(".niveauJ").innerHTML = joueur.niveau;
-	retrieveHpTot(); //On peut pas retourner le hp total vu que c'est une requête Ajax
+	retrieveHpTot(); //On peut pas retourner le hp total tout de suite vu que l'hp original des tanks se retrouve dans une autre table de BD
 	document.getElementById("gpDEGATTotal").innerHTML = "BONUS DÉGAT : " + calcDegatTot().toFixed(2) + "%";
 	document.getElementById("gpDEPTotal").innerHTML = "BONUS VITESSE DÉPLACEMENT : " + calcDepTot().toFixed(2) + "%";
 	document.getElementById("gpTIRTotal").innerHTML = "BONUS VITESSE TIR : " + calcTirTot().toFixed(2) + "%";
@@ -20,11 +22,14 @@ function initStats(){
 	document.querySelector(".statModDEP").innerHTML = joueur.deplacement;
 	document.querySelector(".statModTIR").innerHTML = joueur.tir;
 	document.querySelector(".ptsDispo").innerHTML = joueur.calcPtsDepenser();
-	console.log(joueur.calcPtsDepenser());
 }
 
+/************************************
+	FONCTIONS POUR MODIFIER LES STATS
+************************************/
+
 function modifHP(plus){
-	if(plus && joueur.calcPtsDepenser() > 0 && joueur.hp < 30)
+	if(plus && joueur.calcPtsDepenser() > 0 && joueur.hp < MAX_POINTS)
 		joueur.modifHP(++joueur.hp);
 	else if(!plus && joueur.hp > 0)
 		joueur.modifHP(--joueur.hp);
@@ -33,7 +38,7 @@ function modifHP(plus){
 }
 
 function modifDEGAT(plus){
-	if(plus && joueur.calcPtsDepenser() > 0 && joueur.degat < 30)
+	if(plus && joueur.calcPtsDepenser() > 0 && joueur.degat < MAX_POINTS)
 		joueur.modifDEGAT(++joueur.degat);
 	else if(!plus && joueur.degat > 0)
 		joueur.modifDEGAT(--joueur.degat);
@@ -42,7 +47,7 @@ function modifDEGAT(plus){
 }
 
 function modifDEP(plus){
-	if(plus && joueur.calcPtsDepenser() > 0 && joueur.deplacement < 30)
+	if(plus && joueur.calcPtsDepenser() > 0 && joueur.deplacement < MAX_POINTS)
 		joueur.modifDEP(++joueur.deplacement);
 	else if(!plus && joueur.deplacement > 0)
 		joueur.modifDEP(--joueur.deplacement);
@@ -51,13 +56,17 @@ function modifDEP(plus){
 }
 
 function modifTIR(plus){
-	if(plus && joueur.calcPtsDepenser() > 0 && joueur.tir < 30)
+	if(plus && joueur.calcPtsDepenser() > 0 && joueur.tir < MAX_POINTS)
 		joueur.modifTIR(++joueur.tir);
 	else if(!plus && joueur.tir > 0)
 		joueur.modifTIR(--joueur.tir);
 	document.querySelector(".statModTIR").innerHTML = joueur.tir;
 	document.querySelector(".ptsDispo").innerHTML = joueur.calcPtsDepenser();
 }
+
+/************************************
+	FONCTIONS POUR CALCULER LES STATS
+************************************/
 
 function calcHpTot(hp){
 	return hp / 100 * (100 + AJOUT_HP * joueur.hp);
@@ -80,6 +89,7 @@ function calcTirTot(){
 }
 
 function retrieveHpTot(){
+	//Recherche dans une autre table l'hp original des tanks
 	var pts = 0
 	$.ajax({
 		type : "POST",
@@ -103,6 +113,7 @@ function retrieveInfoJoueur(){
 		}
 	})
 	.done(function(data){
+		//Quand tout est loader, créer un nouveau joueur et initier laffichage des stats
 		var tmpJ = JSON.parse(data);
 		joueur = new Joueur(parseInt(tmpJ[0].VIE), parseInt(tmpJ[0].FORCE), parseInt(tmpJ[0].AGILITE), parseInt(tmpJ[0].DEXTERITE), parseInt(tmpJ[0].NIVEAU));
 		initStats();

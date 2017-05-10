@@ -13,9 +13,7 @@
                 $this->connection = Connection::getConnection();
                 $statement = $this->connection->prepare("UPDATE joueur SET vie = ?, force = ?, agilite = ?, dexterite = ?, niveau = ? WHERE username = ?");
                 $statement->execute(Array($_POST["hp"],$_POST["degat"],$_POST["deplacement"],$_POST["tir"],$_POST["niveau"],$_SESSION["Username"]));
-                // $this->row = $statement->fetchall(PDO::FETCH_ASSOC);
-				// $this->row = json_encode($this->row);
-				// $this->result = $this->row;
+				Connection::closeConnection();
             }catch(PDOException $e){
                 echo 'Échec lors de la connexion : ' . $e->getMessage();
             }

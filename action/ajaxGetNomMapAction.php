@@ -18,6 +18,7 @@
 				$statement->execute(Array($id));
 				$this->row = $statement->fetchall(PDO::FETCH_ASSOC);
                 $this->result = $this->row;
+				Connection::closeConnection();
 			}catch(PDOException $e){
 				echo 'Échec lors de la connection : ' + $e->getMessage();
 			}

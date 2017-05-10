@@ -14,9 +14,6 @@ function ajaxDernParties(){
 		var template = document.querySelector("#mon-template").innerHTML;
 		document.getElementById("contDernPart").innerHTML = "";
 		var tabParties = JSON.parse(data);
-		// console.log(tabParties[0][0]); Nom niveau, Nom joueur 1, couleur tank 1
-		// console.log(tabParties[0][1]); Nom joueur 2, couleur tank 2
-		// console.log(tabParties[0][2]); Nom gagnant
 		$(tabParties).each(function(i) {
 			if(i == 5){
 				return false;
@@ -33,6 +30,6 @@ function ajaxDernParties(){
 		})
 		setTimeout(function(){
 			ajaxDernParties();
-		}, 10000);
+		}, 10000); //Reload la page chaque 10 secondes
 	})
 }

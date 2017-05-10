@@ -19,5 +19,6 @@
 			$_SESSION["Success"] = $success;
 			$answer = $statement->fetch();
 			$this->result = $answer;
+			Connection::closeConnection();
 		}
 	}
