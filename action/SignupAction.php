@@ -2,6 +2,7 @@
 	require_once("action/CommonAction.php");
 	class SignupAction extends CommonAction {
 		public $wrongInfo = false;
+		public $rightInfo = false;
 		public $errorMessage = "";
 		public function __construct() {
 			parent::__construct(CommonAction::$VISIBILITY_PUBLIC);
@@ -15,25 +16,44 @@
 
 				$statement = $connection->prepare("INSERT INTO joueur (username,name,surname,couleurTank,password,banned,bannedStart,logCounter,email,niveau,experience,vie,force,agilite,dexterite,partieJoue,partieGagne) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 				if($_POST["fieldUsername"] != ""){
-					$statement2 = $connection->prepare("SELECT * FROM joueur WHERE username = ?");
-					$statement2->bindParam(1,$_POST["fieldUsername"]);
-					$statement2->setFetchMode(PDO::FETCH_ASSOC);
-					$statement2->execute();
-					$count = $statement2->rowCount();
+					$statement = $connection->prepare("SELECT * FROM joueur WHERE username = ?");
+					$statement->bindParam(1,$_POST["fieldUsername"]);
+					$statement->setFetchMode(PDO::FETCH_ASSOC);
+					$statement->execute();
 
-					if ($count == 0){
-						$statement->bindParam(1, $_POST["fieldUsername"]);
-					}
-					else{
+					if ($row = $statement2->fetch()){	
 						$execute = false;
 						$this->wrongInfo = true;
 						$this->errorMessage = "Ce nom d'utilisateur est déjà utilisé";
+					}
+					else{
+						$statement->bindParam(1, $_POST["fieldUsername"]);
 					}
 				}
 				else{
 					$execute = false;
 					$this->wrongInfo = true;
 					$this->errorMessage = "Veuillez entrer un username";
+				}
+				if($_POST["fieldEmail"] != ""){
+					$statement = $connection->prepare("SELECT * FROM joueur WHERE email = ?");
+					$statement->bindParam(1,$_POST["fieldEmail"]);
+					$statement->setFetchMode(PDO::FETCH_ASSOC);
+					$statement->execute();
+					if($row = $statement->fetch()){
+						$execute = false;
+						$this->wrongInfo = true;
+						$this->errorMessage = "Cet email est déjà utilisé";
+						
+					}
+					else if($execute){
+						$statement->bindParam(9, $_POST["fieldEmail"]);
+					}
+				}
+				else if($execute){
+					$execute = false;
+					$this->wrongInfo = true;
+					$this->errorMessage = "Veuillez entrer un email";
 				}
 				if($_POST["fieldNom"] != ""){
 					$statement->bindParam(2, $_POST["fieldNom"]);
@@ -68,26 +88,6 @@
 					$this->wrongInfo = true;
 					$this->errorMessage = "Veuillez entrer un mot de passe ";
 				}
-				if($_POST["fieldEmail"] != ""){
-					$statement2 = $connection->prepare("SELECT * FROM joueur WHERE email = ?");
-					$statement2->bindParam(1,$_POST["fieldEmail"]);
-					$statement2->setFetchMode(PDO::FETCH_ASSOC);
-					$statement2->execute();
-					$count = $statement2->rowCount();
-					if($count == 0){
-						$statement->bindParam(9, $_POST["fieldEmail"]);
-					}
-					else if($execute){
-						$execute = false;
-						$this->wrongInfo = true;
-						$this->errorMessage = "Cet email est déjà utilisé";
-					}
-				}
-				else if($execute){
-					$execute = false;
-					$this->wrongInfo = true;
-					$this->errorMessage = "Veuillez entrer un email";
-				}
 				if($execute){
 					$tmp = 0;
 					$notBanned = null;
@@ -105,10 +105,10 @@
 
 					$statement->execute();
 
-					$this->wrongInfo = true;
+					$this->rightInfo = true;
 					$this->errorMessage = "L'enregistrement s'est bien effectué";
 				}
 			}
-
+			Connection::closeConnection();
 		}
 }

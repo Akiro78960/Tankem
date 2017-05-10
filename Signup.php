@@ -28,7 +28,14 @@
 		<?php
 				}
 		?>
-			<!--<div class="error-div"> <?=$action->errorMessage?></div>-->
+		<?php
+				if ($action->rightInfo) {
+		?>
+				<div class="error"><strong>Succès! : </strong>"<?=$action->errorMessage?>"</div>
+		<?php
+				}
+		?>
+
 		  <form class="" action ="Signup.php" method ="post">
 			<div class="form-group w-25" id="signupemail"> <label>Email address</label> <input type="email" name="fieldEmail" class="form-control" placeholder="Enter email"> </div>
 			<div class="form-group w-25" id="signupPrenom"> <label>Prenom<br></label> <input type="text" name="fieldPrenom" class="form-control" placeholder="Prenom"> </div>
