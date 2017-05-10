@@ -13,10 +13,6 @@ class InterfaceTank(ShowBase):
 		self.identificateurTank = identificateurTank
 		#On doit créer une couleur avec 4 composantes sinon ça crash... beurk
 		if(isinstance(couleurBarre[0], (int, float))):
-<<<<<<< HEAD
-			print "Is array"
-=======
->>>>>>> fc56b551a3f82674cbf21dd8452a3fdedfdd31ef
 			couleurBarreAlpha = Vec4(couleurBarre[0]/255.0, couleurBarre[1]/255.0, couleurBarre[2]/255.0,1)
 		else:
 			couleurBarreAlpha = Vec4(couleurBarre.getX(),couleurBarre.getY(),couleurBarre.getZ(),1)

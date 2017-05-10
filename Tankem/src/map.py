@@ -608,7 +608,26 @@ class Map(DirectObject.DirectObject):
 					print("Experience J1: "+str(DTOStats.expJ1avantPartie)+"(experience avant partie) +  "+str((self.listTank[1].pointDeVieMax-self.listTank[1].pointDeVie))+"(vie enlevée)x2 = "+str(DTOStats.expJ1apresPartie)+"xp")
 			
 			self.textLabel1 = TextNode('testLabel1')
-			self.textLabel1.setText("Experience J1: "+str(DTOStats.expJ1avantPartie) + " + " + str(addedExp1) + " = " + str(DTOStats.expJ1apresPartie))
+			self.textLabel2 = TextNode('testLabel2')
+
+
+			if(DTOStats.idGagnant == DTOStats.idJoueur1):
+				if(DTOStats.expJ1avantPartie > DTOStats.expJ2avantPartie):
+					self.textLabel1.setText("Exp J1: "+str(DTOStats.expJ1avantPartie)+" +  100xp + ("+str(self.listTank[0].pointDeVie)+")x2 = "+str(int(DTOStats.expJ1apresPartie))+"xp")
+					self.textLabel2.setText("Exp J2: "+str(DTOStats.expJ2avantPartie)+" +  ("+str((self.listTank[0].pointDeVieMax-self.listTank[0].pointDeVie))+")x2 = "+str(int(DTOStats.expJ2apresPartie))+"xp")
+				else:
+					self.textLabel1.setText("Exp J1: "+str(DTOStats.expJ1avantPartie)+" +  100xp + 100xp(non favori) + ("+str(self.listTank[0].pointDeVie)+")x2 = "+str(int(DTOStats.expJ1apresPartie))+"xp")
+					self.textLabel2.setText("Exp J2: "+str(DTOStats.expJ2avantPartie)+" +  ("+str((self.listTank[0].pointDeVieMax-self.listTank[0].pointDeVie))+")x2 = "+str(int(DTOStats.expJ2apresPartie))+"xp")
+			else:
+				if(DTOStats.expJ2avantPartie > DTOStats.expJ1avantPartie):
+					self.textLabel2.setText("Exp J2: "+str(DTOStats.expJ2avantPartie)+" +  100xp + ("+str(self.listTank[1].pointDeVie)+"(vie restante)x2 = "+str(int(DTOStats.expJ2apresPartie))+"xp")
+					self.textLabel1.setText("Exp J1: "+str(DTOStats.expJ1avantPartie)+" +  ("+str((self.listTank[1].pointDeVieMax-self.listTank[1].pointDeVie))+")x2 = "+str(int(DTOStats.expJ1apresPartie))+"xp")
+				else:
+					self.textLabel2.setText("Exp J2: "+str(DTOStats.expJ2avantPartie)+" +  100xp + 100xp(non favori) + ("+str(self.listTank[1].pointDeVie)+")x2 = "+str(int(DTOStats.expJ2apresPartie))+"xp")
+					self.textLabel1.setText("Exp J1: "+str(DTOStats.expJ1avantPartie)+" +  ("+str((self.listTank[1].pointDeVieMax-self.listTank[1].pointDeVie))+")x2 = "+str(int(DTOStats.expJ1apresPartie))+"xp")
+
+
+
 			self.textLabel1.setTextColor(0,0,0,1)
 			self.textLabel1.setShadow(0.05,0.05)
 			self.textLabel1.setShadowColor((200,200,200,0.8))
@@ -618,7 +637,23 @@ class Map(DirectObject.DirectObject):
 			self.textLabel1.setAlign(TextNode.ACenter)
 			self.nodeLabel1 = aspect2d.attachNewNode(self.textLabel1)
 			self.nodeLabel1.setScale(0.10)
-			self.nodeLabel1.setPos(0,0,0)
+			self.nodeLabel1.setPos(0,0,1)
+			
+			self.textLabel2.setTextColor(0,0,0,1)
+			self.textLabel2.setShadow(0.05,0.05)
+			self.textLabel2.setShadowColor((200,200,200,0.8))
+			self.textLabel2.setCardColor((255,255,255,0.3))
+			self.textLabel2.setCardAsMargin(0, 0, 0, 0)
+			self.textLabel2.setCardDecal(True)
+			self.textLabel2.setAlign(TextNode.ACenter)
+			self.nodeLabel2 = aspect2d.attachNewNode(self.textLabel2)
+			self.nodeLabel2.setScale(0.10)
+			self.nodeLabel2.setPos(0,0,1)
+
+			self.sequence = Sequence (LerpPosInterval(self.nodeLabel1,1,(0,0,-0.2),blendType="easeIn"))
+			self.sequence.start()
+			self.sequence2 = Sequence (LerpPosInterval(self.nodeLabel2,1,(0,0,-0.5),blendType="easeIn"))
+			self.sequence2.start()
 			
 			#animation lvlUp
 			if(DTOStats.lvlJ1apresPartie > DTOStats.lvlJ1avantPartie):
