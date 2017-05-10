@@ -8,7 +8,7 @@ var play = false;
 var iter = 0;
 var tick = 0;
 
-// Images Map
+// Images
 var block1 = new Image();
 block1.src = "images/block1.png";
 var block2 = new Image();
@@ -42,7 +42,7 @@ grenade.src = "images/grenade.png";
 
 window.onload = function() {
 	ajaxEnregistrement();
-}
+};
 
 function ajaxEnregistrement() {
 	$.ajax({
@@ -64,6 +64,7 @@ function ajaxEnregistrement() {
 			containerListe.style.float = "left";
 
 			$(listeParties).each(function(i) {
+				// Creation d'une nouvelle partie
 				var partie = this;
 				var nouvellePartie = document.createElement("li");
 				var textNum = document.createTextNode("Partie #" + partie.id + " Map: " + partie.nom_map );
@@ -107,7 +108,7 @@ function ajaxEnregistrement() {
 
 			containerPage.appendChild(canvas);
 
-			// Edit time
+			// Modificateur du temps, play/slider
 			var divTime = document.createElement("div");
 			divTime.style.margin = "5% 0%";
 
@@ -173,7 +174,7 @@ function buttonPlay(){
 	}
 }
 
-// affichage de la partie
+// Change les infos du replay pour avior celle de la derniere partie choisie.
 function updateGame(partie){
 	tick = 0;
 	play = false;
@@ -182,6 +183,7 @@ function updateGame(partie){
 	$("#slider").attr({"max" : getGameMaxTime(game)});
 }
 
+// Tick. Loop qui dessinne chaque element du replay.
 function drawGame(){
 	iter++;
 	$("#slider").val(tick);
@@ -223,11 +225,11 @@ function drawMap(map){
 				ctx.drawImage(block4,j*scaleX,i*scaleY,scaleX,scaleY);
 			}
 
-		})
-	})
+		});
+	});
 }
 
-//
+// Dessinne le joueur 1 ainsi que mettre a jour sa vie
 function drawPlayerOne(game, time_sec){
 	var arrayJoueur1 = game.arrayJoueur1;
 
@@ -255,6 +257,7 @@ function drawPlayerOne(game, time_sec){
 
 }
 
+// Dessinne le joueur 2 ainsi que mettre a jour sa vie
 function drawPlayerTwo(game, time_sec){
 	var arrayJoueur2 = game.arrayJoueur2;
 
@@ -282,6 +285,7 @@ function drawPlayerTwo(game, time_sec){
 
 }
 
+// Dessinne les armes que les joueurs peuvent ramasser
 function drawWeapon(game, time_sec){
 	var arrayArmes = game.arrayArmes;
 
@@ -336,6 +340,7 @@ function drawWeapon(game, time_sec){
 	}
 
 }
+// Dessinne les projectiles et leurs explosion
  function drawProjectiles(game, time){
 	 var arrayProjectiles = game.arrayProjectiles;
 	 var projectiles = [];
@@ -364,6 +369,7 @@ function drawWeapon(game, time_sec){
 	 }
  }
 
+// Retourne l'object d'un array au tick voulut
 function infoAtTick(array, time){
 	var result = false;
 
@@ -378,6 +384,7 @@ function infoAtTick(array, time){
 
 }
 
+// Traduit la position X de Tankem pour qu'elle soit cmopatible avec le canvas
 function positionX(posX,lengthX){
 	var posX = posX.replace(",", ".");
 	var totalX = parseFloat(posX) + lengthX;
@@ -386,6 +393,7 @@ function positionX(posX,lengthX){
 	return totalX*width/(lengthX*2);
 }
 
+// Traduit la position Y de Tankem pour qu'elle soit cmopatible avec le canvas
 function positionY(posY,lengthY){
 	var posY = posY.replace(",", ".");
 	var totalY = parseFloat(posY) + lengthY;
@@ -394,6 +402,7 @@ function positionY(posY,lengthY){
 	return totalY*height/(lengthY*2);
 }
 
+// Retourte le nombre maximal de tick d'une partie
 function getGameMaxTime(game){
 	var result = 0;
 
