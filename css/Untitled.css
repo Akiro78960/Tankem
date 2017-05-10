@@ -6012,6 +6012,13 @@ a.text-gray-dark:hover {
 	background-color: rgba(255, 0, 0, 0.6);
 	border:2px solid red;
 }
+.success{
+	color:black;
+	width: auto;
+	height:30px;
+	background-color: lightgreen;
+	border:2px solid rgba(0, 255, 0, 0.6);
+}
 #signupemail {
   float: left;
   left: 50%; }

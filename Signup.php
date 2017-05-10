@@ -31,7 +31,7 @@
 		<?php
 				if ($action->rightInfo) {
 		?>
-				<div class="error"><strong>Succès! : </strong>"<?=$action->errorMessage?>"</div>
+				<div class="success"><strong>Succès! : </strong>"<?=$action->errorMessage?>"</div>
 		<?php
 				}
 		?>

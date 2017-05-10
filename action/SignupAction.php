@@ -16,10 +16,10 @@
 
 				$statement = $connection->prepare("INSERT INTO joueur (username,name,surname,couleurTank,password,banned,bannedStart,logCounter,email,niveau,experience,vie,force,agilite,dexterite,partieJoue,partieGagne) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 				if($_POST["fieldUsername"] != ""){
-					$statement = $connection->prepare("SELECT * FROM joueur WHERE username = ?");
-					$statement->bindParam(1,$_POST["fieldUsername"]);
-					$statement->setFetchMode(PDO::FETCH_ASSOC);
-					$statement->execute();
+					$statement2 = $connection->prepare("SELECT * FROM joueur WHERE username = ?");
+					$statement2->bindParam(1,$_POST["fieldUsername"]);
+					$statement2->setFetchMode(PDO::FETCH_ASSOC);
+					$statement2->execute();
 
 					if ($row = $statement2->fetch()){	
 						$execute = false;
@@ -36,11 +36,11 @@
 					$this->errorMessage = "Veuillez entrer un username";
 				}
 				if($_POST["fieldEmail"] != ""){
-					$statement = $connection->prepare("SELECT * FROM joueur WHERE email = ?");
-					$statement->bindParam(1,$_POST["fieldEmail"]);
-					$statement->setFetchMode(PDO::FETCH_ASSOC);
-					$statement->execute();
-					if($row = $statement->fetch()){
+					$statement2 = $connection->prepare("SELECT * FROM joueur WHERE email = ?");
+					$statement2->bindParam(1,$_POST["fieldEmail"]);
+					$statement2->setFetchMode(PDO::FETCH_ASSOC);
+					$statement2->execute();
+					if($row = $statement2->fetch()){
 						$execute = false;
 						$this->wrongInfo = true;
 						$this->errorMessage = "Cet email est déjà utilisé";
