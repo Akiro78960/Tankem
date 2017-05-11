@@ -12,7 +12,7 @@ class DAOutilisateur():
 	def read(self, username, password):
 		try:
 			curRead = self.connection.cursor()
-			curRead.execute("SELECT * from joueur WHERE username=:player_username",player_username = username)
+			curRead.execute("SELECT * from joueur WHERE upper(username) like upper(:player_username)",player_username = username)
 			for result in curRead:
 				#BONNE METHODE A ENLEVER PLUS TARD
 				self.mdp = result[5]

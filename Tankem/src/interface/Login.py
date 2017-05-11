@@ -48,6 +48,10 @@ class MenuLogin(ShowBase):
 		self.couleurFG = (0,0,0,1)
 		self.joueur1 = ""
 		self.joueur2 = ""
+		self.username1 = ""
+		self.username2 = ""
+		self.p1Logged = False
+		self.p2Logged = False
 		#Titre du jeu
 		base.disableMouse()
 		
@@ -62,18 +66,18 @@ class MenuLogin(ShowBase):
 		self.fieldUsername2 = DirectEntry(text = "" ,scale=.05,
 									initialText="", 
 									numLines = 1,
-									focus=1,
+									focus=0,
 									pos=(3.4,0,0.82) )
 		self.fieldPassword1 = DirectEntry(text = "" ,scale=.05,
 									initialText="", 
 									numLines = 1,
-									focus=1,
+									focus=0,
 									pos=(-4,0,0.59),
 									obscured=1 )
 		self.fieldPassword2 = DirectEntry(text = "" ,scale=.05,
 									initialText="", 
 									numLines = 1,
-									focus=1,
+									focus=0,
 									pos=(3.4,0,0.59),
 									obscured=1 )
 		self.messageBox = DirectEntry(text = "" ,scale=.05,
@@ -393,33 +397,40 @@ class MenuLogin(ShowBase):
 		if num == 1 : 
 			self.username1 = self.fieldUsername1.get()
 			self.password1 = self.fieldPassword1.get()
-			self.joueur1 = self.user.read(self.username1,self.password1)
+			if self.username1.lower() != self.username2.lower() : 
+				self.joueur1 = self.user.read(self.username1,self.password1)
+				self.p1Logged = True
+				
 		if num == 2 :
 			self.username2 = self.fieldUsername2.get()
 			self.password2 = self.fieldPassword2.get()
-			self.joueur2 = self.user.read(self.username2,self.password2)
+			if self.username2.lower() != self.username1.lower() :
+				self.joueur2 = self.user.read(self.username2,self.password2)
+				self.p2Logged = True
 
 		if self.joueur1 == 1 or self.joueur2 == 1 :
 			self.setText("Mauvais nom d'utilisateur")
 		elif self.joueur1 == 0 or self.joueur2 == 0 : 
 			self.setText("Mauvais mot de passe")
 		else :
-			if num == 1 : 
-				self.player1ready = state
-				self.player1Infos = self.joueur1
-				self.loginP1['state'] = DGG.DISABLED
-				self.loginP1['frameColor'] = self.couleurDisabled
-				self.loginP1['text_bg'] = self.couleurDisabled
-				self.gameLogic.idJoueur1 = self.joueur1.idJoueur
-				self.tankIntro("gauche")
+			if num == 1 :
+				if self.p1Logged :
+					self.player1ready = state
+					self.player1Infos = self.joueur1
+					self.loginP1['state'] = DGG.DISABLED
+					self.loginP1['frameColor'] = self.couleurDisabled
+					self.loginP1['text_bg'] = self.couleurDisabled
+					self.gameLogic.idJoueur1 = self.joueur1.idJoueur
+					self.tankIntro("gauche")
 			if num == 2 :
-				self.player2ready = state
-				self.player2Infos = self.joueur2
-				self.loginP2['state'] = DGG.DISABLED
-				self.loginP2['frameColor'] = self.couleurDisabled
-				self.loginP2['text_bg'] = self.couleurDisabled
-				self.gameLogic.idJoueur2 = self.joueur2.idJoueur
-				self.tankIntro("droite")
+				if self.p2Logged :
+					self.player2ready = state
+					self.player2Infos = self.joueur2
+					self.loginP2['state'] = DGG.DISABLED
+					self.loginP2['frameColor'] = self.couleurDisabled
+					self.loginP2['text_bg'] = self.couleurDisabled
+					self.gameLogic.idJoueur2 = self.joueur2.idJoueur
+					self.tankIntro("droite")
 			if self.player1ready == True and self.player2ready == True :
 				self.setText("Welcome to Tank'em !")
 				self.buttonPlay['state'] = DGG.NORMAL
@@ -434,10 +445,17 @@ class MenuLogin(ShowBase):
 			
 				self.lerpText()
 				self.loginOutro()
+
 			elif self.player1ready :
-				self.setText('Player 2 must also login')
+				if self.p1Logged and (self.username1.lower() == self.username2.lower()):
+					self.setText("Cet utilisateur est déjà logged in")
+				else :
+					self.setText('Player 2 must also login')
 			elif self.player2ready :
-				self.setText('Player 1 must also login')
+				if self.p2Logged and (self.username2.lower() == self.username2.lower()):
+					self.setText("Cet utilisateur est déjà logged in")
+				else :
+					self.setText('Player 1 must also login')
 			else :
 				self.setText('Both players must login')
 	
@@ -495,16 +513,16 @@ class MenuLogin(ShowBase):
 		#Tank1
 		self.sequenceTourne.finish()
 
-		self.intervalPos = Sequence (self.tankGauche.hprInterval(1, Vec3(-270, 0, 0)),
-									 LerpPosInterval(self.tankGauche,0.25,(-5,65,-10)),
-									 LerpPosInterval(self.tankGauche,0.25,(-50,65,20)))
+		self.intervalPos = Sequence (self.tankGauche.hprInterval(0.75, Vec3(-90, 0, 0)),
+									 LerpPosInterval(self.tankGauche,0.35,(-5,65,-10)),
+									 LerpPosHprInterval(self.tankGauche, 0.75, (-50,65,20), Vec3(430,50,370)))
 		self.intervalPos.start()
 		#Tank2
 		self.sequenceTourne2.finish()
 
-		self.intervalPos2 = Sequence (self.tankDroite.hprInterval(1,Vec3(270,0,0)),
-									  LerpPosInterval(self.tankDroite,0.25,(5,65,-10)),
-									  LerpPosInterval(self.tankDroite,0.25,(50,65,20)),
+		self.intervalPos2 = Sequence (self.tankDroite.hprInterval(0.75,Vec3(450,0,0)),
+									  LerpPosInterval(self.tankDroite,0.35,(5,65,-10)),
+									  LerpPosHprInterval(self.tankDroite, 0.75,(50,65,20), Vec3(430,50,370)),
 									  Func(self.chargeJeu))
 		self.intervalPos2.start()
 		
