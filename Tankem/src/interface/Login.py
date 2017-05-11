@@ -452,7 +452,7 @@ class MenuLogin(ShowBase):
 				else :
 					self.setText('Player 2 must also login')
 			elif self.player2ready :
-				if self.p2Logged and (self.username2.lower() == self.username2.lower()):
+				if self.p2Logged and (self.username1.lower() == self.username2.lower()):
 					self.setText("Cet utilisateur est déjà logged in")
 				else :
 					self.setText('Player 1 must also login')
