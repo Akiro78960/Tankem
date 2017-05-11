@@ -387,11 +387,12 @@ class MenuLogin(ShowBase):
 		self.sequence.start()
 		#Faire apparaitre le text quand les eux players sont loggent in 
 	def lerpText(self) :
-		self.sequence = Sequence (LerpScaleInterval(self.nodeJoueur1, 1, 0.08, 0),
-								  LerpScaleInterval(self.nodeVersus, 1, 0.08, 0),
-								  LerpScaleInterval(self.nodeJoueur2, 1, 0.08, 0),
-								  LerpScaleInterval(self.nodeCombattre, 1, 0.08, 0),
-								  LerpScaleInterval(self.nodeNiveau, 1, 0.08, 0))
+		self.sequence = Sequence (LerpScaleInterval(self.nodeJoueur1, 0.7, 0.08, 0),
+								  LerpScaleInterval(self.nodeVersus, 0.7, 0.08, 0),
+								  LerpScaleInterval(self.nodeJoueur2, 0.7, 0.08, 0),
+								  LerpScaleInterval(self.nodeCombattre, 0.7, 0.08, 0),
+								  LerpScaleInterval(self.nodeNiveau, 0.7, 0.08, 0),
+								  LerpScaleInterval(self.nodeFavoris,0.7, 0.08,0))
 		self.sequence.start()
 
 		#Changer la valeur d'une couleur en quelque chose que Panda3d aime.
@@ -454,6 +455,15 @@ class MenuLogin(ShowBase):
 				self.calcJoueur2 = self.calculateName(self.joueur2)
 				self.textJoueur1.setText(self.username1 + " " + self.calcJoueur1)
 				self.textJoueur2.setText(self.username2 + " " + self.calcJoueur2)
+				if self.joueur1.niveau > self.joueur2.niveau :
+					self.favoris = self.username1
+					self.textFavoris.setText(self.favoris + " est le favoris !")
+				elif self.joueur2.niveau > self.joueur1.niveau:
+					self.favoris = self.username2
+					self.textFavoris.setText(self.favoris + " est le favoris !")
+				else :
+					self.favoris = "personne n'est le favoris !"
+					self.textFavoris.setText(self.favoris)
 				self.textNiveau.setText(self.mapName)
 			
 				self.lerpText()
@@ -514,7 +524,7 @@ class MenuLogin(ShowBase):
 			self.nodeCombattre.hide()
 			self.nodeNiveau.hide()
 			self.nodeVersus.hide()
-		
+			# self.nodeFavoris.hide()
 		#Ici, on set l'ID du niveau dans gameLogic ainsi que les joueurs qui participent.
 	def setNiveauChoisi(self,idNiveau):
 			self.gameLogic.setIdNiveau(idNiveau)
