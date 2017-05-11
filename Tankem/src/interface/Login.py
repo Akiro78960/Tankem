@@ -30,7 +30,7 @@ class MenuLogin(ShowBase):
 		self.baseSort = base.cam.node().getDisplayRegion(0).getSort()
 		base.cam.node().getDisplayRegion(0).setSort(20)
 
-		#Boutons
+		#Variables utiles
 		btnScale = (0.06,0.06)
 		text_scale = 0.12
 		borderW = (0.02, 0.02)
@@ -53,7 +53,7 @@ class MenuLogin(ShowBase):
 		
 		
 
-
+		# fields dans lesquels on peut écrire
 		self.fieldUsername1 = DirectEntry(text = "" ,scale=.05,
 									initialText="", 
 									numLines = 1,
@@ -84,6 +84,8 @@ class MenuLogin(ShowBase):
 									pos=(-10.35,0,0.3),
 									focusInCommand=self.clearText )
 		
+		# Labels et fields qui doivent subir des lerps
+		# textnotes / notes aspect2d sont beaucoup plus sympatoches à travailler.
 		self.textLabel1 = TextNode('testLabel1')
 		self.textLabel1.setText("Player1")
 		self.textLabel1.setTextColor(0,0,0,1)
@@ -214,7 +216,8 @@ class MenuLogin(ShowBase):
 		self.nodeNiveau.setScale(0)
 		self.nodeNiveau.setPos(0.014,0,-0.7)
 		
-		self.b2 = DirectButton(text = ("Login", "Login", "Login", "Login"),
+		# Bouttons nécéssaires.
+		self.loginP1 = DirectButton(text = ("Login", "Login", "Login", "Login"),
 						  text_scale=btnScale,
 						  borderWidth = borderW,
 						  text_bg=self.couleurBack,
@@ -225,7 +228,7 @@ class MenuLogin(ShowBase):
 						  command = self.setPlayerReady,
 						  extraArgs = [True,1],
 						  pos = (-3.75,0,0.45))
-		self.b3 = DirectButton(text = ("Login", "Login", "Login", "Login"),
+		self.loginP2 = DirectButton(text = ("Login", "Login", "Login", "Login"),
 						  text_scale=btnScale,
 						  borderWidth = borderW,
 						  text_bg=self.couleurBack,
@@ -236,7 +239,7 @@ class MenuLogin(ShowBase):
 						  command = self.setPlayerReady,
 						  extraArgs = [True,2],
 						  pos = (3.65,0,0.45))
-		self.b4 = DirectButton(text = ("Play", "Play", "Play", "Play"),
+		self.buttonPlay = DirectButton(text = ("Play", "Play", "Play", "Play"),
 						  text_scale=btnScale,
 						  borderWidth = borderW,
 						  text_bg=self.couleurDisabled,
@@ -249,7 +252,7 @@ class MenuLogin(ShowBase):
 						  extraArgs = [self.mapID],
 						  pos = (-3.05,0.4,0.67))
 
-		self.b5 = DirectButton(text = ("Site internet de Tank'em", "Site internet de Tank'em", "Site internet de Tank'em", "Site internet de Tank'em"),
+		self.buttonSite = DirectButton(text = ("Site internet de Tank'em", "Site internet de Tank'em", "Site internet de Tank'em", "Site internet de Tank'em"),
 						  text_scale=btnScale,
 						  borderWidth = borderW,
 						  text_bg=self.couleurBack,
@@ -261,10 +264,11 @@ class MenuLogin(ShowBase):
 						  pos = (1.25,-1.4,-0.9))
 	
 		self.loginIntro()
+
+		#Ici on call le modèle des tanks et commence l'interval pour les faire tourner en rond
 		#Tank1
 		self.tankGauche = loader.loadModel("../asset/Tank/tank")		
 		self.tankGauche.reparentTo(render)
-		# self.tankGauche.setPos(-17.5,65,-10)
 		self.tankGauche.setPos(-46.5,65,-10)
 		self.tankGauche.setScale(6.005,6.005,6.005)
 		self.tankGauche.setHpr(180, 0.0, 0.0)
@@ -275,7 +279,6 @@ class MenuLogin(ShowBase):
 		#Tank2
 		self.tankDroite = loader.loadModel("../asset/Tank/tank")		
 		self.tankDroite.reparentTo(render)
-		# self.tankDroite.setPos(17.5,65,-10)
 		self.tankDroite.setPos(46.5,65,-10)
 		self.tankDroite.setScale(6.005,6.005,6.005)
 		self.tankDroite.setHpr(180, 0.0, 0.0)
@@ -293,8 +296,11 @@ class MenuLogin(ShowBase):
 		self.transition.setFadeModel(curtain)
 
 		self.sound = loader.loadSfx("../asset/Menu/shotgun.mp3")
+		#Pour ouvrir le site internet de Tank'Em
 	def openSite(self):
 		webbrowser.open_new("http://localhost/Tank'em%20Web/index.php")
+
+		#Intro initial des labels quand on accède a la page de login
 	def loginIntro(self):
 		self.sequence = Sequence (LerpPosInterval(self.nodeLabel1,1,(-0.75,0,0.9),blendType="easeIn"))
 		self.sequence2 = Sequence (LerpPosInterval(self.fieldUsername1,1,(-1,0,0.82),blendType="easeIn"))
@@ -306,9 +312,9 @@ class MenuLogin(ShowBase):
 		self.sequence7 = Sequence (LerpPosInterval(self.fieldPassword1,1,(-1,0,0.59),blendType="easeIn"))
 		self.sequence8 = Sequence (LerpPosInterval(self.fieldPassword2,1,(0.4,0,0.59),blendType="easeIn"))
 		self.sequence9 = Sequence (LerpPosInterval(self.messageBox,1,(-1.35,0,0.3),blendType="easeIn"))
-		self.sequence10 = Sequence (LerpPosInterval(self.b2,1,(-0.75,0,0.45),blendType="easeIn"))	
-		self.sequence11 = Sequence (LerpPosInterval(self.b3,1,(0.65,0,0.45),blendType="easeIn"))	
-		self.sequence12 = Sequence (LerpPosInterval(self.b4,1,(-0.05,0.4,0.67),blendType="easeIn"))	
+		self.sequence10 = Sequence (LerpPosInterval(self.loginP1,1,(-0.75,0,0.45),blendType="easeIn"))	
+		self.sequence11 = Sequence (LerpPosInterval(self.loginP2,1,(0.65,0,0.45),blendType="easeIn"))	
+		self.sequence12 = Sequence (LerpPosInterval(self.buttonPlay,1,(-0.05,0.4,0.67),blendType="easeIn"))	
 		self.sequence.start()
 		self.sequence4.start()
 		self.sequence2.start()	  
@@ -323,6 +329,7 @@ class MenuLogin(ShowBase):
 		self.sequence11.start()	 
 		self.sequence12.start()	 
 
+		#Outro des logins
 	def loginOutro(self):
 		self.sequence = Sequence (LerpPosInterval(self.nodeLabel1,1,(-3.75,0,0.9),blendType="easeOut"))
 		self.sequence2 = Sequence (LerpPosInterval(self.fieldUsername1,1,(-4,0,0.82),blendType="easeOut"))
@@ -334,8 +341,8 @@ class MenuLogin(ShowBase):
 		self.sequence7 = Sequence (LerpPosInterval(self.fieldPassword1,1,(-4,0,0.59),blendType="easeOut"))
 		self.sequence8 = Sequence (LerpPosInterval(self.fieldPassword2,1,(3.4,0,0.59),blendType="easeOut"))
 		self.sequence9 = Sequence (LerpPosInterval(self.messageBox,1,(-5.35,0,0.3),blendType="easeOut"))
-		self.sequence10 = Sequence (LerpPosInterval(self.b2,1,(-3.75,0,0.45),blendType="easeOut"))	
-		self.sequence11 = Sequence (LerpPosInterval(self.b3,1,(3.65,0,0.45),blendType="easeOut"))	
+		self.sequence10 = Sequence (LerpPosInterval(self.loginP1,1,(-3.75,0,0.45),blendType="easeOut"))	
+		self.sequence11 = Sequence (LerpPosInterval(self.loginP2,1,(3.65,0,0.45),blendType="easeOut"))	
 		self.sequence.start()
 		self.sequence4.start()
 		self.sequence2.start()	  
@@ -349,6 +356,7 @@ class MenuLogin(ShowBase):
 		self.sequence10.start()	 
 		self.sequence11.start()
 
+		#Quand on se login, dépendant de la direction, le tank gauche ou droite apparait. (Gauche = P1, Droite = P2)
 	def tankIntro(self,direction):
 		if direction == "gauche" :
 			self.sequence = Sequence (LerpPosInterval(self.tankGauche,2,(-17.5,65,-10)))
@@ -360,6 +368,7 @@ class MenuLogin(ShowBase):
 			self.tankDroite.setColorScale(self.color2[0]/255.0,self.color2[1]/255.0,self.color2[2]/255.0,1)
 
 		self.sequence.start()
+		#Faire apparaitre le text quand les eux players sont loggent in 
 	def lerpText(self) :
 		self.sequence = Sequence (LerpScaleInterval(self.nodeJoueur1, 1, 0.08, 0),
 								  LerpScaleInterval(self.nodeVersus, 1, 0.08, 0),
@@ -368,6 +377,7 @@ class MenuLogin(ShowBase):
 								  LerpScaleInterval(self.nodeNiveau, 1, 0.08, 0))
 		self.sequence.start()
 
+		#Changer la valeur d'une couleur en quelque chose que Panda3d aime.
 	def hex_to_rgb(self,value):
 		value = value.lstrip('#')
 		lv = len(value)
@@ -378,6 +388,7 @@ class MenuLogin(ShowBase):
 			return tuple(int(value[i:i+1], 16)*17 for i in range(0, 3))
 		return tuple(int(value[i:i+lv/3], 16) for i in range(0, lv, lv/3))
 
+		#Opérations à faire quand les joueurs sont loggés.
 	def setPlayerReady(self,state,num):
 		if num == 1 : 
 			self.username1 = self.fieldUsername1.get()
@@ -396,24 +407,24 @@ class MenuLogin(ShowBase):
 			if num == 1 : 
 				self.player1ready = state
 				self.player1Infos = self.joueur1
-				self.b2['state'] = DGG.DISABLED
-				self.b2['frameColor'] = self.couleurDisabled
-				self.b2['text_bg'] = self.couleurDisabled
+				self.loginP1['state'] = DGG.DISABLED
+				self.loginP1['frameColor'] = self.couleurDisabled
+				self.loginP1['text_bg'] = self.couleurDisabled
 				self.gameLogic.idJoueur1 = self.joueur1.idJoueur
 				self.tankIntro("gauche")
 			if num == 2 :
 				self.player2ready = state
 				self.player2Infos = self.joueur2
-				self.b3['state'] = DGG.DISABLED
-				self.b3['frameColor'] = self.couleurDisabled
-				self.b3['text_bg'] = self.couleurDisabled
+				self.loginP2['state'] = DGG.DISABLED
+				self.loginP2['frameColor'] = self.couleurDisabled
+				self.loginP2['text_bg'] = self.couleurDisabled
 				self.gameLogic.idJoueur2 = self.joueur2.idJoueur
 				self.tankIntro("droite")
 			if self.player1ready == True and self.player2ready == True :
 				self.setText("Welcome to Tank'em !")
-				self.b4['state'] = DGG.NORMAL
-				self.b4['frameColor'] = self.couleurBack
-				self.b4['text_bg'] = self.couleurBack
+				self.buttonPlay['state'] = DGG.NORMAL
+				self.buttonPlay['frameColor'] = self.couleurBack
+				self.buttonPlay['text_bg'] = self.couleurBack
 
 				self.calcJoueur1 = self.calculateName(self.joueur1)
 				self.calcJoueur2 = self.calculateName(self.joueur2)
@@ -429,31 +440,34 @@ class MenuLogin(ShowBase):
 				self.setText('Player 1 must also login')
 			else :
 				self.setText('Both players must login')
-
+	
+		#retourne le joueur 1 et le joueur 2.
 	def getPlayer1(self):
 		return self.joueur1
 	def getPlayer2(self):
 		return self.joueur2
-	#callback function to set  text 
+
+		#pour set le text des labels
 	def setText(self,textEntered):
 		self.messageBox.enterText(textEntered)
 	
-	#clear the text
+		#clear le text des labels
 	def clearText(self):
 		self.messageBox.enterText('')
+
+		#Sert à cacher le reste des bouttons et tanks lorsqu'on commence le jeu
 	def cacher(self):
 			self.tankGauche.removeNode()
 			self.tankDroite.removeNode()
 			loader.unloadModel( "../asset/Tank/tank" )
-			#Est esssentiellement un code de "loading"
-			#On remet la caméra comme avant
+			
 			base.cam.node().getDisplayRegion(0).setSort(self.baseSort)
-			#On cache les menus
+
 			self.background.hide()
-			self.b2.hide()
-			self.b3.hide()
-			self.b4.hide()
-			self.b5.hide()
+			self.loginP1.hide()
+			self.loginP2.hide()
+			self.buttonPlay.hide()
+			self.buttonSite.hide()
 			self.fieldUsername1.hide()
 			self.fieldUsername2.hide()
 			self.fieldPassword1.hide()
@@ -469,11 +483,14 @@ class MenuLogin(ShowBase):
 			self.nodeCombattre.hide()
 			self.nodeNiveau.hide()
 			self.nodeVersus.hide()
-			
+		
+		#Ici, on set l'ID du niveau dans gameLogic ainsi que les joueurs qui participent.
 	def setNiveauChoisi(self,idNiveau):
 			self.gameLogic.setIdNiveau(idNiveau)
 			self.gameLogic.setPlayers([self.player1Infos, self.player2Infos])
 			self.startGame()
+		
+		#Animation pré-partie des tanks ainsi que le début de la partie dans self.chargeJeu appelé dans intervalPos2.
 	def startGame(self):
 		#Tank1
 		self.sequenceTourne.finish()
@@ -492,7 +509,7 @@ class MenuLogin(ShowBase):
 		self.intervalPos2.start()
 		
 		
-
+		#Séquence qui cache les éléments et fait la transition du login -> loading -> jeu.
 	def chargeJeu(self):
 			#On démarre!
 			Sequence(Func(self.cacher),
@@ -503,9 +520,10 @@ class MenuLogin(ShowBase):
 					 Func(lambda : self.transition.irisIn(0.2))
 			).start()
 
+		#Sert à calculer le nom composé du joueur selon ses states
 	def calculateName(self, joueur):
 		self.statsJoueur = joueur.getStats()
-		#StatsJoueur: 0 = vie, 1 = force, 2 = agilite, 3 = dexterite
+
 		self.bestStat1 = [[0, -1]] #Un array d'arrays contenant deux infos: le nb de points et l'index number
 		self.bestStat2 = [[0, -1]]
 		self.qualificatifA = ""
@@ -524,7 +542,7 @@ class MenuLogin(ShowBase):
 			elif(stat == self.bestStat1[0][0] and stat > 0): #S'il y a un stat égal au bestStat, on rajoute les infos dan's 
 				self.bestStat1.append([stat,idx])
 		self.bestStat1 = random.choice(self.bestStat1)
-		print "QualificatifA : " + str(self.bestStat1)
+
 
 		for idx,stat in enumerate(self.statsJoueur):
 			if(idx != self.bestStat1[1]):
@@ -534,8 +552,8 @@ class MenuLogin(ShowBase):
 				elif(stat == self.bestStat2[0][0] and stat > 0):
 					self.bestStat2.append([stat,idx])
 		self.bestStat2 = random.choice(self.bestStat2)
-		print "QualificatifB: " + str(self.bestStat2)
 
+		#Série de ifs pour déterminer le nom composé du joueur
 		if(self.bestStat1[1] == 0):
 			if(self.bestStat1[0] >= 1):
 				self.qualificatifA = "le fougeux"
@@ -593,5 +611,5 @@ class MenuLogin(ShowBase):
 				self.qualificatifB = "habile"
 			if(self.bestStat2[0] >= 10):
 				self.qualificatifB = "chirurgien"
-
+		#on retourne le nom composé.
 		return self.qualificatifA + " " + self.qualificatifB
