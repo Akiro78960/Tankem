@@ -14,8 +14,8 @@ class DAOenregistrementOracle():
     def create(self, DTOpartie):
         # Creation de la partie dans la BD
         cur = self.connection.cursor()
-        statement = "INSERT INTO ENREGISTREMENT_PARTIE(ID_MAP, CREATION_DATE) VALUES(:id_map, :creation_date)"
-        cur.execute(statement, { 'id_map':DTOpartie.getIdMap(), 'creation_date':DTOpartie.getDate() } )
+        statement = "INSERT INTO ENREGISTREMENT_PARTIE(ID_MAP, ID_JOUEUR1, ID_JOUEUR2, CREATION_DATE) VALUES(:id_map, :id_j1, :id_j2, :creation_date)"
+        cur.execute(statement, { 'id_map':DTOpartie.getIdMap(), 'id_j1':DTOpartie.getIdJ1(), 'id_j2':DTOpartie.getIdJ2(), 'creation_date':DTOpartie.getDate() } )
         cur.close()
         self.connection.commit()
 
@@ -84,6 +84,8 @@ class DAOenregistrementOracle():
             curReadId.close()
 
             self.delete(idPartie)
+        
+        SingletonDBConnection().closeConnection()
 
     def delete(self, idPartie):
         # Delete Joueurs

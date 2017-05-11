@@ -103,9 +103,6 @@ class MenuPrincipal(ShowBase):
 			self.scrollList.hide()
 			self.textTitre.hide()
 
-	# def setNiveauChoisi(self,idNiveau):
-	# 		self.gameLogic.setIdNiveau(idNiveau)
-	# 		self.chargeJeu()
 	def menuLogin(self,gameLogic,mapID,mapName):
 		self.cacher();
 		self.menuPrincipal = MenuLogin(gameLogic,mapID,mapName)
